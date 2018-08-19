@@ -8,7 +8,7 @@
 ###############################################################################
 
 print("Launching VisorWare...\n")
-#                VisorWare BETA v0.1 || Built for Visor2.0                    #
+#                VisorWare ALPHA v0.1 || Built for Visor2.0                    #
 
 
 ###############################################################################
@@ -81,7 +81,7 @@ print ("                     -----------------------------------")
 
 print ("\n\n\nVisorWare v0.1\n\n")
 
-print (Base.FAIL,"THIS IS A BETA VERSION. BEWARE OF BUGS.", Base.END)
+print (Base.FAIL,"THIS IS AN ALPHA VERSION. BEWARE OF BUGS.", Base.END)
 print (Base.FAIL,"Proper functionality cannot be guaranteed in a BETA build of VisorWare. Please install a stable version of VisorWare for stable and proper functionality.\n\n", Base.END)
 
 print ("IN DEV")
