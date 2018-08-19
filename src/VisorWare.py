@@ -7,7 +7,7 @@
 #                                                                             #
 ###############################################################################
 
-print('Launching VisorWare...\n')
+print("Launching VisorWare...\n")
 #                VisorWare BETA v0.1 || Built for Visor2.0                    #
 
 
@@ -75,12 +75,13 @@ GPIO.setup(upb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 ##################################################
 
 os.system('clear')
-print ('                     -----------------------------------')
-print ('                         L I A M  Z.  C H A R L E S')                          
-print ('                     -----------------------------------') 
+print ("                     -----------------------------------")
+print ("                         L I A M  Z.  C H A R L E S")                          
+print ("                     -----------------------------------") 
 
-print ('\n\n\nVisorWare v0.1\n\n')
-print ('THIS IS A BETA VERSION. BEWARE OF BUGS.')
-print ('Proper functionality cannot be guaranteed in a BETA build of VisorWare. Please install a stable version of VisorWare for stable and proper functionality.\n\n')
+print ("\n\n\nVisorWare v0.1\n\n")
 
-print ('IN DEV')
+print (Base.FAIL,"THIS IS A BETA VERSION. BEWARE OF BUGS.", Base.END)
+print (Base.FAIL,"Proper functionality cannot be guaranteed in a BETA build of VisorWare. Please install a stable version of VisorWare for stable and proper functionality.\n\n", Base.END)
+
+print ("IN DEV")
