@@ -41,6 +41,21 @@ from PIL import ImageFont
 from PIL import ImageDraw
 from termCol import *
 
+print("Reading configuration file...")
+cfgp = 'cfg.txt'
+cfgfile = open(cfgp, 'r+')
+
+if cfgfile.read(1) == '0':
+    print("First time running")
+    cfgfile.close()
+elif cfgfile.read(1) == '1':
+    print("cfgfile good. Continuing...")
+    cfgfile.close()
+else:
+    print(Base.FAIL,"FATAL ERROR! Bad CFG File found. Please reinstall VisorWare.\n\n", Base.END)
+    cfgfile.close()
+    exit()
+
 #######################################
 # Display Initialization. DO NOT ALTER!
 
