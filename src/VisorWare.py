@@ -7,7 +7,7 @@
 #                                                                             #
 ###############################################################################
 
-print("Launching VisorWare...\n")
+
 #                VisorWare ALPHA v0.1 || Built for Visor2.0                    #
 
 
@@ -41,21 +41,6 @@ from PIL import ImageFont
 from PIL import ImageDraw
 from termCol import *
 
-print("Reading configuration file...")
-cfgp = 'cfg.txt'
-cfgfile = open(cfgp, 'r+')
-
-if cfgfile.read(1) == '0':
-    print("First time running")
-    cfgfile.close()
-elif cfgfile.read(1) == '1':
-    print("cfgfile good. Continuing...")
-    cfgfile.close()
-else:
-    print(Base.FAIL,"FATAL ERROR! Bad CFG File found. Please reinstall VisorWare.\n\n", Base.END)
-    cfgfile.close()
-    exit()
-
 #######################################
 # Display Initialization. DO NOT ALTER!
 
@@ -73,6 +58,29 @@ disp.display()
 
 #
 #######################################
+
+print("Launching VisorWare...\n")
+image = Image.open('/img/splash.ppm').convert('1')
+disp.image(image)
+disp.display()
+
+print("Reading configuration file...")
+cfgp = 'cfg.txt'
+cfgfile = open(cfgp, 'r+')
+
+if cfgfile.read(1) == '0':
+    print("First time VisorWare is being launched.")
+    #       FIRST TIME SETUP MUST BE RUN FROM HERE.
+
+
+    cfgfile.close()
+elif cfgfile.read(1) == '1':
+    print("cfgfile good. Continuing...")
+    cfgfile.close()
+else:
+    print(Base.FAIL,"FATAL ERROR! Bad CFG File found. Please reinstall VisorWare.\n\n", Base.END)
+    cfgfile.close()
+    exit()
 
 
 ##################################################
