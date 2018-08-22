@@ -32,6 +32,7 @@
 import time
 import RPi.GPIO as GPIO
 import os
+from termCol import *
 
 print("Reading configuration file...")
 cfgp = 'cfg.txt'
@@ -60,7 +61,6 @@ import Adafruit_SSD1306
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
-from termCol import *
 
 #######################################
 # Display Initialization. DO NOT ALTER!
