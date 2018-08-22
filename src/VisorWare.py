@@ -44,7 +44,12 @@ if cfgfile.read(1) == '0':
     time.sleep(3)
 
     os.system('sudo apt-get update')
-    os.system('sudo apt-get --yes --force-yes install python-imaging python-smbus')
+    os.system('sudo apt-get --yes --force-yes install python-imaging python-smbus git')
+    os.system('git clone https://github.com/adafruit/Adafruit_Python_SSD1306.git')
+    os.system('cd Adafruit_Python_SSD1306 && sudo python3 setup.py install')
+    os.system('rm Adafruit_Python_SSD1306 -r -f')
+    os.system('sudo cp screenfetch /usr/bin/screenfetch')
+    os.system('sudo chmod 755 /usr/bin/screenfetch')
 
     cfgfile.close()
     cfgfile = open(cfgp, 'w')
@@ -57,6 +62,9 @@ else:
 
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
+import aiy.audio
+import aiy.cloudspeech
+import aiy.voicehat
 
 from PIL import Image
 from PIL import ImageFont
