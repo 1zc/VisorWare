@@ -48,7 +48,7 @@ if cfgfile.read(1) == '0':
     os.system('git clone https://github.com/adafruit/Adafruit_Python_SSD1306.git')
     os.system('cd Adafruit_Python_SSD1306 && sudo python3 setup.py install')
     os.system('rm Adafruit_Python_SSD1306 -r -f')
-    os.system('sudo cp screenfetch.sh /usr/bin/screenfetch')
+    os.system('sudo cp screenfetch /usr/bin/screenfetch')
     os.system('sudo chmod 755 /usr/bin/screenfetch')
 
     cfgfile.close()
