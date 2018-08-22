@@ -7,7 +7,7 @@ class Base:
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
-    FAIL = '\033[91m'
+    FAILRED = '\033[91m'
     # Formatting
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'    
@@ -15,7 +15,7 @@ class Base:
     END = '\033[0m'
     NC ='\x1b[0m' # No Color
 
-class ANSI_Compatible:
+class ANSI:
     END = '\x1b[0m'
     # If Foreground is False that means color effect on Background
     def Color(ColorNo, Foreground=True): # 0 - 255
@@ -41,15 +41,6 @@ class Formatting:
     Reset_Blink = "\x1b[25m"
     Reset_Reverse = "\x1b[27m"
     Reset_Hidden = "\x1b[28m"
-
-class GColor: # Gnome supported
-    END = "\x1b[0m"
-    # If Foreground is False that means color effect on Background
-    def RGB(R, G, B, Foreground=True): # R: 0-255  ,  G: 0-255  ,  B: 0-255
-        FB_G = 38 # Effect on foreground
-        if Foreground != True:
-            FB_G = 48 # Effect on background
-        return "\x1b[" + str(FB_G) + ";2;" + str(R) + ";" + str(G) + ";" + str(B) + "m"
 
 class Color:
     # Foreground

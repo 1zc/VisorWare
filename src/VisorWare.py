@@ -60,7 +60,7 @@ disp.display()
 #######################################
 
 print("Launching VisorWare...\n")
-image = Image.open('/img/splash.ppm').convert('1')
+image = Image.open('img/splash.ppm').convert('1')
 disp.image(image)
 disp.display()
 
@@ -70,41 +70,48 @@ cfgfile = open(cfgp, 'r+')
 
 if cfgfile.read(1) == '0':
     print("First time VisorWare is being launched.")
-    #       FIRST TIME SETUP MUST BE RUN FROM HERE.
-
+    os.system('echo RUNNING FIRST TIME SETUP!')
+    time.sleep(3)
 
     cfgfile.close()
-elif cfgfile.read(1) == '1':
+    cfgfile = open(cfgp, 'w')
+    cfgfile.write('1')
+    cfgfile.close()
+
+else:
     print("cfgfile good. Continuing...")
     cfgfile.close()
-else:
-    print(Base.FAIL,"FATAL ERROR! Bad CFG File found. Please reinstall VisorWare.\n\n", Base.END)
-    cfgfile.close()
-    exit()
 
 
 ##################################################
 # Button input board initialization. DO NOT ALTER!
 
 GPIO.setmode(GPIO.BCM)
-downb = 5
-okayb = 6
-upb = 13
-GPIO.setup(downb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(okayb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(upb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+downb = 17
+okayb = 27
+upb = 22
+GPIO.setup(leftb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(homeb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 #
 ##################################################
 
 os.system('clear')
 print ("                     -----------------------------------")
-print ("                         L I A M  Z.  C H A R L E S")                          
+print (ANSI.Color(120),"                         L I A M  Z.  C H A R L E S", ANSI.END)                          
 print ("                     -----------------------------------") 
 
 print ("\n\n\nVisorWare v0.1\n\n")
 
-print (Base.FAIL,"THIS IS AN ALPHA VERSION. BEWARE OF BUGS.", Base.END)
-print (Base.FAIL,"Proper functionality cannot be guaranteed in a BETA build of VisorWare. Please install a stable version of VisorWare for stable and proper functionality.\n\n", Base.END)
+print (Base.FAILRED,"THIS IS AN ALPHA VERSION. BEWARE OF BUGS.", Base.END)
+print (Base.WARNING,"Proper functionality cannot be guaranteed in a BETA build of VisorWare. Please install a stable version of VisorWare for stable and proper functionality.\n\n", Base.END)
 
-print ("IN DEV")
+print ("BUTTON INTERFACE TESTING LIVE!")
+while True:
+    if GPIO.input(leftb) == False:
+        print("[INTERFACE] : LEFT")
+    elif GPIO.input(homeb) == False:
+        print("[INTERFACE] : HOME")
+    elif GPIO.input(rightb) == False:
+        print("[INTERFACE] : RIGHT")
