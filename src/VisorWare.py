@@ -87,9 +87,9 @@ else:
 # Button input board initialization. DO NOT ALTER!
 
 GPIO.setmode(GPIO.BCM)
-downb = 17
-okayb = 27
-upb = 22
+leftb = 17
+homeb = 27
+rightb = 22
 GPIO.setup(leftb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(homeb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -111,7 +111,10 @@ print ("BUTTON INTERFACE TESTING LIVE!")
 while True:
     if GPIO.input(leftb) == False:
         print("[INTERFACE] : LEFT")
+        time.sleep(0.2)
     elif GPIO.input(homeb) == False:
         print("[INTERFACE] : HOME")
+        time.sleep(0.2)
     elif GPIO.input(rightb) == False:
         print("[INTERFACE] : RIGHT")
+        time.sleep(0.2)
