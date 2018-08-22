@@ -33,45 +33,17 @@ import time
 import RPi.GPIO as GPIO
 import os
 
-import Adafruit_GPIO.SPI as SPI
-import Adafruit_SSD1306
-
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
-from termCol import *
-
-#######################################
-# Display Initialization. DO NOT ALTER!
-
-RST = 24
-DC = 23
-SPI_PORT = 0
-SPI_DEVICE = 0
-
-disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
-disp.begin()
-width = disp.width
-height = disp.height
-disp.clear()
-disp.display()
-
-#
-#######################################
-
-print("Launching VisorWare...\n")
-image = Image.open('img/splash.ppm').convert('1')
-disp.image(image)
-disp.display()
-
 print("Reading configuration file...")
 cfgp = 'cfg.txt'
 cfgfile = open(cfgp, 'r+')
 
 if cfgfile.read(1) == '0':
     print("First time VisorWare is being launched.")
-    os.system('echo RUNNING FIRST TIME SETUP!')
+    print(Base.WARNING,"RUNNING FIRST TIME SETUP!", Base.END)
     time.sleep(3)
+
+    os.system('sudo apt-get update')
+    os.system('sudo apt-get --yes --force-yes install python-imaging python-smbus')
 
     cfgfile.close()
     cfgfile = open(cfgp, 'w')
@@ -82,10 +54,36 @@ else:
     print("cfgfile good. Continuing...")
     cfgfile.close()
 
+import Adafruit_GPIO.SPI as SPI
+import Adafruit_SSD1306
+
+from PIL import Image
+from PIL import ImageFont
+from PIL import ImageDraw
+from termCol import *
+
+#######################################
+# Display Initialization. DO NOT ALTER!
+RST = 24
+DC = 23
+SPI_PORT = 0
+SPI_DEVICE = 0
+disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
+disp.begin()
+width = disp.width
+height = disp.height
+disp.clear()
+disp.display()
+#
+#######################################
+
+print("Launching VisorWare...\n")
+image = Image.open('img/splash.ppm').convert('1')
+disp.image(image)
+disp.display()
 
 ##################################################
 # Button input board initialization. DO NOT ALTER!
-
 GPIO.setmode(GPIO.BCM)
 leftb = 17
 homeb = 27
@@ -93,7 +91,6 @@ rightb = 22
 GPIO.setup(leftb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(homeb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
 #
 ##################################################
 
