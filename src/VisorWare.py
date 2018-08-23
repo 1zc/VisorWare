@@ -153,13 +153,16 @@ while True:
         image = Image.open('img/testleft.ppm').convert('1')
         disp.image(image)
         disp.display()
+        time.sleep(0.2)
     elif GPIO.input(homeb) == False:
         print("[INTERFACE] : Home.")
         image = Image.open('img/testhome.ppm').convert('1')
         disp.image(image)
         disp.display()
+        time.sleep(0.2)
     elif GPIO.input(rightb) == False:
         print("[INTERFACE] : Right.")
         image = Image.open('img/testright.ppm').convert('1')
         disp.image(image)
         disp.display()
+        time.sleep(0.2)
