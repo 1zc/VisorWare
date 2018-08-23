@@ -46,10 +46,9 @@ if cfgfile.read(1) == '0':
     time.sleep(15)
 
     # Runs the RaspbianDebloater script to get rid of all bloatware.
-    os.system('wget https://github.com/LiamZC/JessieDebloater/blob/master/RaspbianDebloater.sh')
-    os.system('sudo chmod +x RaspbianDebloater.sh')
-    os.system('sh ./RaspbianDebloater.sh | sudo sh')
-    os.system('sudo rm RaspbianDebloater.sh -f')
+    os.system('git clone https://github.com/LiamZC/RaspbianDebloater/')
+    os.system('cd RaspbianDebloater && sudo chmod +x RaspbianDebloater.sh && sh ./RaspbianDebloater.sh | sudo sh')
+    os.system('sudo rm RaspbianDebloater -r -f')
     # Updates repositories and installs all updates available for currently installed software.
     os.system('sudo apt-get update')
     os.system('sudo apt-get --yes upgrade')
