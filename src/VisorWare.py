@@ -61,10 +61,11 @@ if cfgfile.read(1) == '0':
     # Installing screenfetch.
     os.system('sudo cp screenfetch /usr/bin/screenfetch')
     os.system('sudo chmod 755 /usr/bin/screenfetch')
-    # Installing AIY stuff
-    os.system('git clone https://github.com/nickoala/aiy-voice-only')
-    os.system('cd aiy-voice-only && sudo python3 setup.py install')
-    os.system('sudo rm aiy-voice-only -r -f')
+    # Configuring sound interfaces.
+    #
+    #   TO DO:
+    #       > Update ~./asoundrc
+    #       > Update /boot/config.txt
 
     cfgfile.close()
     cfgfile = open(cfgp, 'w')
@@ -80,9 +81,6 @@ else:
 
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
-import aiy.audio
-import aiy.cloudspeech
-import aiy.voicehat
 
 from PIL import Image
 from PIL import ImageFont
@@ -108,6 +106,11 @@ image = Image.open('img/splash.ppm').convert('1')
 disp.image(image)
 disp.display()
 
+# LONG LOADING TIME IMPORTS
+import aiy.audio
+import aiy.cloudspeech
+import aiy.voicehat
+
 ##################################################
 # Button input board initialization. DO NOT ALTER!
 GPIO.setmode(GPIO.BCM)
@@ -130,14 +133,33 @@ print ("\n\n\nVisorWare v0.1\n\n")
 print (Base.FAILRED,"THIS IS AN ALPHA VERSION. BEWARE OF BUGS.", Base.END)
 print (Base.WARNING,"Proper functionality cannot be guaranteed in a BETA build of VisorWare. Please install a stable version of VisorWare for stable and proper functionality.\n\n", Base.END)
 
-print ("BUTTON INTERFACE TESTING LIVE!")
+
+print ("[VOICE-ENGINE] : VOICE RECOGNITION TESTING LIVE!")
+print("[INTERFACE] : To enter button-interface testing, hold the Home Button until the Voice-Engine exits.")
+
+recognizer = aiy.cloudspeech.get_recognizer()
+aiy.audio.get_recorder().start()
+while GPIO.input(homeb) == True:
+    print('[VOICE-ENGINE] : Listening!')
+    text = recognizer.recognize()
+    if text is None:
+            print('[VOICE-ENGINE] : Input was unrecognizable.')
+    else:
+        print(Base.WARNING, '[VOICE-ENGINE] : Recognized << "', text, '" >>', Base.END)
+
 while True:
     if GPIO.input(leftb) == False:
-        print("[INTERFACE] : LEFT")
-        time.sleep(0.2)
+        print("[INTERFACE] : Left.")
+        image = Image.open('img/testleft.ppm').convert('1')
+        disp.image(image)
+        disp.display()
     elif GPIO.input(homeb) == False:
-        print("[INTERFACE] : HOME")
-        time.sleep(0.2)
+        print("[INTERFACE] : Home.")
+        image = Image.open('img/testhome.ppm').convert('1')
+        disp.image(image)
+        disp.display()
     elif GPIO.input(rightb) == False:
-        print("[INTERFACE] : RIGHT")
-        time.sleep(0.2)
+        print("[INTERFACE] : Right.")
+        image = Image.open('img/testright.ppm').convert('1')
+        disp.image(image)
+        disp.display()
