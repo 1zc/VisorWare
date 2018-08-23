@@ -40,21 +40,39 @@ cfgfile = open(cfgp, 'r+')
 
 if cfgfile.read(1) == '0':
     print("First time VisorWare is being launched.")
-    print(Base.WARNING,"RUNNING FIRST TIME SETUP!", Base.END)
-    time.sleep(3)
+    print(Base.WARNING,"Running first-time setup. THIS WILL TAKE A VERY LONG TIME!", Base.END)
+    print("")
+    print(Base.FAILRED,"Setup will start in 15 seconds. Please do not abort/interrupt the setup process. If you would like to cancel, please do it in these 15 seconds by hitting CTRL+C.", Base.END)
+    time.sleep(15)
 
+    # Runs the RaspbianDebloater script to get rid of all bloatware.
+    os.system('wget https://github.com/LiamZC/JessieDebloater/blob/master/RaspbianDebloater.sh')
+    os.system('sudo chmod +x RaspbianDebloater.sh')
+    os.system('sh ./RaspbianDebloater.sh | sudo sh')
+    os.system('sudo rm RaspbianDebloater.sh -f')
+    # Updates repositories and installs all updates available for currently installed software.
     os.system('sudo apt-get update')
+    os.system('sudo apt-get --yes upgrade')
+    # Installing VisorWare dependencies.
     os.system('sudo apt-get --yes --force-yes install python-imaging python-smbus git')
     os.system('git clone https://github.com/adafruit/Adafruit_Python_SSD1306.git')
     os.system('cd Adafruit_Python_SSD1306 && sudo python3 setup.py install')
     os.system('rm Adafruit_Python_SSD1306 -r -f')
+    # Installing screenfetch.
     os.system('sudo cp screenfetch /usr/bin/screenfetch')
     os.system('sudo chmod 755 /usr/bin/screenfetch')
+    # Installing AIY stuff
+    os.system('git clone https://github.com/nickoala/aiy-voice-only')
+    os.system('cd aiy-voice-only && sudo python3 setup.py install')
+    os.system('sudo rm aiy-voice-only -r -f')
 
     cfgfile.close()
     cfgfile = open(cfgp, 'w')
     cfgfile.write('1')
     cfgfile.close()
+
+    print(Base.OKGREEN,"SETUP HAS BEEN COMPLETE! VisorWare will launch in a few moments...", Base.END)
+    time.sleep(3)
 
 else:
     print("cfgfile good. Continuing...")
