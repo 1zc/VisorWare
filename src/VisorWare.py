@@ -46,9 +46,10 @@ if cfgfile.read(1) == '0':
     time.sleep(15)
 
     # Runs the RaspbianDebloater script to get rid of all bloatware.
-    os.system('git clone https://github.com/LiamZC/RaspbianDebloater/')
-    os.system('cd RaspbianDebloater && sudo chmod +x RaspbianDebloater.sh && sh ./RaspbianDebloater.sh | sudo sh')
-    os.system('sudo rm RaspbianDebloater -r -f')
+    os.system('sudo apt-get --yes remove --purge wolfram-engine sense-hat scratch nuscratch scratch2 sonic-pi minecraft-pi python-minecraftpi penguinspuzzle xpdf libreoffice libreoffice-base libreoffice-base-core libreoffice-base-drivers')
+    os.system('sudo apt-get --yes remove --purge libreoffice-calc libreoffice-common libreoffice-core libreoffice-draw libreoffice-gtk libreoffice-impress libreoffice-math libreoffice-writer claws-mail')
+    os.system('sudo apt-get --yes remove --purge geany-common geany greenfoot bluej nodered python3-thonny sense-emu-tools epiphany-browser-data epiphany-browser dillo')
+    os.system('sudo apt-get autoremove -y && sudo apt-get autoclean -y')
     # Updates repositories and installs all updates available for currently installed software.
     os.system('sudo apt-get update')
     os.system('sudo apt-get --yes upgrade')
