@@ -8,7 +8,7 @@
 ###############################################################################
 
 
-#                VisorWare ALPHA v0.1 || Built for Visor2.0                    #
+#                    VisorWare ALPHA || Built for Visor2.0                    #
 
 
 ###############################################################################
@@ -72,8 +72,11 @@ if cfgfile.read(1) == '0':
     cfgfile.write('1')
     cfgfile.close()
 
-    print(Base.OKGREEN,"SETUP HAS BEEN COMPLETE! VisorWare will launch in a few moments...", Base.END)
-    time.sleep(3)
+    print(Base.OKGREEN,"SETUP HAS BEEN COMPLETE!", Base.END)
+    print(Base.WARNING,"VisorWare will now reboot in 10 seconds!", Base.END)
+    time.sleep(10)
+    os.system('sudo reboot')
+    exit()
 
 else:
     print("cfgfile good. Continuing...")
@@ -128,7 +131,7 @@ print ("                     -----------------------------------")
 print (ANSI.Color(120),"                         L I A M  Z.  C H A R L E S", ANSI.END)                          
 print ("                     -----------------------------------") 
 
-print ("\n\n\nVisorWare v0.1\n\n")
+print ("\n\n\nVisorWare Alpha.\n\n")
 
 print (Base.FAILRED,"THIS IS AN ALPHA VERSION. BEWARE OF BUGS.", Base.END)
 print (Base.WARNING,"Proper functionality cannot be guaranteed in a BETA build of VisorWare. Please install a stable version of VisorWare for stable and proper functionality.\n\n", Base.END)
@@ -139,30 +142,94 @@ print("[INTERFACE] : To enter button-interface testing, hold the Home Button unt
 
 recognizer = aiy.cloudspeech.get_recognizer()
 aiy.audio.get_recorder().start()
-while GPIO.input(homeb) == True:
-    print('[VOICE-ENGINE] : Listening!')
-    text = recognizer.recognize()
-    if text is None:
-            print('[VOICE-ENGINE] : Input was unrecognizable.')
-    else:
-        print(Base.WARNING, '[VOICE-ENGINE] : Recognized << "', text, '" >>', Base.END)
 
+MenuItem1 = 0
+MenuItem2 = 0
+MenuItem3 = 0
+
+ButtonPressDelay = 0.3
+
+# APPLICATIONS: #####################################################
+def VoiceEngine():
+    while GPIO.input(homeb) == True:
+        print('[VOICE-ENGINE] : Listening!')
+        image = Image.open('img/Voice-Engine.ppm').convert('1')
+        disp.image(image)
+        disp.display()
+        text = recognizer.recognize()
+        if text is None:
+                print('[VOICE-ENGINE] : Input was unrecognizable.')
+        else:
+            print(Base.WARNING, '[VOICE-ENGINE] : Recognized << "', text, '" >>', Base.END)
+
+    image = Image.open('img/AppExit.ppm').convert('1')
+    disp.image(image)
+    disp.display()
+    print("[VOICE-ENGINE] : Quitting Voice-Engine.")
+    time.sleep(0.5)
+
+#####################################################################
+
+VoiceEngine()
 while True:
+    print("[INTERFACE] : Menu is live.")
+    if MenuItem1 == 1:
+        print("[INTERFACE] : MenuItem1 --> ACTIVE")
+        image = Image.open('img/MenuItem1.ppm').convert('1')
+        disp.image(image)
+        disp.display()
+
+    elif MenuItem2 == 1:
+        print("[INTERFACE] : MenuItem2 --> ACTIVE")
+        image = Image.open('img/MenuItem2.ppm').convert('1')
+        disp.image(image)
+        disp.display()
+
+    elif MenuItem3 == 1:
+        print("[INTERFACE] : MenuItem3 --> ACTIVE")
+        image = Image.open('img/MenuItem3.ppm').convert('1')
+        disp.image(image)
+        disp.display()
+
+
     if GPIO.input(leftb) == False:
-        print("[INTERFACE] : Left.")
-        image = Image.open('img/testleft.ppm').convert('1')
-        disp.image(image)
-        disp.display()
-        time.sleep(0.2)
-    elif GPIO.input(homeb) == False:
-        print("[INTERFACE] : Home.")
-        image = Image.open('img/testhome.ppm').convert('1')
-        disp.image(image)
-        disp.display()
-        time.sleep(0.2)
+        print('[INTERFACE] : Button-Press --> LEFT')
+        if MenuItem1 == 1:
+            MenuItem3 = 1
+            MenuItem2 = 0
+            MenuItem1 = 0
+        elif MenuItem2 == 1:
+            MenuItem1 = 1
+            MenuItem3 = 0
+            MenuItem2 = 0
+        elif MenuItem3 == 1:
+            MenuItem2 = 1
+            MenuItem1 = 0
+            MenuItem3 = 0
+        time.sleep(ButtonPressDelay)
+
     elif GPIO.input(rightb) == False:
-        print("[INTERFACE] : Right.")
-        image = Image.open('img/testright.ppm').convert('1')
-        disp.image(image)
-        disp.display()
-        time.sleep(0.2)
+        print('[INTERFACE] : Button-Press --> RIGHT')
+        if MenuItem1 == 1:
+            MenuItem2 = 1
+            MenuItem3 = 0
+            MenuItem1 = 0
+        elif MenuItem2 == 1:
+            MenuItem3 = 1
+            MenuItem1 = 0
+            MenuItem2 = 0
+        elif MenuItem3 == 1:
+            MenuItem1 = 1
+            MenuItem2 = 0
+            MenuItem3 = 0
+        time.sleep(ButtonPressDelay)
+
+    elif GPIO.input(homeb) == False:
+        print('[INTERFACE] : Button-Press --> HOME')
+        if MenuItem1 == 1:
+            print(Base.FAILRED, "[INTERFACE] : MenuItem1 IS UNLINKED!", Base.END)
+        elif MenuItem2 == 1:
+            print(Base.FAILRED, "[INTERFACE] : MenuItem2 IS UNLINKED!", Base.END)
+        elif MenuItem3 == 1:
+            print(Base.FAILRED, "[INTERFACE] : MenuItem3 IS UNLINKED!", Base.END)
+        time.sleep(ButtonPressDelay)
