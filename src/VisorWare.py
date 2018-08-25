@@ -386,5 +386,10 @@ while True:
             time.sleep(0.5)
             APPSettings()
         elif MenuItem3 == 1:
-            print(Base.FAILRED, "[INTERFACE] : MenuItem3 IS UNLINKED!", Base.END)
+            print(Base.FAILRED, "[INTERFACE] : Launching PowerSettings.", Base.END)
+            image = Image.open('img/AppLaunch.ppm').convert('1')
+            disp.image(image)
+            disp.display()
+            time.sleep(0.5)
+            APPPower()
         time.sleep(ButtonPressDelay)
