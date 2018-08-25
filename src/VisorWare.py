@@ -152,13 +152,80 @@ MenuItem4 = 0  # BLANK AND UNUSED.
 ButtonPressDelay = 0.2
 
 # APPLICATIONS: #####################################################
+def APPPower():
+    print('')
+
+def APPSettings():
+    SettingsItem1 = 1  # Update
+    SettingsItem2 = 0  # Exit to menu
+    SettingsItem3 = 0  # BLANK AND UNUSED.
+    SettingsExit = 0
+    while SettingsExit == 0:
+        if SettingsItem1 == 1:
+            image = Image.open('img/SETTINGUpdate.ppm').convert('1')
+            disp.image(image)
+            disp.display()
+
+        elif SettingsItem2 == 1:
+            image = Image.open('img/ExitToMenu.ppm').convert('1')
+            disp.image(image)
+            disp.display()
+
+        if GPIO.input(leftb) == False:
+            print('[INTERFACE] : Button-Press --> LEFT')
+            if SettingsItem1 == 1:
+                SettingsItem2 = 1
+                SettingsItem1 = 0
+            elif SettingsItem2 == 1:
+                SettingsItem1 = 1
+                SettingsItem2 = 0
+            time.sleep(ButtonPressDelay)
+
+        elif GPIO.input(rightb) == False:
+            print('[INTERFACE] : Button-Press --> RIGHT')
+            if SettingsItem1 == 1:
+                SettingsItem2 = 1
+                SettingsItem1 = 0
+            elif SettingsItem2 == 1:
+                SettingsItem1 = 1
+                SettingsItem2 = 0
+            time.sleep(ButtonPressDelay)
+
+        elif GPIO.input(homeb) == False:
+            print('[INTERFACE] : Button-Press --> HOME')
+            if SettingsItem1 == 1:
+                print(Base.WARNING, '[SETTINGS] : Commencing update process.', Base.END)
+                image = Image.open('img/SETTINGUpdating.ppm').convert('1')
+                disp.image(image)
+                disp.display()
+                os.system('apt-get update')
+                # !!! TO DO: ADD VisorWare update system. !!! 
+                print(Base.WARNING, '[SETTINGS] : Completed Update process.', Base.END)
+                image = Image.open('img/SETTINGCompUpdate.ppm').convert('1')
+                disp.image(image)
+                disp.display()
+                time.sleep(3)
+            elif SettingsItem2 == 1:
+                SettingsExit = 1
+            time.sleep(ButtonPressDelay)
+
+    print('[SETTINGS] : Exiting Settings and returning to menu.')
+    image = Image.open('img/AppExit.ppm').convert('1')
+    disp.image(image)
+    disp.display()
+    time.sleep(0.5)
+
+
 def VoiceEngine():
     while GPIO.input(homeb) == True:
         print('[VOICE-ENGINE] : Listening!')
-        image = Image.open('img/Voice-Engine.ppm').convert('1')
+        image = Image.open('img/VEListening.ppm').convert('1')
         disp.image(image)
         disp.display()
         text = recognizer.recognize()
+        image = Image.open('img/VEIdle.ppm').convert('1')
+        disp.image(image)
+        disp.display()
         if text is None:
                 print('[VOICE-ENGINE] : Input was unrecognizable.')
         else:
@@ -234,7 +301,7 @@ while True:
             time.sleep(0.5)  
             VoiceEngine()
         elif MenuItem2 == 1:
-            print(Base.FAILRED, "[INTERFACE] : MenuItem2 IS UNLINKED!", Base.END)
+            print(Base.WARNING, "[INTERFACE] : Launching Settings.", Base.WARNING)
         elif MenuItem3 == 1:
             print(Base.FAILRED, "[INTERFACE] : MenuItem3 IS UNLINKED!", Base.END)
         time.sleep(ButtonPressDelay)
