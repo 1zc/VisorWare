@@ -302,6 +302,11 @@ while True:
             VoiceEngine()
         elif MenuItem2 == 1:
             print(Base.WARNING, "[INTERFACE] : Launching Settings.", Base.WARNING)
+            image = Image.open('img/AppLaunch.ppm').convert('1')
+            disp.image(image)
+            disp.display()
+            time.sleep(0.5)
+            APPSettings()
         elif MenuItem3 == 1:
             print(Base.FAILRED, "[INTERFACE] : MenuItem3 IS UNLINKED!", Base.END)
         time.sleep(ButtonPressDelay)
