@@ -8,7 +8,7 @@
 ###############################################################################
 
 
-#                    VisorWare ALPHA || Built for Visor2.0                    #
+#                     VisorWare BETA || Built for Visor2.0                    #
 
 
 ###############################################################################
@@ -39,6 +39,7 @@ cfgp = 'cfg.txt'
 cfgfile = open(cfgp, 'r+')
 
 if cfgfile.read(1) == '0':
+    os.system("clear")
     print("First time VisorWare is being launched.")
     print(Base.WARNING,"Running first-time setup. THIS WILL TAKE A VERY LONG TIME!", Base.END)
     print("")
@@ -131,9 +132,9 @@ print ("                     -----------------------------------")
 print (ANSI.Color(120),"                         L I A M  Z.  C H A R L E S", ANSI.END)                          
 print ("                     -----------------------------------") 
 
-print ("\n\n\nVisorWare Alpha.\n\n")
+print ("\n\n\nVisorWare Beta.\n\n")
 
-print (Base.FAILRED,"THIS IS AN ALPHA VERSION. BEWARE OF BUGS.", Base.END)
+print (Base.FAILRED,"THIS IS AN BETA VERSION. BEWARE OF BUGS.", Base.END)
 print (Base.WARNING,"Proper functionality cannot be guaranteed in a BETA build of VisorWare. Please install a stable version of VisorWare for stable and proper functionality.\n\n", Base.END)
 
 
@@ -143,11 +144,12 @@ print("[INTERFACE] : To enter button-interface testing, hold the Home Button unt
 recognizer = aiy.cloudspeech.get_recognizer()
 aiy.audio.get_recorder().start()
 
-MenuItem1 = 0
-MenuItem2 = 0
-MenuItem3 = 0
+MenuItem1 = 0  # Voice-Engine.
+MenuItem2 = 0  # Settings.
+MenuItem3 = 0  # Power.
+MenuItem4 = 0  # BLANK AND UNUSED.
 
-ButtonPressDelay = 0.3
+ButtonPressDelay = 0.2
 
 # APPLICATIONS: #####################################################
 def VoiceEngine():
@@ -170,24 +172,22 @@ def VoiceEngine():
 
 #####################################################################
 
-VoiceEngine()
+print("[INTERFACE] : Menu is live.")
+MenuItem1 = 1
+
 while True:
-    print("[INTERFACE] : Menu is live.")
     if MenuItem1 == 1:
-        print("[INTERFACE] : MenuItem1 --> ACTIVE")
-        image = Image.open('img/MenuItem1.ppm').convert('1')
+        image = Image.open('img/Acoustivisor.ppm').convert('1')
         disp.image(image)
         disp.display()
 
     elif MenuItem2 == 1:
-        print("[INTERFACE] : MenuItem2 --> ACTIVE")
-        image = Image.open('img/MenuItem2.ppm').convert('1')
+        image = Image.open('img/Settings.ppm').convert('1')
         disp.image(image)
         disp.display()
 
     elif MenuItem3 == 1:
-        print("[INTERFACE] : MenuItem3 --> ACTIVE")
-        image = Image.open('img/MenuItem3.ppm').convert('1')
+        image = Image.open('img/Power.ppm').convert('1')
         disp.image(image)
         disp.display()
 
@@ -227,7 +227,12 @@ while True:
     elif GPIO.input(homeb) == False:
         print('[INTERFACE] : Button-Press --> HOME')
         if MenuItem1 == 1:
-            print(Base.FAILRED, "[INTERFACE] : MenuItem1 IS UNLINKED!", Base.END)
+            print(Base.WARNING, "[INTERFACE] : Launching Acoustivisor.", Base.END)
+            image = Image.open('img/AppLaunch.ppm').convert('1')
+            disp.image(image)
+            disp.display()
+            time.sleep(0.5)  
+            VoiceEngine()
         elif MenuItem2 == 1:
             print(Base.FAILRED, "[INTERFACE] : MenuItem2 IS UNLINKED!", Base.END)
         elif MenuItem3 == 1:
