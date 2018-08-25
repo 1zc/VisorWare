@@ -62,6 +62,9 @@ if cfgfile.read(1) == '0':
     # Installing screenfetch.
     os.system('sudo cp screenfetch /usr/bin/screenfetch')
     os.system('sudo chmod 755 /usr/bin/screenfetch')
+    # Setting up Google API requirements.
+    os.system('sudo cp json/cloud_speech.json /home/pi/')
+    os.system('sudo cp json/assistant.json /home/pi/')
     # Configuring sound interfaces.
     #
     #   TO DO:
@@ -152,10 +155,86 @@ MenuItem4 = 0  # BLANK AND UNUSED.
 ButtonPressDelay = 0.2
 
 # APPLICATIONS: #####################################################
-def APPPower():
-    print('')
+def APPPower(): # Application function that allows options for power control.
+    PowerItem1 = 1 # Shutdown
+    PowerItem2 = 0 # Reboot
+    PowerItem3 = 0 # Exit to menu
+    PowerExit = 0
+    while PowerExit == 0:
+        if PowerItem1 == 1:
+            image = Image.open('img/POWERReboot.ppm').convert('1')
+            disp.image(image)
+            disp.display()
 
-def APPSettings():
+        elif PowerItem2 == 1:
+            image = Image.open('img/POWERShutdown.ppm').convert('1')
+            disp.image(image)
+            disp.display()
+
+        elif PowerItem3 == 1:
+            image = Image.open('img/ExitToMenu.ppm').convert('1')
+            disp.image(image)
+            disp.display()
+
+        if GPIO.input(leftb) == False:
+            print('[INTERFACE] : Button-Press --> LEFT')
+            if PowerItem1 == 1:
+                PowerItem3 = 1
+                PowerItem2 = 0
+                PowerItem1 = 0
+            elif PowerItem2 == 1:
+                PowerItem1 = 1
+                PowerItem3 = 0
+                PowerItem2 = 0
+            elif PowerItem3 == 1:
+                PowerItem2 = 1
+                PowerItem1 = 0
+                PowerItem3 = 0
+            time.sleep(ButtonPressDelay)
+
+        elif GPIO.input(rightb) == False:
+            print('[INTERFACE] : Button-Press --> RIGHT')
+            if PowerItem1 == 1:
+                PowerItem2 = 1
+                PowerItem3 = 0
+                PowerItem1 = 0
+            elif PowerItem2 == 1:
+                PowerItem3 = 1
+                PowerItem1 = 0
+                PowerItem2 = 0
+            elif PowerItem3 == 1:
+                PowerItem1 = 1
+                PowerItem2 = 0
+                PowerItem3 = 0
+            time.sleep(ButtonPressDelay)
+
+        elif GPIO.input(homeb) == False:
+            print('[INTERFACE] : Button-Press --> HOME')
+            if PowerItem1 == 1:
+                print(Base.WARNING, '[POWER] : REBOOTING', Base.END)
+                image = Image.open('img/splash.ppm').convert('1')
+                disp.image(image)
+                disp.display()
+                os.system('sudo reboot')
+                exit()
+            elif PowerItem2 == 1:
+                print(Base.WARNING, '[POWER] : SHUTTING DOWN', Base.END)
+                image = Image.open('img/splash.ppm').convert('1')
+                disp.image(image)
+                disp.display()
+                os.system('sudo halt')
+                exit()
+            elif PowerItem3 == 1:
+                PowerExit = 1
+            time.sleep(ButtonPressDelay)
+
+    print('[POWER] : Exiting Power options and returning to menu.')
+    image = Image.open('img/AppExit.ppm').convert('1')
+    disp.image(image)
+    disp.display()
+    time.sleep(0.5)
+
+def APPSettings(): # Application function that controls settings.
     SettingsItem1 = 1  # Update
     SettingsItem2 = 0  # Exit to menu
     SettingsItem3 = 0  # BLANK AND UNUSED.
@@ -198,7 +277,7 @@ def APPSettings():
                 image = Image.open('img/SETTINGUpdating.ppm').convert('1')
                 disp.image(image)
                 disp.display()
-                os.system('apt-get update')
+                os.system('sudo apt-get update')
                 # !!! TO DO: ADD VisorWare update system. !!! 
                 print(Base.WARNING, '[SETTINGS] : Completed Update process.', Base.END)
                 image = Image.open('img/SETTINGCompUpdate.ppm').convert('1')
@@ -215,8 +294,7 @@ def APPSettings():
     disp.display()
     time.sleep(0.5)
 
-
-def VoiceEngine():
+def VoiceEngine(): # Application function for the AcoustiVisor app.
     while GPIO.input(homeb) == True:
         print('[VOICE-ENGINE] : Listening!')
         image = Image.open('img/VEListening.ppm').convert('1')
