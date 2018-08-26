@@ -32,6 +32,7 @@
 import time
 import RPi.GPIO as GPIO
 import os
+import subprocess
 from termCol import *
 
 print("Reading configuration file...")
@@ -311,11 +312,11 @@ def APPSettings(): # Application function that controls settings.
 
             elif SettingsItem2 == 1:
                 print(Base.WARNING, '[SETTINGS] : Showing system stats.', Base.END)
-                image = Image.new('1', (width, height))
+                image = Image.new('1', (128, 64))
                 draw = ImageDraw.Draw(image)
-                draw.rectangle((0,0,width,height), outline=0, fill=0)
+                draw.rectangle((0,0,128,64), outline=0, fill=0)
                 while GPIO.input(homeb) == True:
-                    draw.rectangle((0,0,width,height), outline=0, fill=0)
+                    draw.rectangle((0,0,128,64), outline=0, fill=0)
                     cmd = "hostname -I | cut -d\' \' -f1"
                     IP = subprocess.check_output(cmd, shell = True )
                     cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
