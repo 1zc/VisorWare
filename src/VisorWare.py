@@ -61,7 +61,7 @@ if cfgfile.read(1) == '0':
     os.system('cd Adafruit_Python_SSD1306 && sudo python3 setup.py install')
     os.system('rm Adafruit_Python_SSD1306 -r -f')
     # Installing screenfetch.
-    os.system('sudo cp screenfetch /usr/bin/screenfetch')
+    os.system('sudo cp sf/screenfetch /usr/bin/screenfetch')
     os.system('sudo chmod 755 /usr/bin/screenfetch')
     # Setting up Google API requirements.
     os.system('sudo cp json/cloud_speech.json /home/pi/')
