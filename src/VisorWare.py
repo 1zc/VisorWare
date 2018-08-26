@@ -315,6 +315,7 @@ def APPSettings(): # Application function that controls settings.
                 image = Image.new('1', (128, 64))
                 draw = ImageDraw.Draw(image)
                 draw.rectangle((0,0,128,64), outline=0, fill=0)
+                time.sleep(0.5)
                 while GPIO.input(homeb) == True:
                     draw.rectangle((0,0,128,64), outline=0, fill=0)
                     cmd = "hostname -I | cut -d\' \' -f1"
