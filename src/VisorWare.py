@@ -103,6 +103,11 @@ disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
 disp.begin()
 width = disp.width
 height = disp.height
+padding = -2
+top = padding
+bottom = height=padding
+x = 0
+font = ImageFont.load_default()
 disp.clear()
 disp.display()
 #
@@ -151,6 +156,7 @@ MenuItem1 = 0  # Voice-Engine.
 MenuItem2 = 0  # Settings.
 MenuItem3 = 0  # Power.
 MenuItem4 = 0  # BLANK AND UNUSED.
+MenuItem5 = 0  # BLANK AND UNUSED.
 
 ButtonPressDelay = 0.2
 
@@ -236,9 +242,11 @@ def APPPower(): # Application function that allows options for power control.
 
 def APPSettings(): # Application function that controls settings.
     SettingsItem1 = 1  # Update
-    SettingsItem2 = 0  # Exit to menu
-    SettingsItem3 = 0  # BLANK AND UNUSED.
+    SettingsItem2 = 0  # System Stats
+    SettingsItem3 = 0  # Exit to menu
+    SettingsItem4 = 0  # BLANK AND UNUSED.
     SettingsExit = 0
+
     while SettingsExit == 0:
         if SettingsItem1 == 1:
             image = Image.open('img/SETTINGUpdate.ppm').convert('1')
@@ -246,6 +254,11 @@ def APPSettings(): # Application function that controls settings.
             disp.display()
 
         elif SettingsItem2 == 1:
+            image = Image.open('img/SETTINGStats.ppm').convert('1')
+            disp.image(image)
+            disp.display()
+
+        elif SettingsItem3 == 1:
             image = Image.open('img/ExitToMenu.ppm').convert('1')
             disp.image(image)
             disp.display()
@@ -253,11 +266,17 @@ def APPSettings(): # Application function that controls settings.
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
             if SettingsItem1 == 1:
-                SettingsItem2 = 1
+                SettingsItem3 = 1
+                SettingsItem2 = 0
                 SettingsItem1 = 0
             elif SettingsItem2 == 1:
                 SettingsItem1 = 1
+                SettingsItem3 = 0
                 SettingsItem2 = 0
+            elif SettingsItem3 == 1:
+                SettingsItem2 = 1
+                SettingsItem1 = 0
+                SettingsItem3 = 0
             time.sleep(ButtonPressDelay)
 
         elif GPIO.input(rightb) == False:
@@ -266,8 +285,13 @@ def APPSettings(): # Application function that controls settings.
                 SettingsItem2 = 1
                 SettingsItem1 = 0
             elif SettingsItem2 == 1:
+                SettingsItem3 = 1
+                SettingsItem1 = 0
+                SettingsItem2 = 0
+            elif SettingsItem3 == 1:
                 SettingsItem1 = 1
                 SettingsItem2 = 0
+                SettingsItem3 = 0
             time.sleep(ButtonPressDelay)
 
         elif GPIO.input(homeb) == False:
@@ -284,7 +308,33 @@ def APPSettings(): # Application function that controls settings.
                 disp.image(image)
                 disp.display()
                 time.sleep(3)
+
             elif SettingsItem2 == 1:
+                print(Base.WARNING, '[SETTINGS] : Showing system stats.', Base.END)
+                image = Image.new('1', (width, height))
+                draw = ImageDraw.Draw(image)
+                draw.rectangle((0,0,width,height), outline=0, fill=0)
+                while GPIO.input(homeb) == True:
+                    draw.rectangle((0,0,width,height), outline=0, fill=0)
+                    cmd = "hostname -I | cut -d\' \' -f1"
+                    IP = subprocess.check_output(cmd, shell = True )
+                    cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
+                    CPU = subprocess.check_output(cmd, shell = True )
+                    cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
+                    MemUsage = subprocess.check_output(cmd, shell = True )
+                    cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
+                    Disk = subprocess.check_output(cmd, shell = True )
+
+                    draw.text((x, top),       "IP: " + str(IP),  font=font, fill=255)
+                    draw.text((x, top+8),     str(CPU), font=font, fill=255)
+                    draw.text((x, top+16),    str(MemUsage),  font=font, fill=255)
+                    draw.text((x, top+25),    str(Disk),  font=font, fill=255)
+
+                    disp.image(image)
+                    disp.display()
+                    time.sleep(.1)
+
+            elif SettingsItem3 == 1:
                 SettingsExit = 1
             time.sleep(ButtonPressDelay)
 
@@ -317,7 +367,7 @@ def VoiceEngine(): # Application function for the AcoustiVisor app.
 
 #####################################################################
 
-print("[INTERFACE] : Menu is live.")
+print("[INTERFACE] : Main Menu is live.")
 MenuItem1 = 1
 
 while True:
@@ -379,14 +429,14 @@ while True:
             time.sleep(0.5)  
             VoiceEngine()
         elif MenuItem2 == 1:
-            print(Base.WARNING, "[INTERFACE] : Launching Settings.", Base.WARNING)
+            print(Base.WARNING, "[INTERFACE] : Launching Settings.", Base.END)
             image = Image.open('img/AppLaunch.ppm').convert('1')
             disp.image(image)
             disp.display()
             time.sleep(0.5)
             APPSettings()
         elif MenuItem3 == 1:
-            print(Base.FAILRED, "[INTERFACE] : Launching PowerSettings.", Base.END)
+            print(Base.WARNING, "[INTERFACE] : Launching PowerSettings.", Base.END)
             image = Image.open('img/AppLaunch.ppm').convert('1')
             disp.image(image)
             disp.display()
