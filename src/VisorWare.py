@@ -150,6 +150,10 @@ MenuItem5 = 0  # BLANK AND UNUSED.
 
 ButtonPressDelay = 0.2
 
+# APPLICATION LOAD STATES: ##########################################
+VEDepLoadState = 0 # AcoustiVisor Load State
+#####################################################################
+
 # APPLICATIONS: #####################################################
 def APPPower(): # Application function that allows options for power control.
     PowerItem1 = 1 # Shutdown
@@ -373,16 +377,16 @@ def APPSettings(): # Application function that controls settings.
     disp.display()
     time.sleep(0.5)
 
-VoiceEngineDepLoadState = 0
 def VoiceEngine(): # Application function for the AcoustiVisor app.
-    if VoiceEngineDepLoadState == 0:
+    global VEDepLoadState
+    if VEDepLoadState == 0:
         import aiy.audio
         import aiy.cloudspeech
         import aiy.voicehat
         import signDictionary
         recognizer = aiy.cloudspeech.get_recognizer()
         aiy.audio.get_recorder().start()
-        VoiceEngineDepLoadState = 1
+        VEDepLoadState= 1
 
     while GPIO.input(homeb) == True:
         print('[VOICE-ENGINE] : Listening!')
