@@ -142,9 +142,6 @@ print (Base.WARNING,"Proper functionality cannot be guaranteed in a BETA build o
 print ("[VOICE-ENGINE] : VOICE RECOGNITION TESTING LIVE!")
 print("[INTERFACE] : To enter button-interface testing, hold the Home Button until the Voice-Engine exits.")
 
-recognizer = aiy.cloudspeech.get_recognizer()
-aiy.audio.get_recorder().start()
-
 MenuItem1 = 0  # Voice-Engine.
 MenuItem2 = 0  # Settings.
 MenuItem3 = 0  # Power.
@@ -381,6 +378,8 @@ def VoiceEngine(): # Application function for the AcoustiVisor app.
     import aiy.cloudspeech
     import aiy.voicehat
     import signDictionary
+    recognizer = aiy.cloudspeech.get_recognizer()
+    aiy.audio.get_recorder().start()
 
     while GPIO.input(homeb) == True:
         print('[VOICE-ENGINE] : Listening!')
