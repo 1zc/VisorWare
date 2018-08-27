@@ -63,9 +63,6 @@ if cfgfile.read(1) == '0':
     # Installing screenfetch.
     os.system('sudo cp sf/screenfetch /usr/bin/screenfetch')
     os.system('sudo chmod 755 /usr/bin/screenfetch')
-    # Setting up Google API requirements.
-    os.system('sudo cp json/cloud_speech.json /home/pi/')
-    os.system('sudo cp json/assistant.json /home/pi/')
     # Configuring sound interfaces.
     #
     #   TO DO:
@@ -119,11 +116,6 @@ image = Image.open('img/splash.ppm').convert('1')
 disp.image(image)
 disp.display()
 
-# LONG LOADING TIME IMPORTS
-import aiy.audio
-import aiy.cloudspeech
-import aiy.voicehat
-
 ##################################################
 # Button input board initialization. DO NOT ALTER!
 GPIO.setmode(GPIO.BCM)
@@ -165,7 +157,8 @@ ButtonPressDelay = 0.2
 def APPPower(): # Application function that allows options for power control.
     PowerItem1 = 1 # Shutdown
     PowerItem2 = 0 # Reboot
-    PowerItem3 = 0 # Exit to menu
+    PowerItem3 = 0 # Force quit VisorWare
+    PowerItem4 = 0 # Exit to menu
     PowerExit = 0
     while PowerExit == 0:
         if PowerItem1 == 1:
@@ -179,6 +172,11 @@ def APPPower(): # Application function that allows options for power control.
             disp.display()
 
         elif PowerItem3 == 1:
+            image=Image.open('img/POWERQuit.ppm').convert('1')
+            disp.image(image)
+            disp.display()
+
+        elif PowerItem4 == 1:
             image = Image.open('img/ExitToMenu.ppm').convert('1')
             disp.image(image)
             disp.display()
@@ -186,17 +184,25 @@ def APPPower(): # Application function that allows options for power control.
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
             if PowerItem1 == 1:
-                PowerItem3 = 1
+                PowerItem4 = 1
+                PowerItem3 = 0
                 PowerItem2 = 0
                 PowerItem1 = 0
             elif PowerItem2 == 1:
                 PowerItem1 = 1
                 PowerItem3 = 0
+                PowerItem4 = 0
                 PowerItem2 = 0
             elif PowerItem3 == 1:
                 PowerItem2 = 1
                 PowerItem1 = 0
+                PowerItem4 = 0
                 PowerItem3 = 0
+            elif PowerItem4 == 1:
+                PowerItem3 = 1
+                PowerItem2 = 0
+                PowerItem1 = 0
+                PowerItem4 = 0
             time.sleep(ButtonPressDelay)
 
         elif GPIO.input(rightb) == False:
@@ -204,15 +210,23 @@ def APPPower(): # Application function that allows options for power control.
             if PowerItem1 == 1:
                 PowerItem2 = 1
                 PowerItem3 = 0
+                PowerItem4 = 0
                 PowerItem1 = 0
             elif PowerItem2 == 1:
                 PowerItem3 = 1
                 PowerItem1 = 0
+                PowerItem4 = 0
                 PowerItem2 = 0
             elif PowerItem3 == 1:
+                PowerItem4 = 1
+                PowerItem1 = 0
+                PowerItem2 = 0
+                PowerItem3 = 0
+            elif PowerItem4 == 1:
                 PowerItem1 = 1
                 PowerItem2 = 0
                 PowerItem3 = 0
+                PowerItem4 = 0
             time.sleep(ButtonPressDelay)
 
         elif GPIO.input(homeb) == False:
@@ -222,6 +236,9 @@ def APPPower(): # Application function that allows options for power control.
                 image = Image.open('img/splash.ppm').convert('1')
                 disp.image(image)
                 disp.display()
+                time.sleep(3)
+                disp.clear()
+                disp.display()
                 os.system('sudo reboot')
                 exit()
             elif PowerItem2 == 1:
@@ -229,9 +246,22 @@ def APPPower(): # Application function that allows options for power control.
                 image = Image.open('img/splash.ppm').convert('1')
                 disp.image(image)
                 disp.display()
+                time.sleep(3)
+                disp.clear()
+                disp.display()
                 os.system('sudo halt')
                 exit()
             elif PowerItem3 == 1:
+                print(Base.FAILRED, '[POWER] : Quitting VisorWare.', Base.END)
+                image = Image.open('img/splash.ppm').convert('1')
+                disp.image(image)
+                disp.display()
+                time.sleep(3)
+                image = Image.open('img/POWERQuitConsequence.ppm').convert('1')
+                disp.image(image)
+                disp.display()
+                exit()
+            elif PowerItem4 == 1:
                 PowerExit = 1
             time.sleep(ButtonPressDelay)
 
@@ -347,6 +377,11 @@ def APPSettings(): # Application function that controls settings.
     time.sleep(0.5)
 
 def VoiceEngine(): # Application function for the AcoustiVisor app.
+    import aiy.audio
+    import aiy.cloudspeech
+    import aiy.voicehat
+    import signDictionary
+
     while GPIO.input(homeb) == True:
         print('[VOICE-ENGINE] : Listening!')
         image = Image.open('img/VEListening.ppm').convert('1')
@@ -360,6 +395,7 @@ def VoiceEngine(): # Application function for the AcoustiVisor app.
                 print('[VOICE-ENGINE] : Input was unrecognizable.')
         else:
             print(Base.WARNING, '[VOICE-ENGINE] : Recognized << "', text, '" >>', Base.END)
+            signDictionary.signRender(text)
 
     image = Image.open('img/AppExit.ppm').convert('1')
     disp.image(image)
