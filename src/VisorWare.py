@@ -36,7 +36,7 @@ import subprocess
 from termCol import *
 
 print("Reading configuration file...")
-cfgp = 'cfg.txt'
+cfgp = 'cfg/cfg.txt'
 cfgfile = open(cfgp, 'r+')
 
 if cfgfile.read(1) == '0':
@@ -63,11 +63,9 @@ if cfgfile.read(1) == '0':
     # Installing screenfetch.
     os.system('sudo cp sf/screenfetch /usr/bin/screenfetch')
     os.system('sudo chmod 755 /usr/bin/screenfetch')
-    # Configuring sound interfaces.
-    #
-    #   TO DO:
-    #       > Update ~./asoundrc
-    #       > Update /boot/config.txt
+    # Configuring important interfaces.
+    os.system('sudo rm /boot/config.txt -f && sudo cp conf/config.txt /boot/config.txt')
+    os.system('sudo rm /home/pi/.asoundrc -f && sudo cp conf/.asoundrc /home/pi/')
 
     cfgfile.close()
     cfgfile = open(cfgp, 'w')
@@ -115,6 +113,7 @@ print("Launching VisorWare...\n")
 image = Image.open('img/splash.ppm').convert('1')
 disp.image(image)
 disp.display()
+time.sleep(5)
 
 ##################################################
 # Button input board initialization. DO NOT ALTER!
@@ -135,7 +134,7 @@ print ("                     -----------------------------------")
 
 print ("\n\n\nVisorWare Beta.\n\n")
 
-print (Base.FAILRED,"THIS IS AN BETA VERSION. BEWARE OF BUGS.", Base.END)
+print (Base.FAILRED,"THIS IS A BETA VERSION. BEWARE OF BUGS.", Base.END)
 print (Base.WARNING,"Proper functionality cannot be guaranteed in a BETA build of VisorWare. Please install a stable version of VisorWare for stable and proper functionality.\n\n", Base.END)
 
 
@@ -330,18 +329,42 @@ def APPSettings(): # Application function that controls settings.
             print('[INTERFACE] : Button-Press --> HOME')
             if SettingsItem1 == 1:
                 print(Base.WARNING, '[SETTINGS] : Commencing update process.', Base.END)
+                print(Base.FAILRED, '[SYSTEM] : DO NOT TURN OFF THE POWER OR ATTEMPT TO INTERRUPT THE UPDATE PROCESS.', Base.END)
                 image = Image.open('img/SETTINGUpdating.ppm').convert('1')
                 disp.image(image)
                 disp.display()
                 os.system('sudo apt-get update')
+                os.system('sudo apt-get upgrade')
                 # !!! TO DO: ADD VisorWare update system. !!! 
-                print(Base.WARNING, '[SETTINGS] : Completed Update process.', Base.END)
+                #
+                # Make cfg/vmark.txt and use this format to mark versions: DDMMYYYYxy
+                #       where, DD = Date (01, 11, 31,)
+                #              MM = Month (01, 12)
+                #              YYYY = Year (2018)
+                #              xy = Version No. (v1.2, where x=1,y=2.)
+                #
+                #       sudo rm cfg/vmark.txt -f
+                #       cd cfg && wget **VMARK.TXT HOSTED URL**
+                #       print("Reading new vmark file...")
+                #       vmark = 'cfg/vmark.txt'
+                #       vmarkfile = open(vmark, 'r+')
+                #       if cfgfile.read(10) == 'DDMMYYYYxy':
+                #           print('up to date.')
+                #       else:
+                #           NEW UPDATE SYSTEM HERE!
+                #
+                #
+                print(Base.WARNING, '[SETTINGS] : Completed Update process. Returning to menu.', Base.END)
                 image = Image.open('img/SETTINGCompUpdate.ppm').convert('1')
                 disp.image(image)
                 disp.display()
                 time.sleep(3)
 
             elif SettingsItem2 == 1:
+                image = Image.open('img/AppLaunch.ppm').convert('1')
+                disp.image(image)
+                disp.display()
+                time.sleep(0.5)
                 print(Base.WARNING, '[SETTINGS] : Showing system stats.', Base.END)
                 image = Image.new('1', (128, 64))
                 draw = ImageDraw.Draw(image)
@@ -366,6 +389,11 @@ def APPSettings(): # Application function that controls settings.
                     disp.image(image)
                     disp.display()
                     time.sleep(.1)
+
+                image = Image.open('img/AppExit.ppm').convert('1')
+                disp.image(image)
+                disp.display()
+                time.sleep(0.5)
 
             elif SettingsItem3 == 1:
                 SettingsExit = 1
