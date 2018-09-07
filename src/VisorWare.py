@@ -343,17 +343,16 @@ def APPSettings(): # Application function that controls settings.
                 #              YYYY = Year (2018)
                 #              xy = Version No. (v1.2, where x=1,y=2.)
                 #
-                #       sudo rm cfg/vmark.txt -f
-                #       cd cfg && wget **VMARK.TXT HOSTED URL**
-                #       print("Reading new vmark file...")
-                #       vmark = 'cfg/vmark.txt'
-                #       vmarkfile = open(vmark, 'r+')
-                #       if cfgfile.read(10) == 'DDMMYYYYxy':
-                #           print('up to date.')
-                #       else:
-                #           NEW UPDATE SYSTEM HERE!
-                #
-                #
+                os.system('rm cfg/vmark.txt -f')
+                os.system('cd cfg && wget https://raw.githubusercontent.com/LiamZC/VisorWare/master/src/cfg/vmark.txt')
+                print("Reading new vmark file...")
+                vmark = 'cfg/vmark.txt'
+                vmarkfile = open(vmark, 'r+')
+                if cfgfile.read(10) == 'DDMMYYYYxy':
+                    print('[SYSTEM] : VisorWare software is up to date.')
+                else:
+                    print('Base.WARNING, [SYSTEM] : A new version of the VisorWare software is available. Please manually update from the GIT repo.', Base.END)
+
                 print(Base.WARNING, '[SETTINGS] : Completed Update process. Returning to menu.', Base.END)
                 image = Image.open('img/SETTINGCompUpdate.ppm').convert('1')
                 disp.image(image)
