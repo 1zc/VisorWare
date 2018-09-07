@@ -361,7 +361,7 @@ def APPSettings(): # Application function that controls settings.
                 print('\n\n[SYSTEM] : Removing old vmark file...')
                 os.system('sudo rm cfg/vmark.txt -f')
                 print('\n[SYSTEM] : Getting new vmark file...')
-                os.system('cd cfg && sudo wget https://raw.githubusercontent.com/LiamZC/VisorWare/master/src/cfg/vmark.txt')
+                os.system('cd cfg && wget https://raw.githubusercontent.com/LiamZC/VisorWare/master/src/cfg/vmark.txt')
                 print("\n[SYSTEM] : Reading new vmark file...")
                 vmark = 'cfg/vmark.txt'
                 vmarkfile = open(vmark, 'r+')
