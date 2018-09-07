@@ -374,7 +374,7 @@ def APPSettings(): # Application function that controls settings.
                     try:
                         sys.exit("Shutting down VisorWare for updates.")
                     finally:
-                        os.system('python3 /home/pi/VWUD/VWCTRL.py')
+                        os.system('cd /home/pi/VWUD && python3 VWCTRL.py')
 
                 print(Base.WARNING, '[SETTINGS] : Completed Update process. Returning to menu.', Base.END)
                 image = Image.open('img/SETTINGCompUpdate.ppm').convert('1')
