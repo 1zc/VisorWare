@@ -10,7 +10,7 @@
 
 #                     VisorWare BETA || Built for Visor2.0                    #
 
-currversion = '0709201810'
+currversion = '0809201810'
 
 ###############################################################################
 #                                                                             #
@@ -50,25 +50,31 @@ if cfgfile.read(1) == '0':
     time.sleep(15)
 
     # Runs the RaspbianDebloater script to get rid of all bloatware.
+    print('\n\nRemoving bloat...\n')
     os.system('sudo apt-get --yes remove --purge wolfram-engine sense-hat scratch nuscratch scratch2 sonic-pi minecraft-pi python-minecraftpi penguinspuzzle xpdf libreoffice libreoffice-base libreoffice-base-core libreoffice-base-drivers')
     os.system('sudo apt-get --yes remove --purge libreoffice-calc libreoffice-common libreoffice-core libreoffice-draw libreoffice-gtk libreoffice-impress libreoffice-math libreoffice-writer claws-mail')
     os.system('sudo apt-get --yes remove --purge geany-common geany greenfoot bluej nodered python3-thonny sense-emu-tools epiphany-browser-data epiphany-browser dillo')
     os.system('sudo apt-get autoremove -y && sudo apt-get autoclean -y')
     # Updates repositories and installs all updates available for currently installed software.
+    print('\n\nUpdating...\n')
     os.system('sudo apt-get update')
     os.system('sudo apt-get --yes upgrade')
     # Installing VisorWare dependencies.
+    print('\n\nInstalling VisorWare dependencies...\n')
     os.system('sudo apt-get --yes --force-yes install python-imaging python-smbus git')
     os.system('git clone https://github.com/adafruit/Adafruit_Python_SSD1306.git')
     os.system('cd Adafruit_Python_SSD1306 && sudo python3 setup.py install')
     os.system('rm Adafruit_Python_SSD1306 -r -f')
     # Installing screenfetch.
+    print('\n\nConfiguring screenfetch.')
     os.system('sudo cp sf/screenfetch /usr/bin/screenfetch')
     os.system('sudo chmod 755 /usr/bin/screenfetch')
     # Configuring important interfaces.
+    print('\n\nConfiguring Audio and Boot configs.')
     os.system('sudo rm /boot/config.txt -f && sudo cp conf/config.txt /boot/config.txt')
     os.system('sudo rm /home/pi/.asoundrc -f && sudo cp conf/.asoundrc /home/pi/')
     # Installing VW Update service files.
+    print('\n\nConfiguring VWUD configs.')
     os.system('cd /home/pi/ && mkdir VWUD')
     os.system('sudo cp conf/VWCTRL.py /home/pi/VWUD/VWCTRL.py')
     os.system('sudo cp conf/UD.ppm /home/pi/VWUD/UD.ppm')

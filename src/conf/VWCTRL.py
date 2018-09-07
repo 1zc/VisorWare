@@ -51,11 +51,12 @@ disp.display()
 time.sleep(5)
 
 print('\n\nDeleting old VisorWare...\n')
-os.system('cd && sudo rm VisorWare -r -f')
+os.system('cd /home/pi && sudo rm VisorWare -r -f')
 print('\n\nGetting new VisorWare...\n')
-os.system('cd && git clone https://github.com/LiamZC/VisorWare')
+os.system('cd /home/pi && git clone https://github.com/LiamZC/VisorWare')
 print('\n\nCleaning up...\n')
-os.system('sudo cp cfg.txt /home/pi/VisorWare/src/conf/cfg.txt')
+os.system('sudo rm /home/pi/VisorWare/src/cfg/cfg.txt')
+os.system('sudo cp cfg.txt /home/pi/VisorWare/src/cfg/cfg.txt')
 try:
     sys.exit(0)
 finally:
