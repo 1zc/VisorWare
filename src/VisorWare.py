@@ -334,7 +334,7 @@ def APPSettings(): # Application function that controls settings.
                 disp.image(image)
                 disp.display()
                 os.system('sudo apt-get update')
-                os.system('sudo apt-get upgrade')
+                os.system('sudo apt-get --yes upgrade')
                 # !!! TO DO: ADD VisorWare update system. !!! 
                 #
                 # Make cfg/vmark.txt and use this format to mark versions: DDMMYYYYxy
@@ -345,13 +345,15 @@ def APPSettings(): # Application function that controls settings.
                 #
                 os.system('rm cfg/vmark.txt -f')
                 os.system('cd cfg && wget https://raw.githubusercontent.com/LiamZC/VisorWare/master/src/cfg/vmark.txt')
-                print("Reading new vmark file...")
+                print("\n\nReading new vmark file...")
                 vmark = 'cfg/vmark.txt'
                 vmarkfile = open(vmark, 'r+')
-                if cfgfile.read(10) == 'DDMMYYYYxy':
+                if vmarkfile.read(10) == 'DDMMYYYYxy':
                     print('[SYSTEM] : VisorWare software is up to date.')
+                    vmarkfile.close()
                 else:
                     print('Base.WARNING, [SYSTEM] : A new version of the VisorWare software is available. Please manually update from the GIT repo.', Base.END)
+                    vmarkfile.close()
 
                 print(Base.WARNING, '[SETTINGS] : Completed Update process. Returning to menu.', Base.END)
                 image = Image.open('img/SETTINGCompUpdate.ppm').convert('1')
