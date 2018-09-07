@@ -56,7 +56,7 @@ print('\n\nGetting new VisorWare...\n')
 os.system('cd /home/pi && git clone https://github.com/LiamZC/VisorWare')
 print('\n\nCleaning up...\n')
 os.system('sudo rm /home/pi/VisorWare/src/cfg/cfg.txt')
-os.system('sudo cp cfg.txt /home/pi/VisorWare/src/cfg/cfg.txt')
+os.system('cp cfg.txt /home/pi/VisorWare/src/cfg/cfg.txt')
 try:
     sys.exit(0)
 finally:
