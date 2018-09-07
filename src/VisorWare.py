@@ -330,7 +330,7 @@ def APPSettings(): # Application function that controls settings.
             print('[INTERFACE] : Button-Press --> HOME')
             if SettingsItem1 == 1:
                 print(Base.WARNING, '[SETTINGS] : Commencing update process.', Base.END)
-                print(Base.FAILRED, '[SYSTEM] : DO NOT TURN OFF THE POWER OR ATTEMPT TO INTERRUPT THE UPDATE PROCESS.', Base.END)
+                print(Base.WARNING, '[SYSTEM] : DO NOT TURN OFF THE POWER OR ATTEMPT TO INTERRUPT THE UPDATE PROCESS.', Base.END)
                 image = Image.open('img/SETTINGUpdating.ppm').convert('1')
                 disp.image(image)
                 disp.display()
