@@ -10,6 +10,7 @@
 
 #                     VisorWare BETA || Built for Visor2.0                    #
 
+currversion = '0709201810'
 
 ###############################################################################
 #                                                                             #
@@ -333,7 +334,9 @@ def APPSettings(): # Application function that controls settings.
                 image = Image.open('img/SETTINGUpdating.ppm').convert('1')
                 disp.image(image)
                 disp.display()
+                print('\n[SYSTEM] : Updating package repositories...\n')
                 os.system('sudo apt-get update')
+                print('\n[SYSTEM] : Installing new packages...\n')
                 os.system('sudo apt-get --yes upgrade')
                 # !!! TO DO: ADD VisorWare update system. !!! 
                 #
@@ -343,16 +346,18 @@ def APPSettings(): # Application function that controls settings.
                 #              YYYY = Year (2018)
                 #              xy = Version No. (v1.2, where x=1,y=2.)
                 #
+                print('\n\n[SYSTEM] : Removing old vmark file...')
                 os.system('rm cfg/vmark.txt -f')
+                print('\n[SYSTEM] : Getting new vmark file...')
                 os.system('cd cfg && wget https://raw.githubusercontent.com/LiamZC/VisorWare/master/src/cfg/vmark.txt')
-                print("\n\nReading new vmark file...")
+                print("\n[SYSTEM] : Reading new vmark file...")
                 vmark = 'cfg/vmark.txt'
                 vmarkfile = open(vmark, 'r+')
-                if vmarkfile.read(10) == 'DDMMYYYYxy':
-                    print('[SYSTEM] : VisorWare software is up to date.')
+                if vmarkfile.read(10) == currversion:
+                    print(Base.OKGREEN, '[SYSTEM] : VisorWare software is up to date.', Base.END)
                     vmarkfile.close()
                 else:
-                    print('Base.WARNING, [SYSTEM] : A new version of the VisorWare software is available. Please manually update from the GIT repo.', Base.END)
+                    print(Base.WARNING, '[SYSTEM] : A new version of the VisorWare software is available. Please manually update from the GIT repo.', Base.END)
                     vmarkfile.close()
 
                 print(Base.WARNING, '[SETTINGS] : Completed Update process. Returning to menu.', Base.END)
