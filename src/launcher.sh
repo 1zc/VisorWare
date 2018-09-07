@@ -3,5 +3,5 @@
 
 cd /
 cd home/pi/VisorWare/src
-python3 VisorWare.py
+python3 VW.py
 cd /

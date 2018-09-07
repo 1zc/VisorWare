@@ -34,6 +34,7 @@ import time
 import RPi.GPIO as GPIO
 import os
 import subprocess
+import sys
 from termCol import *
 
 print("Reading configuration file...")
@@ -67,6 +68,11 @@ if cfgfile.read(1) == '0':
     # Configuring important interfaces.
     os.system('sudo rm /boot/config.txt -f && sudo cp conf/config.txt /boot/config.txt')
     os.system('sudo rm /home/pi/.asoundrc -f && sudo cp conf/.asoundrc /home/pi/')
+    # Installing VW Update service files.
+    os.system('cd /home/pi/ && mkdir VWUD')
+    os.system('sudo cp conf/VWCTRL.py /home/pi/VWUD/VWCTRL.py')
+    os.system('sudo cp conf/UD.ppm /home/pi/VWUD/UD.ppm')
+    os.system('sudo cp conf/cfg.txt /home/pi/VWUD/cfg.txt')
 
     cfgfile.close()
     cfgfile = open(cfgp, 'w')
@@ -354,11 +360,15 @@ def APPSettings(): # Application function that controls settings.
                 vmark = 'cfg/vmark.txt'
                 vmarkfile = open(vmark, 'r+')
                 if vmarkfile.read(10) == currversion:
+                    vmarkfile.close()
                     print(Base.OKGREEN, '[SYSTEM] : VisorWare software is up to date.', Base.END)
-                    vmarkfile.close()
                 else:
-                    print(Base.WARNING, '[SYSTEM] : A new version of the VisorWare software is available. Please manually update from the GIT repo.', Base.END)
-                    vmarkfile.close()
+                    vmarkfile.close() 
+                    print(Base.WARNING, '[SYSTEM] : A new version of the VisorWare software is available. Updating...', Base.END)
+                    try:
+                        sys.exit("Shutting down VisorWare for updates.")
+                    finally:
+                        os.system('sudo python3 /home/pi/VWUD/VWCTRL.py')
 
                 print(Base.WARNING, '[SETTINGS] : Completed Update process. Returning to menu.', Base.END)
                 image = Image.open('img/SETTINGCompUpdate.ppm').convert('1')
