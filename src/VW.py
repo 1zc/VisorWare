@@ -10,7 +10,7 @@
 
 #                     VisorWare BETA || Built for Visor2.0                    #
 
-currversion = '0709201810'
+currversion = '0809201810'
 
 ###############################################################################
 #                                                                             #
@@ -128,6 +128,14 @@ disp.image(image)
 disp.display()
 time.sleep(5)
 
+###################################
+# APPLICATION-SPECIFIC DEPENDENCIES:
+import aiy.audio
+import aiy.cloudspeech
+import aiy.voicehat
+import signDictionary
+###################################
+
 ##################################################
 # Button input board initialization. DO NOT ALTER!
 GPIO.setmode(GPIO.BCM)
@@ -145,26 +153,18 @@ print ("                     -----------------------------------")
 print (ANSI.Color(120),"                         L I A M  Z.  C H A R L E S", ANSI.END)                          
 print ("                     -----------------------------------") 
 
-print ("\n\n\nVisorWare Beta.\n\n")
+print ("\n\n\nVisorWare.\n\n")
 
-print (Base.FAILRED,"THIS IS A BETA VERSION. BEWARE OF BUGS.", Base.END)
-print (Base.WARNING,"Proper functionality cannot be guaranteed in a BETA build of VisorWare. Please install a stable version of VisorWare for stable and proper functionality.\n\n", Base.END)
-
-
-print ("[VOICE-ENGINE] : VOICE RECOGNITION TESTING LIVE!")
-print("[INTERFACE] : To enter button-interface testing, hold the Home Button until the Voice-Engine exits.")
+print (Base.OKGREEN,"Version 1.0 | Build ",currversion , Base.END)
 
 MenuItem1 = 0  # Voice-Engine.
 MenuItem2 = 0  # Settings.
 MenuItem3 = 0  # Power.
 MenuItem4 = 0  # BLANK AND UNUSED.
 MenuItem5 = 0  # BLANK AND UNUSED.
+MenuItem6 = 0  # BLANK AND UNUSED
 
 ButtonPressDelay = 0.2
-
-# APPLICATION LOAD STATES: ##########################################
-VEDepLoadState = 0 # AcoustiVisor Load State
-#####################################################################
 
 # APPLICATIONS: #####################################################
 def APPPower(): # Application function that allows options for power control.
@@ -428,16 +428,9 @@ def APPSettings(): # Application function that controls settings.
     time.sleep(0.5)
 
 def VoiceEngine(): # Application function for the AcoustiVisor app.
-    global VEDepLoadState
-    if VEDepLoadState == 0:
-        import aiy.audio
-        import aiy.cloudspeech
-        import aiy.voicehat
-        import signDictionary
-        recognizer = aiy.cloudspeech.get_recognizer()
-        aiy.audio.get_recorder().start()
-        VEDepLoadState= 1
 
+    recognizer = aiy.cloudspeech.get_recognizer()
+    aiy.audio.get_recorder().start()
     while GPIO.input(homeb) == True:
         print('[VOICE-ENGINE] : Listening!')
         image = Image.open('img/VEListening.ppm').convert('1')
