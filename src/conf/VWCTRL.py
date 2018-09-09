@@ -45,10 +45,6 @@ disp.display()
 #######################################
 
 print("Installing updates...\n")
-image = Image.open('UD.ppm').convert('1')
-disp.image(image)
-disp.display()
-time.sleep(5)
 
 print('\n\nDeleting old VisorWare...\n')
 os.system('cd /home/pi && sudo rm VisorWare -r -f')
