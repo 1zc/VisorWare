@@ -8,9 +8,9 @@
 ###############################################################################
 
 
-#                     VisorWare BETA || Built for Visor2.0                    #
+# $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '0809201810'
+currversion = '0909201810'
 
 ###############################################################################
 #                                                                             #
@@ -36,60 +36,67 @@ import os
 import subprocess
 import sys
 from termCol import *
+import VWCoreUtil
 
 print("Reading configuration file...")
 cfgp = 'cfg/cfg.txt'
 cfgfile = open(cfgp, 'r+')
 
 if cfgfile.read(1) == '0':
-    os.system("clear")
-    print("First time VisorWare is being launched.")
-    print(Base.WARNING,"Running first-time setup. THIS WILL TAKE A VERY LONG TIME!", Base.END)
-    print("")
-    print(Base.FAILRED,"Setup will start in 15 seconds. Please do not abort/interrupt the setup process. If you would like to cancel, please do it in these 15 seconds by hitting CTRL+C.", Base.END)
-    time.sleep(15)
+    if VWCoreUtil.connCheck() == True:
+        os.system("clear")
+        print("First time VisorWare is being launched.")
+        print(Base.WARNING,"Running first-time setup. THIS WILL TAKE A VERY LONG TIME!", Base.END)
+        print("")
+        print(Base.FAILRED,"Setup will start in 20 seconds. Please do not abort/interrupt the setup process. If you would like to cancel, please do it in these 15 seconds by hitting CTRL+C.", Base.END)
+        print(Base.BOLD, "A WORKING INTERNET CONNECTION IS REQUIRED!", Base.END)
+        time.sleep(20)
+        # Runs the RaspbianDebloater script to get rid of all bloatware.
+        print('\n\nRemoving bloat...\n')
+        os.system('sudo apt-get --yes remove --purge wolfram-engine sense-hat scratch nuscratch scratch2 sonic-pi minecraft-pi python-minecraftpi penguinspuzzle xpdf libreoffice libreoffice-base libreoffice-base-core libreoffice-base-drivers')
+        os.system('sudo apt-get --yes remove --purge libreoffice-calc libreoffice-common libreoffice-core libreoffice-draw libreoffice-gtk libreoffice-impress libreoffice-math libreoffice-writer claws-mail')
+        os.system('sudo apt-get --yes remove --purge geany-common geany greenfoot bluej nodered python3-thonny sense-emu-tools epiphany-browser-data epiphany-browser dillo')
+        os.system('sudo apt-get autoremove -y && sudo apt-get autoclean -y')
+        # Updates repositories and installs all updates available for currently installed software.
+        print('\n\nUpdating...\n')
+        os.system('sudo apt-get update')
+        os.system('sudo apt-get --yes upgrade')
+        # Installing VisorWare dependencies.
+        print('\n\nInstalling VisorWare dependencies...\n')
+        os.system('sudo apt-get --yes --force-yes install python-imaging python-smbus git')
+        os.system('git clone https://github.com/adafruit/Adafruit_Python_SSD1306.git')
+        os.system('cd Adafruit_Python_SSD1306 && sudo python3 setup.py install')
+        os.system('rm Adafruit_Python_SSD1306 -r -f')
+        # Installing screenfetch.
+        print('\n\nConfiguring screenfetch.')
+        os.system('sudo cp sf/screenfetch /usr/bin/screenfetch')
+        os.system('sudo chmod 755 /usr/bin/screenfetch')
+        # Configuring important interfaces.
+        print('\n\nConfiguring Audio and Boot configs.')
+        os.system('sudo rm /boot/config.txt -f && sudo cp conf/config.txt /boot/config.txt')
+        os.system('sudo rm /home/pi/.asoundrc -f && sudo cp conf/.asoundrc /home/pi/')
+        # Installing VW Update service files.
+        print('\n\nConfiguring VWUD configs.')
+        os.system('cd /home/pi/ && mkdir VWUD')
+        os.system('sudo cp conf/VWCTRL.py /home/pi/VWUD/VWCTRL.py')
+        os.system('sudo cp conf/UD.ppm /home/pi/VWUD/UD.ppm')
+        os.system('sudo cp conf/cfg.txt /home/pi/VWUD/cfg.txt')
 
-    # Runs the RaspbianDebloater script to get rid of all bloatware.
-    print('\n\nRemoving bloat...\n')
-    os.system('sudo apt-get --yes remove --purge wolfram-engine sense-hat scratch nuscratch scratch2 sonic-pi minecraft-pi python-minecraftpi penguinspuzzle xpdf libreoffice libreoffice-base libreoffice-base-core libreoffice-base-drivers')
-    os.system('sudo apt-get --yes remove --purge libreoffice-calc libreoffice-common libreoffice-core libreoffice-draw libreoffice-gtk libreoffice-impress libreoffice-math libreoffice-writer claws-mail')
-    os.system('sudo apt-get --yes remove --purge geany-common geany greenfoot bluej nodered python3-thonny sense-emu-tools epiphany-browser-data epiphany-browser dillo')
-    os.system('sudo apt-get autoremove -y && sudo apt-get autoclean -y')
-    # Updates repositories and installs all updates available for currently installed software.
-    print('\n\nUpdating...\n')
-    os.system('sudo apt-get update')
-    os.system('sudo apt-get --yes upgrade')
-    # Installing VisorWare dependencies.
-    print('\n\nInstalling VisorWare dependencies...\n')
-    os.system('sudo apt-get --yes --force-yes install python-imaging python-smbus git')
-    os.system('git clone https://github.com/adafruit/Adafruit_Python_SSD1306.git')
-    os.system('cd Adafruit_Python_SSD1306 && sudo python3 setup.py install')
-    os.system('rm Adafruit_Python_SSD1306 -r -f')
-    # Installing screenfetch.
-    print('\n\nConfiguring screenfetch.')
-    os.system('sudo cp sf/screenfetch /usr/bin/screenfetch')
-    os.system('sudo chmod 755 /usr/bin/screenfetch')
-    # Configuring important interfaces.
-    print('\n\nConfiguring Audio and Boot configs.')
-    os.system('sudo rm /boot/config.txt -f && sudo cp conf/config.txt /boot/config.txt')
-    os.system('sudo rm /home/pi/.asoundrc -f && sudo cp conf/.asoundrc /home/pi/')
-    # Installing VW Update service files.
-    print('\n\nConfiguring VWUD configs.')
-    os.system('cd /home/pi/ && mkdir VWUD')
-    os.system('sudo cp conf/VWCTRL.py /home/pi/VWUD/VWCTRL.py')
-    os.system('sudo cp conf/UD.ppm /home/pi/VWUD/UD.ppm')
-    os.system('sudo cp conf/cfg.txt /home/pi/VWUD/cfg.txt')
+        cfgfile.close()
+        cfgfile = open(cfgp, 'w')
+        cfgfile.write('1')
+        cfgfile.close()
 
-    cfgfile.close()
-    cfgfile = open(cfgp, 'w')
-    cfgfile.write('1')
-    cfgfile.close()
+        print(Base.OKGREEN,"SETUP HAS BEEN COMPLETE!", Base.END)
+        print(Base.WARNING,"VisorWare will now reboot in 10 seconds!", Base.END)
+        time.sleep(10)
+        os.system('sudo reboot')
+        exit()
 
-    print(Base.OKGREEN,"SETUP HAS BEEN COMPLETE!", Base.END)
-    print(Base.WARNING,"VisorWare will now reboot in 10 seconds!", Base.END)
-    time.sleep(10)
-    os.system('sudo reboot')
-    exit()
+    else:
+        print(Base.FAILRED, 'FIRST TIME SETUP FAILED. NO ACTIVE INTERNET CONNECTION DETECTED.', Base.END)
+        print(Base.WARNING, 'Please set up your internet connection before running this program.', Base.END)
+        exit()
 
 else:
     print("cfgfile good. Continuing...")
@@ -129,11 +136,13 @@ disp.display()
 time.sleep(5)
 
 ###################################
-# APPLICATION-SPECIFIC DEPENDENCIES:
+# APPLICATION-SPECIFIC DEPENDENCIES AND SETUP:
 import aiy.audio
 import aiy.cloudspeech
 import aiy.voicehat
 import signDictionary
+recognizer = aiy.cloudspeech.get_recognizer()
+aiy.audio.get_recorder().start()
 ###################################
 
 ##################################################
@@ -410,7 +419,7 @@ def APPSettings(): # Application function that controls settings.
 
                     disp.image(image)
                     disp.display()
-                    time.sleep(.1)
+                    time.sleep(.05)
 
                 image = Image.open('img/AppExit.ppm').convert('1')
                 disp.image(image)
@@ -428,9 +437,6 @@ def APPSettings(): # Application function that controls settings.
     time.sleep(0.5)
 
 def VoiceEngine(): # Application function for the AcoustiVisor app.
-
-    recognizer = aiy.cloudspeech.get_recognizer()
-    aiy.audio.get_recorder().start()
     while GPIO.input(homeb) == True:
         print('[VOICE-ENGINE] : Listening!')
         image = Image.open('img/VEListening.ppm').convert('1')

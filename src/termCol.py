@@ -1,4 +1,4 @@
-# Terminal-Color module v1.0.
+# Terminal-Formatting module for formatted and colored terminal debug output.
 # Packaged with VisorWare, a project by Liam Z. Charles.
 
 class Base:
@@ -24,7 +24,7 @@ class ANSI:
             FB_G = 48 # Effect on background
         return '\x1b[' + str(FB_G) + ';5;' + str(ColorNo) + 'm'
 
-class Formatting:
+class Format:
     Bold = "\x1b[1m"
     Dim = "\x1b[2m"
     Italic = "\x1b[3m"
@@ -42,7 +42,7 @@ class Formatting:
     Reset_Reverse = "\x1b[27m"
     Reset_Hidden = "\x1b[28m"
 
-class Color:
+class Col:
     # Foreground
     F_Default = "\x1b[39m"
     F_Black = "\x1b[30m"
