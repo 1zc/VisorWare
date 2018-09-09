@@ -56,4 +56,4 @@ os.system('cp cfg.txt /home/pi/VisorWare/src/cfg/cfg.txt')
 try:
     sys.exit(0)
 finally:
-    os.system('sh /home/pi/VisorWare/src/launcher.sh')
+    os.system('sh /home/pi/VisorWare/launcher.sh')
