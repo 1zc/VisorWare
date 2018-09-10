@@ -43,14 +43,14 @@ cfgp = 'cfg/cfg.txt'
 cfgfile = open(cfgp, 'r+')
 
 if cfgfile.read(1) == '0':
+    os.system("clear")
+    print("First time VisorWare is being launched.")
+    print(Base.WARNING,"Running first-time setup. THIS WILL TAKE A VERY LONG TIME!", Base.END)
+    print("")
+    print(Base.FAILRED,"Setup will start in 20 seconds. Please do not abort/interrupt the setup process. If you would like to cancel, please do it in these 15 seconds by hitting CTRL+C.", Base.END)
+    print(Base.BOLD, "A WORKING INTERNET CONNECTION IS REQUIRED!", Base.END)
+    time.sleep(20)
     if VWCoreUtil.connCheck() == True:
-        os.system("clear")
-        print("First time VisorWare is being launched.")
-        print(Base.WARNING,"Running first-time setup. THIS WILL TAKE A VERY LONG TIME!", Base.END)
-        print("")
-        print(Base.FAILRED,"Setup will start in 20 seconds. Please do not abort/interrupt the setup process. If you would like to cancel, please do it in these 15 seconds by hitting CTRL+C.", Base.END)
-        print(Base.BOLD, "A WORKING INTERNET CONNECTION IS REQUIRED!", Base.END)
-        time.sleep(20)
         # Runs the RaspbianDebloater script to get rid of all bloatware.
         print('\n\nRemoving bloat...\n')
         os.system('sudo apt-get --yes remove --purge wolfram-engine sense-hat scratch nuscratch scratch2 sonic-pi minecraft-pi python-minecraftpi penguinspuzzle xpdf libreoffice libreoffice-base libreoffice-base-core libreoffice-base-drivers')
@@ -94,12 +94,12 @@ if cfgfile.read(1) == '0':
         exit()
 
     else:
-        print(Base.FAILRED, 'FIRST TIME SETUP FAILED. NO ACTIVE INTERNET CONNECTION DETECTED.', Base.END)
+        print(Base.FAILRED, '\nFIRST TIME SETUP FAILED. NO ACTIVE INTERNET CONNECTION DETECTED.', Base.END)
         print(Base.WARNING, 'Please set up your internet connection before running this program.', Base.END)
         exit()
 
 else:
-    print("cfgfile good. Continuing...")
+    print("CFG is good. Continuing with startup...")
     cfgfile.close()
 
 import Adafruit_GPIO.SPI as SPI
@@ -130,9 +130,7 @@ disp.display()
 #######################################
 
 print("Launching VisorWare...\n")
-image = Image.open('img/splash.ppm').convert('1')
-disp.image(image)
-disp.display()
+VWCoreUtil.dispimg("img/splash.ppm")
 time.sleep(5)
 
 ###################################
@@ -288,10 +286,7 @@ def APPPower(): # Application function that allows options for power control.
             time.sleep(ButtonPressDelay)
 
     print('[POWER] : Exiting Power options and returning to menu.')
-    image = Image.open('img/AppExit.ppm').convert('1')
-    disp.image(image)
-    disp.display()
-    time.sleep(0.5)
+    VWCoreUtil.dispappexit()
 
 def APPSettings(): # Application function that controls settings.
     SettingsItem1 = 1  # Update
@@ -431,10 +426,7 @@ def APPSettings(): # Application function that controls settings.
             time.sleep(ButtonPressDelay)
 
     print('[SETTINGS] : Exiting Settings and returning to menu.')
-    image = Image.open('img/AppExit.ppm').convert('1')
-    disp.image(image)
-    disp.display()
-    time.sleep(0.5)
+    VWCoreUtil.dispappexit()
 
 def VoiceEngine(): # Application function for the AcoustiVisor app.
     while GPIO.input(homeb) == True:
@@ -452,11 +444,8 @@ def VoiceEngine(): # Application function for the AcoustiVisor app.
             print(Base.WARNING, '[VOICE-ENGINE] : Recognized << "', text, '" >>', Base.END)
             signDictionary.signRender(text)
 
-    image = Image.open('img/AppExit.ppm').convert('1')
-    disp.image(image)
-    disp.display()
-    print("[VOICE-ENGINE] : Quitting Voice-Engine.")
-    time.sleep(0.5)
+    print("[VOICE-ENGINE] : Quitting AcoustiVisor and returning to the main menu.")
+    VWCoreUtil.dispappexit()
 
 #####################################################################
 
