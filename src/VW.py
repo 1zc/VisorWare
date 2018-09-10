@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '0909201810'
+currversion = '1009201810'
 
 ###############################################################################
 #                                                                             #
@@ -182,24 +182,16 @@ def APPPower(): # Application function that allows options for power control.
     PowerExit = 0
     while PowerExit == 0:
         if PowerItem1 == 1:
-            image = Image.open('img/POWERReboot.ppm').convert('1')
-            disp.image(image)
-            disp.display()
+            VWCoreUtil.dispimg("img/POWERReboot.ppm")
 
         elif PowerItem2 == 1:
-            image = Image.open('img/POWERShutdown.ppm').convert('1')
-            disp.image(image)
-            disp.display()
+            VWCoreUtil.dispimg("img/POWERShutdown.ppm")
 
         elif PowerItem3 == 1:
-            image=Image.open('img/POWERQuit.ppm').convert('1')
-            disp.image(image)
-            disp.display()
+            VWCoreUtil.dispimg("img/POWERQuit.ppm")
 
         elif PowerItem4 == 1:
-            image = Image.open('img/ExitToMenu.ppm').convert('1')
-            disp.image(image)
-            disp.display()
+            VWCoreUtil.dispimg("img/ExitToMenu.ppm")
 
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
@@ -253,33 +245,23 @@ def APPPower(): # Application function that allows options for power control.
             print('[INTERFACE] : Button-Press --> HOME')
             if PowerItem1 == 1:
                 print(Base.WARNING, '[POWER] : REBOOTING', Base.END)
-                image = Image.open('img/splash.ppm').convert('1')
-                disp.image(image)
-                disp.display()
+                VWCoreUtil.dispimg("img/splash.ppm")
                 time.sleep(3)
-                disp.clear()
-                disp.display()
+                VWCoreUtil.dispclear()
                 os.system('sudo reboot')
                 exit()
             elif PowerItem2 == 1:
                 print(Base.WARNING, '[POWER] : SHUTTING DOWN', Base.END)
-                image = Image.open('img/splash.ppm').convert('1')
-                disp.image(image)
-                disp.display()
+                VWCoreUtil.dispimg("img/splash.ppm")
                 time.sleep(3)
-                disp.clear()
-                disp.display()
+                VWCoreUtil.dispclear()
                 os.system('sudo halt')
                 exit()
             elif PowerItem3 == 1:
                 print(Base.FAILRED, '[POWER] : Quitting VisorWare.', Base.END)
-                image = Image.open('img/splash.ppm').convert('1')
-                disp.image(image)
-                disp.display()
+                VWCoreUtil.dispimg("img/splash.ppm")
                 time.sleep(3)
-                image = Image.open('img/POWERQuitConsequence.ppm').convert('1')
-                disp.image(image)
-                disp.display()
+                VWCoreUtil.dispimg("img/POWERQuitConsequence.ppm")
                 exit()
             elif PowerItem4 == 1:
                 PowerExit = 1
@@ -287,6 +269,7 @@ def APPPower(): # Application function that allows options for power control.
 
     print('[POWER] : Exiting Power options and returning to menu.')
     VWCoreUtil.dispappexit()
+    time.sleep(0.5)
 
 def APPSettings(): # Application function that controls settings.
     SettingsItem1 = 1  # Update
@@ -297,19 +280,13 @@ def APPSettings(): # Application function that controls settings.
 
     while SettingsExit == 0:
         if SettingsItem1 == 1:
-            image = Image.open('img/SETTINGUpdate.ppm').convert('1')
-            disp.image(image)
-            disp.display()
+            VWCoreUtil.dispimg("img/SETTINGUpdate.ppm")
 
         elif SettingsItem2 == 1:
-            image = Image.open('img/SETTINGStats.ppm').convert('1')
-            disp.image(image)
-            disp.display()
+            VWCoreUtil.dispimg("img/SETTINGStats.ppm")
 
         elif SettingsItem3 == 1:
-            image = Image.open('img/ExitToMenu.ppm').convert('1')
-            disp.image(image)
-            disp.display()
+            VWCoreUtil.dispimg("img/ExitToMenu.ppm")
 
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
@@ -347,9 +324,7 @@ def APPSettings(): # Application function that controls settings.
             if SettingsItem1 == 1:
                 print(Base.WARNING, '[SETTINGS] : Commencing update process.', Base.END)
                 print(Base.WARNING, '[SYSTEM] : DO NOT TURN OFF THE POWER OR ATTEMPT TO INTERRUPT THE UPDATE PROCESS.', Base.END)
-                image = Image.open('img/SETTINGUpdating.ppm').convert('1')
-                disp.image(image)
-                disp.display()
+                VWCoreUtil.dispimg("img/SETTINGUpdating.ppm")
                 print('\n[SYSTEM] : Updating package repositories...\n')
                 os.system('sudo apt-get update')
                 print('\n[SYSTEM] : Installing new packages...\n')
@@ -376,20 +351,17 @@ def APPSettings(): # Application function that controls settings.
                     vmarkfile.close() 
                     print(Base.WARNING, '[SYSTEM] : A new version of the VisorWare software is available. Updating...', Base.END)
                     try:
-                        sys.exit("Shutting down VisorWare for updates.")
+                        print('Shutting down VisorWare for updates.')         
+                        exit()
                     finally:
-                        os.system('cd /home/pi/VWUD && python3 VWCTRL.py')
+                        os.system('cd /home/pi/VWUD && python3 VWCTRL.py')  
 
                 print(Base.WARNING, '[SETTINGS] : Completed Update process. Returning to menu.', Base.END)
-                image = Image.open('img/SETTINGCompUpdate.ppm').convert('1')
-                disp.image(image)
-                disp.display()
+                VWCoreUtil.dispimg("img/SETTINGCompUpdate.ppm")
                 time.sleep(3)
 
             elif SettingsItem2 == 1:
-                image = Image.open('img/AppLaunch.ppm').convert('1')
-                disp.image(image)
-                disp.display()
+                VWCoreUtil.dispappstart()
                 time.sleep(0.5)
                 print(Base.WARNING, '[SETTINGS] : Showing system stats.', Base.END)
                 image = Image.new('1', (128, 64))
@@ -415,10 +387,7 @@ def APPSettings(): # Application function that controls settings.
                     disp.image(image)
                     disp.display()
                     time.sleep(.05)
-
-                image = Image.open('img/AppExit.ppm').convert('1')
-                disp.image(image)
-                disp.display()
+                VWCoreUtil.dispappexit()
                 time.sleep(0.5)
 
             elif SettingsItem3 == 1:
@@ -427,17 +396,14 @@ def APPSettings(): # Application function that controls settings.
 
     print('[SETTINGS] : Exiting Settings and returning to menu.')
     VWCoreUtil.dispappexit()
+    time.sleep(0.5)
 
 def VoiceEngine(): # Application function for the AcoustiVisor app.
     while GPIO.input(homeb) == True:
         print('[VOICE-ENGINE] : Listening!')
-        image = Image.open('img/VEListening.ppm').convert('1')
-        disp.image(image)
-        disp.display()
+        VWCoreUtil.dispimg("img/VEListening.ppm")
         text = recognizer.recognize()
-        image = Image.open('img/VEIdle.ppm').convert('1')
-        disp.image(image)
-        disp.display()
+        VWCoreUtil.dispimg("img/VEIdle.ppm")
         if text is None:
                 print('[VOICE-ENGINE] : Input was unrecognizable.')
         else:
@@ -446,6 +412,7 @@ def VoiceEngine(): # Application function for the AcoustiVisor app.
 
     print("[VOICE-ENGINE] : Quitting AcoustiVisor and returning to the main menu.")
     VWCoreUtil.dispappexit()
+    time.sleep(0.5)
 
 #####################################################################
 
@@ -454,19 +421,13 @@ MenuItem1 = 1
 
 while True:
     if MenuItem1 == 1:
-        image = Image.open('img/Acoustivisor.ppm').convert('1')
-        disp.image(image)
-        disp.display()
+        VWCoreUtil.dispimg("img/Acoustivisor.ppm")
 
     elif MenuItem2 == 1:
-        image = Image.open('img/Settings.ppm').convert('1')
-        disp.image(image)
-        disp.display()
+        VWCoreUtil.dispimg("img/Settings.ppm")
 
     elif MenuItem3 == 1:
-        image = Image.open('img/Power.ppm').convert('1')
-        disp.image(image)
-        disp.display()
+        VWCoreUtil.dispimg("img/Power.ppm")
 
 
     if GPIO.input(leftb) == False:
@@ -505,23 +466,17 @@ while True:
         print('[INTERFACE] : Button-Press --> HOME')
         if MenuItem1 == 1:
             print(Base.WARNING, "[INTERFACE] : Launching Acoustivisor.", Base.END)
-            image = Image.open('img/AppLaunch.ppm').convert('1')
-            disp.image(image)
-            disp.display()
+            VWCoreUtil.dispappstart()
             time.sleep(0.5)  
             VoiceEngine()
         elif MenuItem2 == 1:
             print(Base.WARNING, "[INTERFACE] : Launching Settings.", Base.END)
-            image = Image.open('img/AppLaunch.ppm').convert('1')
-            disp.image(image)
-            disp.display()
+            VWCoreUtil.dispappstart()
             time.sleep(0.5)
             APPSettings()
         elif MenuItem3 == 1:
             print(Base.WARNING, "[INTERFACE] : Launching PowerSettings.", Base.END)
-            image = Image.open('img/AppLaunch.ppm').convert('1')
-            disp.image(image)
-            disp.display()
+            VWCoreUtil.dispappstart()
             time.sleep(0.5)
             APPPower()
         time.sleep(ButtonPressDelay)

@@ -37,11 +37,19 @@ def connCheck(): # Checks for availability of internet connection.
         pass
     return False
 
+def dispclear():
+    disp.clear()
+    disp.display()
+
 def dispappexit():
     image = Image.open('img/AppExit.ppm').convert('1')
     disp.image(image)
     disp.display()
-    time.sleep(0.5)
+
+def dispappstart():
+    image = Image.open('img/AppLaunch.ppm').convert('1')
+    disp.image(image)
+    disp.display()
 
 def dispimg(img):
     image = Image.open(img).convert('1')
