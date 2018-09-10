@@ -10,13 +10,8 @@
 
 #                     VisorWare CTRL || Built for Visor2.0                    #
 
-
-
-import time
-import RPi.GPIO as GPIO
 import os
 import subprocess
-import sys
 
 print("Installing updates...\n")
 

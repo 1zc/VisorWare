@@ -2,6 +2,7 @@
 # Packaged with VisorWare, a project by Liam Z. Charles.
 
 import socket
+
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 

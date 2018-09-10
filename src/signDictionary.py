@@ -35,114 +35,85 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
+import VWCoreUtil
 
+
+#######################################
+# Display Initialization. DO NOT ALTER!
 RST = 24
 DC = 23
 SPI_PORT = 0
 SPI_DEVICE = 0
-
 disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
 disp.begin()
 width = disp.width
 height = disp.height
-GPIO.setmode(GPIO.BCM)
+padding = -2
+top = padding
+bottom = height=padding
+x = 0
+font = ImageFont.load_default()
+#
+#######################################
 
 def hello():
-    image = Image.open('dictionary/Hello1.ppm').convert('1')
-    disp.image(image)
-    disp.display()
-    time.sleep(0.3)
-    image = Image.open('dictionary/Hello2.ppm').convert('1')
-    disp.image(image)
-    disp.display()
-    time.sleep(0.3)
-    image = Image.open('dictionary/Hello3.ppm').convert('1')
-    disp.image(image)
-    disp.display()
-    time.sleep(0.3)
-    image = Image.open('dictionary/Hello4.ppm').convert('1')
-    disp.image(image)
-    disp.display()
-    time.sleep(0.3)
-    image = Image.open('dictionary/Hello5.ppm').convert('1')
-    disp.image(image)
-    disp.display()
-    time.sleep(0.3)
-    image = Image.open('dictionary/Hello6.ppm').convert('1')
-    disp.image(image)
-    disp.display()
-    time.sleep(0.3)
-    image = Image.open('dictionary/Hello7.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/Hello1.ppm")
+    time.sleep(0.15)
+    VWCoreUtil.dispimg("dictionary/Hello2.ppm")
+    time.sleep(0.15)
+    VWCoreUtil.dispimg("dictionary/Hello3.ppm")
+    time.sleep(0.15)
+    VWCoreUtil.dispimg("dictionary/Hello4.ppm")
+    time.sleep(0.15)
+    VWCoreUtil.dispimg("dictionary/Hello5.ppm")
+    time.sleep(0.15)
+    VWCoreUtil.dispimg("dictionary/Hello6.ppm")
+    time.sleep(0.15)
+    VWCoreUtil.dispimg("dictionary/Hello7.ppm")
     time.sleep(2.5)
     disp.clear()
     disp.display()
 
 def yes():
-    image = Image.open('dictionary/Yes1.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/Yes1.ppm")
     time.sleep(1)
-    image = Image.open('dictionary/Yes2.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/Yes2.ppm")
     time.sleep(2.5)
     disp.clear()
     disp.display()
 
 def how():
-    image = Image.open('dictionary/How1.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/How1.ppm")
     time.sleep(0.3)
-    image = Image.open('dictionary/How2.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/How1.ppm")
     time.sleep(2.5)
     disp.clear()
     disp.display()
 
 def you():
-    image = Image.open('dictionary/You1.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/You1.ppm")
     time.sleep(0.3)
-    image = Image.open('dictionary/You2.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/You2.ppm")
     time.sleep(0.3)
-    image = Image.open('dictionary/You3.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/You3.ppm")
     time.sleep(0.3)
-    image = Image.open('dictionary/You4.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/You4.ppm")
     time.sleep(2.5)
     disp.clear()
     disp.display()
 
 def no():
-    image = Image.open('dictionary/No1.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/No1.ppm")
     time.sleep(0.3)
-    image = Image.open('dictionary/No2.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/No1.ppm")
     time.sleep(2.5)
     disp.clear()
     disp.display()
 
 def friend():
-    image = Image.open('dictionary/Friend1.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/Friend1.ppm")
     time.sleep(0.3)
-    image = Image.open('dictionary/Friend2.ppm').convert('1')
-    disp.image(image)
-    disp.display()
+    VWCoreUtil.dispimg("dictionary/Friend1.ppm")
     time.sleep(2.5)
     disp.clear()
     disp.display()

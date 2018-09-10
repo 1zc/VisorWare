@@ -34,7 +34,6 @@ import time
 import RPi.GPIO as GPIO
 import os
 import subprocess
-import sys
 from termCol import *
 import VWCoreUtil
 
@@ -171,7 +170,7 @@ MenuItem4 = 0  # BLANK AND UNUSED.
 MenuItem5 = 0  # BLANK AND UNUSED.
 MenuItem6 = 0  # BLANK AND UNUSED
 
-ButtonPressDelay = 0.2
+ButtonPressDelay = 0.2 # Latency of registering button presses.
 
 # APPLICATIONS: #####################################################
 def APPPower(): # Application function that allows options for power control.
@@ -329,9 +328,8 @@ def APPSettings(): # Application function that controls settings.
                 os.system('sudo apt-get update')
                 print('\n[SYSTEM] : Installing new packages...\n')
                 os.system('sudo apt-get --yes upgrade')
-                # !!! TO DO: ADD VisorWare update system. !!! 
                 #
-                # Make cfg/vmark.txt and use this format to mark versions: DDMMYYYYxy
+                # vmark.txt uses the following format: DDMMYYYYxy
                 #       where, DD = Date (01, 11, 31,)
                 #              MM = Month (01, 12)
                 #              YYYY = Year (2018)
@@ -386,7 +384,7 @@ def APPSettings(): # Application function that controls settings.
 
                     disp.image(image)
                     disp.display()
-                    time.sleep(.05)
+                    time.sleep(.03)
                 VWCoreUtil.dispappexit()
                 time.sleep(0.5)
 
