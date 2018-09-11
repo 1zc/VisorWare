@@ -1,4 +1,4 @@
-# VWCoreUtil - contains utility functions.
+# VWUtils - contains utility functions.
 # Packaged with VisorWare, a project by Liam Z. Charles.
 
 import socket

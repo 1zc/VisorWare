@@ -35,7 +35,7 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-import VWCoreUtil
+import VWUtils
 
 
 #######################################
@@ -57,63 +57,63 @@ font = ImageFont.load_default()
 #######################################
 
 def hello():
-    VWCoreUtil.dispimg("dictionary/Hello1.ppm")
+    VWUtils.dispimg("dictionary/Hello1.ppm")
     time.sleep(0.15)
-    VWCoreUtil.dispimg("dictionary/Hello2.ppm")
+    VWUtils.dispimg("dictionary/Hello2.ppm")
     time.sleep(0.15)
-    VWCoreUtil.dispimg("dictionary/Hello3.ppm")
+    VWUtils.dispimg("dictionary/Hello3.ppm")
     time.sleep(0.15)
-    VWCoreUtil.dispimg("dictionary/Hello4.ppm")
+    VWUtils.dispimg("dictionary/Hello4.ppm")
     time.sleep(0.15)
-    VWCoreUtil.dispimg("dictionary/Hello5.ppm")
+    VWUtils.dispimg("dictionary/Hello5.ppm")
     time.sleep(0.15)
-    VWCoreUtil.dispimg("dictionary/Hello6.ppm")
+    VWUtils.dispimg("dictionary/Hello6.ppm")
     time.sleep(0.15)
-    VWCoreUtil.dispimg("dictionary/Hello7.ppm")
+    VWUtils.dispimg("dictionary/Hello7.ppm")
     time.sleep(2.5)
     disp.clear()
     disp.display()
 
 def yes():
-    VWCoreUtil.dispimg("dictionary/Yes1.ppm")
+    VWUtils.dispimg("dictionary/Yes1.ppm")
     time.sleep(1)
-    VWCoreUtil.dispimg("dictionary/Yes2.ppm")
+    VWUtils.dispimg("dictionary/Yes2.ppm")
     time.sleep(2.5)
     disp.clear()
     disp.display()
 
 def how():
-    VWCoreUtil.dispimg("dictionary/How1.ppm")
+    VWUtils.dispimg("dictionary/How1.ppm")
     time.sleep(0.3)
-    VWCoreUtil.dispimg("dictionary/How1.ppm")
+    VWUtils.dispimg("dictionary/How1.ppm")
     time.sleep(2.5)
     disp.clear()
     disp.display()
 
 def you():
-    VWCoreUtil.dispimg("dictionary/You1.ppm")
+    VWUtils.dispimg("dictionary/You1.ppm")
     time.sleep(0.3)
-    VWCoreUtil.dispimg("dictionary/You2.ppm")
+    VWUtils.dispimg("dictionary/You2.ppm")
     time.sleep(0.3)
-    VWCoreUtil.dispimg("dictionary/You3.ppm")
+    VWUtils.dispimg("dictionary/You3.ppm")
     time.sleep(0.3)
-    VWCoreUtil.dispimg("dictionary/You4.ppm")
+    VWUtils.dispimg("dictionary/You4.ppm")
     time.sleep(2.5)
     disp.clear()
     disp.display()
 
 def no():
-    VWCoreUtil.dispimg("dictionary/No1.ppm")
+    VWUtils.dispimg("dictionary/No1.ppm")
     time.sleep(0.3)
-    VWCoreUtil.dispimg("dictionary/No1.ppm")
+    VWUtils.dispimg("dictionary/No1.ppm")
     time.sleep(2.5)
     disp.clear()
     disp.display()
 
 def friend():
-    VWCoreUtil.dispimg("dictionary/Friend1.ppm")
+    VWUtils.dispimg("dictionary/Friend1.ppm")
     time.sleep(0.3)
-    VWCoreUtil.dispimg("dictionary/Friend1.ppm")
+    VWUtils.dispimg("dictionary/Friend1.ppm")
     time.sleep(2.5)
     disp.clear()
     disp.display()
