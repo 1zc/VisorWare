@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '1009201810'
+currversion = '1509201810'
 
 ###############################################################################
 #                                                                             #
@@ -63,9 +63,7 @@ if cfgfile.read(1) == '0':
         # Installing VisorWare dependencies.
         print('\n\nInstalling VisorWare dependencies...\n')
         os.system('sudo apt-get --yes --force-yes install python-imaging python-smbus git')
-        os.system('git clone https://github.com/adafruit/Adafruit_Python_SSD1306.git')
-        os.system('cd Adafruit_Python_SSD1306 && sudo python3 setup.py install')
-        os.system('rm Adafruit_Python_SSD1306 -r -f')
+        os.system('sudo sh conf/dispdriver.sh')
         # Installing screenfetch.
         print('\n\nConfiguring screenfetch.')
         os.system('sudo cp sf/screenfetch /usr/bin/screenfetch')
