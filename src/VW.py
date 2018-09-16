@@ -405,9 +405,9 @@ def APPSettings(): # Application function that controls settings.
     time.sleep(0.5)
 
 def APPWeather():
+    print("Starting live weather stream...")
     while GPIO.input(homeb) == True:
-        font = ImageFont.load_default()
-        print("Fetching weather data.....")
+        font = ImageFont.load_default()        
         url = "http://api.openweathermap.org/data/2.5/weather?id=524901&APPID=6d711345f94972e7ac62fc8f43cc648c&lat=24.19&lon=55.76"
         fetched_data = requests.get(url)
         fetched_data_json = fetched_data.json()
@@ -415,7 +415,6 @@ def APPWeather():
         current_tempK = main_data.get('temp')
         current_humidity = main_data.get('humidity')
         current_temp = round(current_tempK - 273, 1)
-        print("Required weather data has been fetched.")
         image = Image.new('1', (128, 64))
         draw = ImageDraw.Draw(image)
         draw.rectangle((0,0,128,64), outline=0, fill=0)
