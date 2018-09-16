@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '1509201810'
+currversion = '1609201810'
 
 ###############################################################################
 #                                                                             #
@@ -34,6 +34,8 @@ import time
 import RPi.GPIO as GPIO
 import os
 import subprocess
+import requests
+import math
 from termCol import *
 import VWUtils
 
@@ -157,10 +159,17 @@ print ("                     -----------------------------------")
 print (ANSI.Color(120),"                         L I A M  Z.  C H A R L E S", ANSI.END)                          
 print ("                     -----------------------------------") 
 
-print ("\n\n\nVisorWare.\n\n")
+print(Base.OKGREEN,'____   ____.__                    __      __                        ', Base.END)
+print(Base.OKGREEN,'\   \ /   /|__| _________________/  \    /  \_____ _______   ____   ', Base.END)
+print(Base.OKGREEN,' \   Y   / |  |/  ___/  _ \_  __ \   \/\/   /\__  \\_  __ \_/ __ \  ', Base.END)
+print(Base.OKGREEN,'  \     /  |  |\___ (  <_> )  | \/\        /  / __ \|  | \/\  ___/  ', Base.END)
+print(Base.OKGREEN,'   \___/   |__/____  >____/|__|    \__/\  /  (____  /__|    \___  > ', Base.END)
+print(Base.OKGREEN,'                   \/                   \/        \/            \/  ', Base.END)
 
-print (Base.OKGREEN,"Version 1.0 | Build ",currversion , Base.END)
+print (Base.OKGREEN,"\nVersion 1.0 | Build ",currversion , Base.END)
+print (Base.FAILRED,"This is a special demo version of VisorWare. Updates can break build, please proceed with caution.", Base.END)
 
+# Core Variables ####################################################
 MenuItem1 = 0  # Voice-Engine.
 MenuItem2 = 0  # Settings.
 MenuItem3 = 0  # Power.
@@ -169,6 +178,7 @@ MenuItem5 = 0  # BLANK AND UNUSED.
 MenuItem6 = 0  # BLANK AND UNUSED
 
 ButtonPressDelay = 0.2 # Latency of registering button presses.
+#####################################################################
 
 # APPLICATIONS: #####################################################
 def APPPower(): # Application function that allows options for power control.
@@ -391,6 +401,32 @@ def APPSettings(): # Application function that controls settings.
             time.sleep(ButtonPressDelay)
 
     print('[SETTINGS] : Exiting Settings and returning to menu.')
+    VWUtils.dispappexit()
+    time.sleep(0.5)
+
+def APPWeather():
+    while GPIO.input(homeb) == True:
+        font = ImageFont.load_default()
+        print("Fetching weather data.....")
+        url = "http://api.openweathermap.org/data/2.5/weather?id=524901&APPID=6d711345f94972e7ac62fc8f43cc648c&lat=24.19&lon=55.76"
+        fetched_data = requests.get(url)
+        fetched_data_json = fetched_data.json()
+        main_data = fetched_data_json.get('main')
+        current_tempK = main_data.get('temp')
+        current_humidity = main_data.get('humidity')
+        current_temp = round(current_tempK - 273, 1)
+        print("Required weather data has been fetched.")
+        image = Image.new('1', (128, 64))
+        draw = ImageDraw.Draw(image)
+        draw.rectangle((0,0,128,64), outline=0, fill=0)
+        draw.text((x, top),       "Current Temp: ",  font=font, fill=255)
+        draw.text((x, top+8),     (str(current_temp)),  font=font, fill=255)
+        draw.text((x, top+16),    "Humidity: ",  font=font, fill=255)
+        draw.text((x, top+25),    (str(current_humidity)),  font=font, fill=255)
+        disp.image(image)
+        disp.display()
+
+    print("[WEATHER] : Quitting Weather and returning to the main menu.")
     VWUtils.dispappexit()
     time.sleep(0.5)
 

@@ -1,5 +1,5 @@
 # Sign-Dictionary module v1.0.
-# Packaged with VisorWare, a project by Liam Z. Charles.
+# Packaged with a demo version of VisorWare, a project by Liam Z. Charles.
 
 
 print('Loading dictionary of signs...')
@@ -56,29 +56,32 @@ font = ImageFont.load_default()
 #
 #######################################
 
+
+EndDelay = 1.5
+
 def hello():
     VWUtils.dispimg("dictionary/Hello1.ppm")
-    time.sleep(0.15)
+    time.sleep(0.05)
     VWUtils.dispimg("dictionary/Hello2.ppm")
-    time.sleep(0.15)
+    time.sleep(0.05)
     VWUtils.dispimg("dictionary/Hello3.ppm")
-    time.sleep(0.15)
+    time.sleep(0.05)
     VWUtils.dispimg("dictionary/Hello4.ppm")
-    time.sleep(0.15)
+    time.sleep(0.05)
     VWUtils.dispimg("dictionary/Hello5.ppm")
-    time.sleep(0.15)
+    time.sleep(0.05)
     VWUtils.dispimg("dictionary/Hello6.ppm")
-    time.sleep(0.15)
+    time.sleep(0.05)
     VWUtils.dispimg("dictionary/Hello7.ppm")
-    time.sleep(2.5)
+    time.sleep(EndDelay)
     disp.clear()
     disp.display()
 
 def yes():
     VWUtils.dispimg("dictionary/Yes1.ppm")
-    time.sleep(1)
+    time.sleep(0.5)
     VWUtils.dispimg("dictionary/Yes2.ppm")
-    time.sleep(2.5)
+    time.sleep(EndDelay)
     disp.clear()
     disp.display()
 
@@ -86,19 +89,19 @@ def how():
     VWUtils.dispimg("dictionary/How1.ppm")
     time.sleep(0.3)
     VWUtils.dispimg("dictionary/How1.ppm")
-    time.sleep(2.5)
+    time.sleep(EndDelay)
     disp.clear()
     disp.display()
 
 def you():
     VWUtils.dispimg("dictionary/You1.ppm")
-    time.sleep(0.3)
+    time.sleep(0.05)
     VWUtils.dispimg("dictionary/You2.ppm")
-    time.sleep(0.3)
+    time.sleep(0.05)
     VWUtils.dispimg("dictionary/You3.ppm")
-    time.sleep(0.3)
+    time.sleep(0.05)
     VWUtils.dispimg("dictionary/You4.ppm")
-    time.sleep(2.5)
+    time.sleep(EndDelay)
     disp.clear()
     disp.display()
 
@@ -106,7 +109,7 @@ def no():
     VWUtils.dispimg("dictionary/No1.ppm")
     time.sleep(0.3)
     VWUtils.dispimg("dictionary/No1.ppm")
-    time.sleep(2.5)
+    time.sleep(EndDelay)
     disp.clear()
     disp.display()
 
@@ -114,7 +117,7 @@ def friend():
     VWUtils.dispimg("dictionary/Friend1.ppm")
     time.sleep(0.3)
     VWUtils.dispimg("dictionary/Friend1.ppm")
-    time.sleep(2.5)
+    time.sleep(EndDelay)
     disp.clear()
     disp.display()
 
