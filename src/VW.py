@@ -173,7 +173,7 @@ print (Base.FAILRED,"This is a special demo version of VisorWare. Updates can br
 MenuItem1 = 0  # Voice-Engine.
 MenuItem2 = 0  # Settings.
 MenuItem3 = 0  # Power.
-MenuItem4 = 0  # BLANK AND UNUSED.
+MenuItem4 = 0  # Weather App.
 MenuItem5 = 0  # BLANK AND UNUSED.
 MenuItem6 = 0  # BLANK AND UNUSED
 
@@ -461,21 +461,32 @@ while True:
     elif MenuItem3 == 1:
         VWUtils.dispimg("img/Power.ppm")
 
+    elif MenuItem4 == 1:
+        VWUtils.dispimg("img/Weather.ppm")
+
 
     if GPIO.input(leftb) == False:
         print('[INTERFACE] : Button-Press --> LEFT')
         if MenuItem1 == 1:
-            MenuItem3 = 1
+            MenuItem4 = 1
+            MenuItem3 = 0
             MenuItem2 = 0
-            MenuItem1 = 0
+            MenuItem1 = 0            
         elif MenuItem2 == 1:
             MenuItem1 = 1
             MenuItem3 = 0
-            MenuItem2 = 0
+            MenuItem4 = 0
+            MenuItem2 = 0            
         elif MenuItem3 == 1:
             MenuItem2 = 1
             MenuItem1 = 0
-            MenuItem3 = 0
+            MenuItem4 = 0
+            MenuItem3 = 0            
+        elif MenuItem4 == 1:
+            MenuItem3 = 1
+            MenuItem2 = 0
+            MenuItem1 = 0
+            MenuItem4 = 0
         time.sleep(ButtonPressDelay)
 
     elif GPIO.input(rightb) == False:
@@ -483,15 +494,23 @@ while True:
         if MenuItem1 == 1:
             MenuItem2 = 1
             MenuItem3 = 0
+            MenuItem4 = 0
             MenuItem1 = 0
         elif MenuItem2 == 1:
             MenuItem3 = 1
             MenuItem1 = 0
+            MenuItem4 = 0
             MenuItem2 = 0
         elif MenuItem3 == 1:
+            MenuItem4 = 1
+            MenuItem1 = 0
+            MenuItem2 = 0
+            MenuItem3 = 0
+        elif MenuItem4 == 1:
             MenuItem1 = 1
             MenuItem2 = 0
             MenuItem3 = 0
+            MenuItem4 = 0
         time.sleep(ButtonPressDelay)
 
     elif GPIO.input(homeb) == False:
@@ -511,4 +530,9 @@ while True:
             VWUtils.dispappstart()
             time.sleep(0.5)
             APPPower()
+        elif MenuItem4 == 1:
+            print(Base.WARNING, "[INTERFACE] : Launching Weather.", Base.END)
+            VWUtils.dispappstart()
+            time.sleep(0.5)
+            APPWeather()
         time.sleep(ButtonPressDelay)
