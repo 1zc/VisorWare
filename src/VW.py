@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '1609201810'
+currversion = '1809201810'
 
 ###############################################################################
 #                                                                             #
@@ -178,6 +178,8 @@ MenuItem5 = 0  # BLANK AND UNUSED.
 MenuItem6 = 0  # BLANK AND UNUSED
 
 ButtonPressDelay = 0.2 # Latency of registering button presses.
+MenuItem1 = 1
+LanguageSet = 'EN'
 #####################################################################
 
 # APPLICATIONS: #####################################################
@@ -281,9 +283,11 @@ def APPPower(): # Application function that allows options for power control.
 def APPSettings(): # Application function that controls settings.
     SettingsItem1 = 1  # Update
     SettingsItem2 = 0  # System Stats
-    SettingsItem3 = 0  # Exit to menu
-    SettingsItem4 = 0  # BLANK AND UNUSED.
+    SettingsItem3 = 0  # Language
+    SettingsItem4 = 0  # Exit to menu
+    SettingsItem5 = 0  # BLANK AND UNUSED.
     SettingsExit = 0
+    global LanguageSet
 
     while SettingsExit == 0:
         if SettingsItem1 == 1:
@@ -291,39 +295,62 @@ def APPSettings(): # Application function that controls settings.
 
         elif SettingsItem2 == 1:
             VWUtils.dispimg("img/SETTINGStats.ppm")
-
+     
         elif SettingsItem3 == 1:
+            if LanguageSet == 'EN':
+                VWUtils.dispimg("img/SETTINGLanguageEN.ppm")
+            elif LanguageSet == 'AR':
+                VWUtils.dispimg("img/SETTINGLanguageAR.ppm")
+
+        elif SettingsItem4 == 1:
             VWUtils.dispimg("img/ExitToMenu.ppm")
 
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
             if SettingsItem1 == 1:
-                SettingsItem3 = 1
+                SettingsItem4 = 1
+                SettingsItem3 = 0
                 SettingsItem2 = 0
                 SettingsItem1 = 0
             elif SettingsItem2 == 1:
                 SettingsItem1 = 1
                 SettingsItem3 = 0
+                SettingsItem4 = 0
                 SettingsItem2 = 0
             elif SettingsItem3 == 1:
                 SettingsItem2 = 1
                 SettingsItem1 = 0
+                SettingsItem4 = 0
                 SettingsItem3 = 0
+            elif SettingsItem4 == 1:
+                SettingsItem3 = 1
+                SettingsItem2 = 0
+                SettingsItem1 = 0
+                SettingsItem4 = 0
             time.sleep(ButtonPressDelay)
 
         elif GPIO.input(rightb) == False:
             print('[INTERFACE] : Button-Press --> RIGHT')
             if SettingsItem1 == 1:
                 SettingsItem2 = 1
+                SettingsItem4 = 0
+                SettingsItem3 = 0
                 SettingsItem1 = 0
             elif SettingsItem2 == 1:
                 SettingsItem3 = 1
                 SettingsItem1 = 0
+                SettingsItem4 = 0
                 SettingsItem2 = 0
             elif SettingsItem3 == 1:
+                SettingsItem4 = 1
+                SettingsItem1 = 0
+                SettingsItem2 = 0
+                SettingsItem3 = 0
+            elif SettingsItem4 == 1:
                 SettingsItem1 = 1
                 SettingsItem2 = 0
                 SettingsItem3 = 0
+                SettingsItem4 = 0
             time.sleep(ButtonPressDelay)
 
         elif GPIO.input(homeb) == False:
@@ -397,6 +424,11 @@ def APPSettings(): # Application function that controls settings.
                 time.sleep(0.5)
 
             elif SettingsItem3 == 1:
+                VWUtils.dispappstart()
+                time.sleep(0.5)
+                print(Base.WARNING, '[SETTINGS] : In development.', Base.END)
+
+            elif SettingsItem4 == 1:
                 SettingsExit = 1
             time.sleep(ButtonPressDelay)
 
@@ -418,10 +450,8 @@ def APPWeather():
         image = Image.new('1', (128, 64))
         draw = ImageDraw.Draw(image)
         draw.rectangle((0,0,128,64), outline=0, fill=0)
-        draw.text((x, top),       "Current Temp: ",  font=font, fill=255)
-        draw.text((x, top+8),     (str(current_temp)),  font=font, fill=255)
-        draw.text((x, top+16),    "Humidity: ",  font=font, fill=255)
-        draw.text((x, top+25),    (str(current_humidity)),  font=font, fill=255)
+        draw.text((x, top),       "Temperature: " + (str(current_temp)),  font=font, fill=255)
+        draw.text((x, top+8),    "Humidity: " + (str(current_humidity)),  font=font, fill=255)
         disp.image(image)
         disp.display()
 
@@ -448,7 +478,6 @@ def VoiceEngine(): # Application function for the AcoustiVisor app.
 #####################################################################
 
 print("[INTERFACE] : Main Menu is live.")
-MenuItem1 = 1
 
 while True:
     if MenuItem1 == 1:
