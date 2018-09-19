@@ -157,6 +157,10 @@ GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 ##################################################
 
 os.system('clear')
+print("VisorWare  Copyright (C) 2018  Liam Z. Charles")
+print("This program comes with ABSOLUTELY NO WARRANTY.")
+print("This is free software, and you are welcome to redistribute it")
+print("under certain conditions\n\n")
 print ("                     -----------------------------------")
 print (ANSI.Color(120),"                         L I A M  Z.  C H A R L E S", ANSI.END)                          
 print ("                     -----------------------------------") 
