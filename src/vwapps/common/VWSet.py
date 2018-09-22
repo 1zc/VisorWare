@@ -44,7 +44,7 @@ GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #
 ##################################################
 
-def SettingsInterface():
+def SettingsInterface(LanguageSet):
     ButtonPressDelay = 0.2
     SettingsItem1 = 1  # Update
     SettingsItem2 = 0  # System Stats
@@ -52,7 +52,6 @@ def SettingsInterface():
     SettingsItem4 = 0  # Exit to menu
     SettingsItem5 = 0  # BLANK AND UNUSED.
     SettingsExit = 0
-    global LanguageSet
 
     while SettingsExit == 0:
         if SettingsItem1 == 1:

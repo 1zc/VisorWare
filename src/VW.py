@@ -293,6 +293,7 @@ def APPPower(): # Application function that allows options for power control.
     time.sleep(0.5)
 
 def APPSettings(): # Application function that controls settings.
+    global LanguageSet
     vwapps.common.VWSet.SettingsInterface()
 
     print('[SETTINGS] : Exiting Settings and returning to the main menu.')
