@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '1909201810'
+currversion = '2209201810'
 
 #####################################################################################
 #                                                                                   #
@@ -146,7 +146,7 @@ aiy.audio.get_recorder().start()
 
 ###################################
 # APPLICATION IMPORTS:
-#from vwapps.common.VWSet import *
+import vwapps.common.VWSet
 import vwapps.pkgs.VWWeather
 ###################################
 
@@ -182,7 +182,7 @@ print (Base.OKGREEN,"\nVersion 1.0 | Build ",currversion , Base.END)
 print (Base.FAILRED,"This is a special demo version of VisorWare. Updates can break build, please proceed with caution.", Base.END)
 
 # Core Variables ####################################################
-MenuItem1 = 0  # Voice-Engine.
+MenuItem1 = 0  # AcoustiVisor
 MenuItem2 = 0  # Settings.
 MenuItem3 = 0  # Power.
 MenuItem4 = 0  # Weather App.
@@ -293,171 +293,20 @@ def APPPower(): # Application function that allows options for power control.
     time.sleep(0.5)
 
 def APPSettings(): # Application function that controls settings.
-    SettingsItem1 = 1  # Update
-    SettingsItem2 = 0  # System Stats
-    SettingsItem3 = 0  # Language
-    SettingsItem4 = 0  # Exit to menu
-    SettingsItem5 = 0  # BLANK AND UNUSED.
-    SettingsExit = 0
-    global LanguageSet
+    vwapps.common.VWSet.SettingsInterface()
 
-    while SettingsExit == 0:
-        if SettingsItem1 == 1:
-            VWUtils.dispimg("img/SETTINGUpdate.ppm")
-
-        elif SettingsItem2 == 1:
-            VWUtils.dispimg("img/SETTINGStats.ppm")
-     
-        elif SettingsItem3 == 1:
-            if LanguageSet == 'EN':
-                VWUtils.dispimg("img/SETTINGLanguageEN.ppm")
-            elif LanguageSet == 'AR':
-                VWUtils.dispimg("img/SETTINGLanguageAR.ppm")
-
-        elif SettingsItem4 == 1:
-            VWUtils.dispimg("img/ExitToMenu.ppm")
-
-        if GPIO.input(leftb) == False:
-            print('[INTERFACE] : Button-Press --> LEFT')
-            if SettingsItem1 == 1:
-                SettingsItem4 = 1
-                SettingsItem3 = 0
-                SettingsItem2 = 0
-                SettingsItem1 = 0
-            elif SettingsItem2 == 1:
-                SettingsItem1 = 1
-                SettingsItem3 = 0
-                SettingsItem4 = 0
-                SettingsItem2 = 0
-            elif SettingsItem3 == 1:
-                SettingsItem2 = 1
-                SettingsItem1 = 0
-                SettingsItem4 = 0
-                SettingsItem3 = 0
-            elif SettingsItem4 == 1:
-                SettingsItem3 = 1
-                SettingsItem2 = 0
-                SettingsItem1 = 0
-                SettingsItem4 = 0
-            time.sleep(ButtonPressDelay)
-
-        elif GPIO.input(rightb) == False:
-            print('[INTERFACE] : Button-Press --> RIGHT')
-            if SettingsItem1 == 1:
-                SettingsItem2 = 1
-                SettingsItem4 = 0
-                SettingsItem3 = 0
-                SettingsItem1 = 0
-            elif SettingsItem2 == 1:
-                SettingsItem3 = 1
-                SettingsItem1 = 0
-                SettingsItem4 = 0
-                SettingsItem2 = 0
-            elif SettingsItem3 == 1:
-                SettingsItem4 = 1
-                SettingsItem1 = 0
-                SettingsItem2 = 0
-                SettingsItem3 = 0
-            elif SettingsItem4 == 1:
-                SettingsItem1 = 1
-                SettingsItem2 = 0
-                SettingsItem3 = 0
-                SettingsItem4 = 0
-            time.sleep(ButtonPressDelay)
-
-        elif GPIO.input(homeb) == False:
-            print('[INTERFACE] : Button-Press --> HOME')
-            if SettingsItem1 == 1:
-                print(Base.WARNING, '[SETTINGS] : Commencing update process.', Base.END)
-                print(Base.WARNING, '[SYSTEM] : DO NOT TURN OFF THE POWER OR ATTEMPT TO INTERRUPT THE UPDATE PROCESS.', Base.END)
-                VWUtils.dispimg("img/SETTINGUpdating.ppm")
-                print('\n[SYSTEM] : Updating package repositories...\n')
-                os.system('sudo apt-get update')
-                print('\n[SYSTEM] : Installing new packages...\n')
-                os.system('sudo apt-get --yes upgrade')
-                #
-                # vmark.txt uses the following format: DDMMYYYYxy
-                #       where, DD = Date (01, 11, 31,)
-                #              MM = Month (01, 12)
-                #              YYYY = Year (2018)
-                #              xy = Version No. (v1.2, where x=1,y=2.)
-                #
-                print('\n\n[SYSTEM] : Removing old vmark file...')
-                os.system('sudo rm cfg/vmark.txt -f')
-                print('\n[SYSTEM] : Getting new vmark file...')
-                os.system('cd cfg && wget https://raw.githubusercontent.com/LiamZC/VisorWare/master/src/cfg/vmark.txt')
-                print("\n[SYSTEM] : Reading new vmark file...")
-                vmark = 'cfg/vmark.txt'
-                vmarkfile = open(vmark, 'r+')
-                if vmarkfile.read(10) == currversion:
-                    vmarkfile.close()
-                    print(Base.OKGREEN, '[SYSTEM] : VisorWare software is up to date.', Base.END)
-                else:
-                    vmarkfile.close() 
-                    print(Base.WARNING, '[SYSTEM] : A new version of the VisorWare software is available. Updating...', Base.END)
-                    try:
-                        print('Shutting down VisorWare for updates.')         
-                        exit()
-                    finally:
-                        os.system('cd /home/pi/VWUD && python3 VWCTRL.py')  
-
-                print(Base.WARNING, '[SETTINGS] : Completed Update process. Returning to menu.', Base.END)
-                VWUtils.dispimg("img/SETTINGCompUpdate.ppm")
-                time.sleep(3)
-
-            elif SettingsItem2 == 1:
-                VWUtils.dispappstart()
-                time.sleep(0.5)
-                print(Base.WARNING, '[SETTINGS] : Showing system stats.', Base.END)
-                image = Image.new('1', (128, 64))
-                draw = ImageDraw.Draw(image)
-                draw.rectangle((0,0,128,64), outline=0, fill=0)
-                time.sleep(0.5)
-                while GPIO.input(homeb) == True:
-                    draw.rectangle((0,0,128,64), outline=0, fill=0)
-                    cmd = "hostname -I | cut -d\' \' -f1"
-                    IP = subprocess.check_output(cmd, shell = True )
-                    cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
-                    CPU = subprocess.check_output(cmd, shell = True )
-                    cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
-                    MemUsage = subprocess.check_output(cmd, shell = True )
-                    cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
-                    Disk = subprocess.check_output(cmd, shell = True )
-
-                    draw.text((x, top),       "IP: " + (IP.decode('utf-8')),  font=font, fill=255)
-                    draw.text((x, top+8),     (CPU.decode('utf-8')), font=font, fill=255)
-                    draw.text((x, top+16),    (MemUsage.decode('utf-8')),  font=font, fill=255)
-                    draw.text((x, top+25),    (Disk.decode('utf-8')),  font=font, fill=255)
-
-                    disp.image(image)
-                    disp.display()
-                    time.sleep(.03)
-                VWUtils.dispappexit()
-                time.sleep(0.5)
-
-            elif SettingsItem3 == 1:
-                VWUtils.dispappstart()
-                time.sleep(0.5)
-                print(Base.WARNING, '[SETTINGS] : In development.', Base.END)
-
-            elif SettingsItem4 == 1:
-                SettingsExit = 1
-            time.sleep(ButtonPressDelay)
-
-    print('[SETTINGS] : Exiting Settings and returning to menu.')
+    print('[SETTINGS] : Exiting Settings and returning to the main menu.')
     VWUtils.dispappexit()
     time.sleep(0.5)
 
 def APPWeather(): # By Nanda Gopal.
-    print(Base.WARNING, "Starting Weather App.", Base.END)
-    
     vwapps.pkgs.VWWeather.weather()
 
-    print("[WEATHER] : Quitting Weather and returning to the main menu.")
+    print("[WEATHER] : Exiting the Weather app and returning to the main menu.")
     VWUtils.dispappexit()
     time.sleep(0.5)
 
-def VoiceEngine(): # Application function for the AcoustiVisor app.
+def AcoustiVisor(): # Application function for the AcoustiVisor Demo app.
     while GPIO.input(homeb) == True:
         print('[VOICE-ENGINE] : Listening!')
         VWUtils.dispimg("img/VEListening.ppm")
@@ -469,7 +318,7 @@ def VoiceEngine(): # Application function for the AcoustiVisor app.
             print(Base.WARNING, '[VOICE-ENGINE] : Recognized << "', text, '" >>', Base.END)
             signDictionary.signRender(text)
 
-    print("[VOICE-ENGINE] : Quitting AcoustiVisor and returning to the main menu.")
+    print("[ACOUSTIVISOR] : Quitting AcoustiVisor and returning to the main menu.")
     VWUtils.dispappexit()
     time.sleep(0.5)
 
@@ -542,22 +391,22 @@ while True:
     elif GPIO.input(homeb) == False:
         print('[INTERFACE] : Button-Press --> HOME')
         if MenuItem1 == 1:
-            print(Base.WARNING, "[INTERFACE] : Launching Acoustivisor.", Base.END)
+            print(Base.WARNING, "[INTERFACE] : Starting AcoustiVisor Demo App.", Base.END)
             VWUtils.dispappstart()
             time.sleep(0.5)  
-            VoiceEngine()
+            AcoustiVisor()
         elif MenuItem2 == 1:
-            print(Base.WARNING, "[INTERFACE] : Launching Settings.", Base.END)
+            print(Base.WARNING, "[INTERFACE] : Starting the Settings App.", Base.END)
             VWUtils.dispappstart()
             time.sleep(0.5)
             APPSettings()
         elif MenuItem3 == 1:
-            print(Base.WARNING, "[INTERFACE] : Launching PowerSettings.", Base.END)
+            print(Base.WARNING, "[INTERFACE] : Starting the Power options interface.", Base.END)
             VWUtils.dispappstart()
             time.sleep(0.5)
             APPPower()
         elif MenuItem4 == 1:
-            print(Base.WARNING, "[INTERFACE] : Launching Weather.", Base.END)
+            print(Base.WARNING, "[INTERFACE] : Starting Weather App.", Base.END)
             VWUtils.dispappstart()
             time.sleep(0.5)
             APPWeather()
