@@ -44,7 +44,7 @@ GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #
 ##################################################
 
-def SettingsInterface(LanguageSet):
+def SettingsInterface(currversion, LanguageSet):
     ButtonPressDelay = 0.2
     SettingsItem1 = 1  # Update
     SettingsItem2 = 0  # System Stats
