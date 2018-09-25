@@ -14,6 +14,8 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
+currversion = '2509201810'
+
 #######################################
 # Display Initialization. DO NOT ALTER!
 RST = 24
@@ -44,7 +46,8 @@ GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #
 ##################################################
 
-def SettingsInterface(currversion, LanguageSet):
+def SettingsInterface(LanguageSet):
+    global currversion
     ButtonPressDelay = 0.2
     SettingsItem1 = 1  # Update
     SettingsItem2 = 0  # System Stats
@@ -55,19 +58,19 @@ def SettingsInterface(currversion, LanguageSet):
 
     while SettingsExit == 0:
         if SettingsItem1 == 1:
-            VWUtils.dispimg("img/SETTINGUpdate.ppm")
+            VWUtils.dispimg("img/en/SETTINGUpdate.ppm")
 
         elif SettingsItem2 == 1:
-            VWUtils.dispimg("img/SETTINGStats.ppm")
+            VWUtils.dispimg("img/en/SETTINGStats.ppm")
      
         elif SettingsItem3 == 1:
             if LanguageSet == 'EN':
-                VWUtils.dispimg("img/SETTINGLanguageEN.ppm")
+                VWUtils.dispimg("img/en/SETTINGLanguage.ppm")
             elif LanguageSet == 'AR':
-                VWUtils.dispimg("img/SETTINGLanguageAR.ppm")
+                VWUtils.dispimg("img/ar/SETTINGLanguage.ppm")
 
         elif SettingsItem4 == 1:
-            VWUtils.dispimg("img/ExitToMenu.ppm")
+            VWUtils.dispimg("img/en/ExitToMenu.ppm")
 
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
@@ -122,39 +125,43 @@ def SettingsInterface(currversion, LanguageSet):
             if SettingsItem1 == 1:
                 print(Base.WARNING, '[SETTINGS] : Commencing update process.', Base.END)
                 print(Base.WARNING, '[SYSTEM] : DO NOT TURN OFF THE POWER OR ATTEMPT TO INTERRUPT THE UPDATE PROCESS.', Base.END)
-                VWUtils.dispimg("img/SETTINGUpdating.ppm")
-                print('\n[SYSTEM] : Updating package repositories...\n')
-                os.system('sudo apt-get update')
-                print('\n[SYSTEM] : Installing new packages...\n')
-                os.system('sudo apt-get --yes upgrade')
-                #
-                # vmark.txt uses the following format: DDMMYYYYxy
-                #       where, DD = Date (01, 11, 31,)
-                #              MM = Month (01, 12)
-                #              YYYY = Year (2018)
-                #              xy = Version No. (v1.2, where x=1,y=2.)
-                #
-                print('\n\n[SYSTEM] : Removing old vmark file...')
-                os.system('sudo rm cfg/vmark.txt -f')
-                print('\n[SYSTEM] : Getting new vmark file...')
-                os.system('cd cfg && wget https://raw.githubusercontent.com/LiamZC/VisorWare/master/src/cfg/vmark.txt')
-                print("\n[SYSTEM] : Reading new vmark file...")
-                vmark = 'cfg/vmark.txt'
-                vmarkfile = open(vmark, 'r+')
-                if vmarkfile.read(10) == currversion:
-                    vmarkfile.close()
-                    print(Base.OKGREEN, '[SYSTEM] : VisorWare software is up to date.', Base.END)
-                else:
-                    vmarkfile.close() 
-                    print(Base.WARNING, '[SYSTEM] : A new version of the VisorWare software is available. Updating...', Base.END)
-                    try:
-                        print('Shutting down VisorWare for updates.')         
-                        exit()
-                    finally:
-                        os.system('cd /home/pi/VWUD && python3 VWCTRL.py')  
+                VWUtils.dispimg("img/en/SETTINGUpdating.ppm")
+                if VWUtils.connCheck() == True:
+                    print('\n[SYSTEM] : Updating package repositories...\n')
+                    os.system('sudo apt-get update')
+                    print('\n[SYSTEM] : Installing new packages...\n')
+                    os.system('sudo apt-get --yes upgrade')
+                    #
+                    # vmark.txt uses the following format: DDMMYYYYxy
+                    #       where, DD = Date (01, 11, 31,)
+                    #              MM = Month (01, 12)
+                    #              YYYY = Year (2018)
+                    #              xy = Version No. (v1.2, where x=1,y=2.)
+                    #
+                    print('\n\n[SYSTEM] : Removing old vmark file...')
+                    os.system('sudo rm cfg/vmark.txt -f')
+                    print('\n[SYSTEM] : Getting new vmark file...')
+                    os.system('cd cfg && wget https://raw.githubusercontent.com/LiamZC/VisorWare/master/src/cfg/vmark.txt')
+                    print("\n[SYSTEM] : Reading new vmark file...")
+                    vmark = 'cfg/vmark.txt'
+                    vmarkfile = open(vmark, 'r+')
+                    if vmarkfile.read(10) == currversion:
+                        vmarkfile.close()
+                        print(Base.OKGREEN, '[SYSTEM] : VisorWare software is up to date.', Base.END)
+                        VWUtils.dispimg("img/en/SETTINGCompUpdate.ppm")
+                    else:
+                        vmarkfile.close() 
+                        print(Base.WARNING, '[SYSTEM] : A new version of the VisorWare software is available. Updating...', Base.END)
+                        try:
+                            print('Shutting down VisorWare for updates.')         
+                            exit()
+                        finally:
+                            os.system('cd /home/pi/VWUD && python3 VWCTRL.py') 
+                            
+                elif VWUtils.connCheck() == False:
+                    VWUtils.noConn()
 
-                print(Base.WARNING, '[SETTINGS] : Completed Update process. Returning to menu.', Base.END)
-                VWUtils.dispimg("img/SETTINGCompUpdate.ppm")
+                print(Base.WARNING, '[SETTINGS] : Finished Update process. Returning to menu.', Base.END)
                 time.sleep(3)
 
             elif SettingsItem2 == 1:
@@ -190,7 +197,15 @@ def SettingsInterface(currversion, LanguageSet):
             elif SettingsItem3 == 1:
                 VWUtils.dispappstart()
                 time.sleep(0.5)
-                print(Base.WARNING, '[SETTINGS] : In development.', Base.END)
+                setLang = LanguageSet
+                if LanguageSet == "en":
+                    print("Changing language to Arabic.")
+                    setLang = "ar"
+                    return setLang
+                elif LanguageSet == "ar":
+                    print("Changing language to English.")
+                    setLang = "en"
+                    return setLang
 
             elif SettingsItem4 == 1:
                 SettingsExit = 1

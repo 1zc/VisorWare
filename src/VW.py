@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '2209201810'
+currversion = '2509201810'
 
 #####################################################################################
 #                                                                                   #
@@ -131,7 +131,7 @@ disp.display()
 #######################################
 
 print("Launching VisorWare...\n")
-VWUtils.dispimg("img/splash.ppm")
+VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
 time.sleep(5)
 
 ###################################
@@ -146,8 +146,8 @@ aiy.audio.get_recorder().start()
 
 ###################################
 # APPLICATION IMPORTS:
-import vwapps.common.VWSet
-import vwapps.pkgs.VWWeather
+import vwapps.common.VWSet as VWSet
+import vwapps.pkgs.VWWeather as VWWeather
 ###################################
 
 ##################################################
@@ -191,7 +191,7 @@ MenuItem6 = 0  # BLANK AND UNUSED
 
 ButtonPressDelay = 0.2 # Latency of registering button presses.
 MenuItem1 = 1
-LanguageSet = 'EN'
+LanguageSet = "en"
 #####################################################################
 
 # APPLICATIONS: #####################################################
@@ -203,16 +203,16 @@ def APPPower(): # Application function that allows options for power control.
     PowerExit = 0
     while PowerExit == 0:
         if PowerItem1 == 1:
-            VWUtils.dispimg("img/POWERReboot.ppm")
+            VWUtils.dispimg("img/en/POWERReboot.ppm")
 
         elif PowerItem2 == 1:
-            VWUtils.dispimg("img/POWERShutdown.ppm")
+            VWUtils.dispimg("img/en/POWERShutdown.ppm")
 
         elif PowerItem3 == 1:
-            VWUtils.dispimg("img/POWERQuit.ppm")
+            VWUtils.dispimg("img/en/POWERQuit.ppm")
 
         elif PowerItem4 == 1:
-            VWUtils.dispimg("img/ExitToMenu.ppm")
+            VWUtils.dispimg("img/en/ExitToMenu.ppm")
 
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
@@ -266,23 +266,23 @@ def APPPower(): # Application function that allows options for power control.
             print('[INTERFACE] : Button-Press --> HOME')
             if PowerItem1 == 1:
                 print(Base.WARNING, '[POWER] : REBOOTING', Base.END)
-                VWUtils.dispimg("img/splash.ppm")
+                VWUtils.dispimg("img/en/splash.ppm")
                 time.sleep(3)
                 VWUtils.dispclear()
                 os.system('sudo reboot')
                 exit()
             elif PowerItem2 == 1:
                 print(Base.WARNING, '[POWER] : SHUTTING DOWN', Base.END)
-                VWUtils.dispimg("img/splash.ppm")
+                VWUtils.dispimg("img/en/splash.ppm")
                 time.sleep(3)
                 VWUtils.dispclear()
                 os.system('sudo halt')
                 exit()
             elif PowerItem3 == 1:
                 print(Base.FAILRED, '[POWER] : Quitting VisorWare.', Base.END)
-                VWUtils.dispimg("img/splash.ppm")
+                VWUtils.dispimg("img/en/splash.ppm")
                 time.sleep(3)
-                VWUtils.dispimg("img/POWERQuitConsequence.ppm")
+                VWUtils.dispimg("img/en/POWERQuitConsequence.ppm")
                 exit()
             elif PowerItem4 == 1:
                 PowerExit = 1
@@ -294,30 +294,39 @@ def APPPower(): # Application function that allows options for power control.
 
 def APPSettings(): # Application function that controls settings.
     global LanguageSet
-    vwapps.common.VWSet.SettingsInterface(currversion, LanguageSet)
+    TempLang = LanguageSet
+    VWSet.SettingsInterface(TempLang)
+    LanguageSet = TempLang
 
     print('[SETTINGS] : Exiting Settings and returning to the main menu.')
     VWUtils.dispappexit()
     time.sleep(0.5)
 
 def APPWeather(): # By Nanda Gopal.
-    vwapps.pkgs.VWWeather.weather()
+    if VWUtils.connCheck() == True:
+        VWWeather.weather()
+    elif VWUtils.connCheck() == False:
+        VWUtils.noConn()
 
     print("[WEATHER] : Exiting the Weather app and returning to the main menu.")
     VWUtils.dispappexit()
     time.sleep(0.5)
 
 def AcoustiVisor(): # Core Application function for the AcoustiVisor Demo app.
-    while GPIO.input(homeb) == True:
-        print('[VOICE-ENGINE] : Listening!')
-        VWUtils.dispimg("img/VEListening.ppm")
-        text = recognizer.recognize()
-        VWUtils.dispimg("img/VEIdle.ppm")
-        if text is None:
-                print('[VOICE-ENGINE] : Input was unrecognizable.')
-        else:
-            print(Base.WARNING, '[VOICE-ENGINE] : Recognized << "', text, '" >>', Base.END)
-            signDictionary.signRender(text)
+    if VWUtils.connCheck() == True:
+        while GPIO.input(homeb) == True:
+            print('[VOICE-ENGINE] : Listening!')
+            VWUtils.dispimg("img/en/VEListening.ppm")
+            text = recognizer.recognize()
+            VWUtils.dispimg("img/en/VEIdle.ppm")
+            if text is None:
+                    print('[VOICE-ENGINE] : Input was unrecognizable.')
+            else:
+                print(Base.WARNING, '[VOICE-ENGINE] : Recognized << "', text, '" >>', Base.END)
+                signDictionary.signRender(text)
+
+    elif VWUtils.connCheck() == False:
+        VWUtils.noConn()
 
     print("[ACOUSTIVISOR] : Quitting AcoustiVisor and returning to the main menu.")
     VWUtils.dispappexit()
@@ -329,16 +338,16 @@ print("[INTERFACE] : Main Menu is live.")
 
 while True:
     if MenuItem1 == 1:
-        VWUtils.dispimg("img/Acoustivisor.ppm")
+        VWUtils.dispimg("img/en/Acoustivisor.ppm")
 
     elif MenuItem2 == 1:
-        VWUtils.dispimg("img/Settings.ppm")
+        VWUtils.dispimg("img/en/Settings.ppm")
 
     elif MenuItem3 == 1:
-        VWUtils.dispimg("img/Power.ppm")
+        VWUtils.dispimg("img/en/Power.ppm")
 
     elif MenuItem4 == 1:
-        VWUtils.dispimg("img/Weather.ppm")
+        VWUtils.dispimg("img/en/Weather.ppm")
 
 
     if GPIO.input(leftb) == False:
