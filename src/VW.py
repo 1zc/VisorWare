@@ -307,7 +307,7 @@ def APPWeather(): # By Nanda Gopal.
     VWUtils.dispappexit()
     time.sleep(0.5)
 
-def AcoustiVisor(): # Application function for the AcoustiVisor Demo app.
+def AcoustiVisor(): # Core Application function for the AcoustiVisor Demo app.
     while GPIO.input(homeb) == True:
         print('[VOICE-ENGINE] : Listening!')
         VWUtils.dispimg("img/VEListening.ppm")
