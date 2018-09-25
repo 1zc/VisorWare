@@ -65,9 +65,9 @@ def SettingsInterface(LanguageSet):
             VWUtils.dispimg("img/en/SETTINGStats.ppm")
      
         elif SettingsItem3 == 1:
-            if LanguageSet == "en":
+            if setLang == "en":
                 VWUtils.dispimg("img/en/SETTINGLanguage.ppm")
-            elif LanguageSet == "ar":
+            elif setLang == "ar":
                 VWUtils.dispimg("img/ar/SETTINGLanguage.ppm")
 
         elif SettingsItem4 == 1:

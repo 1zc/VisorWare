@@ -294,9 +294,8 @@ def APPPower(): # Application function that allows options for power control.
 
 def APPSettings(): # Application function that controls settings.
     global LanguageSet
-    TempLang = LanguageSet
-    VWSet.SettingsInterface(TempLang)
-    LanguageSet = TempLang
+    TempLang = LanguageSet    
+    LanguageSet = VWSet.SettingsInterface(TempLang)
 
     print('[SETTINGS] : Exiting Settings and returning to the main menu.')
     VWUtils.dispappexit()
