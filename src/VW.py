@@ -203,10 +203,10 @@ def APPPower(): # Application function that allows options for power control.
     PowerExit = 0
     while PowerExit == 0:
         if PowerItem1 == 1:
-            VWUtils.dispimg("img/en/POWERReboot.ppm")
+            VWUtils.dispimg("img/"+LanguageSet+"/POWERReboot.ppm")
 
         elif PowerItem2 == 1:
-            VWUtils.dispimg("img/en/POWERShutdown.ppm")
+            VWUtils.dispimg("img/"+LanguageSet+"/POWERShutdown.ppm")
 
         elif PowerItem3 == 1:
             VWUtils.dispimg("img/en/POWERQuit.ppm")
@@ -340,13 +340,13 @@ while True:
         VWUtils.dispimg("img/en/Acoustivisor.ppm")
 
     elif MenuItem2 == 1:
-        VWUtils.dispimg("img/en/Settings.ppm")
+        VWUtils.dispimg("img/"+LanguageSet+"/Settings.ppm")
 
     elif MenuItem3 == 1:
-        VWUtils.dispimg("img/en/Power.ppm")
+        VWUtils.dispimg("img/"+LanguageSet+"/Power.ppm")
 
     elif MenuItem4 == 1:
-        VWUtils.dispimg("img/en/Weather.ppm")
+        VWUtils.dispimg("img/"+LanguageSet+"/Weather.ppm")
 
 
     if GPIO.input(leftb) == False:
