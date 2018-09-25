@@ -48,6 +48,7 @@ GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 def SettingsInterface(LanguageSet):
     global currversion
+    setLang = LanguageSet
     ButtonPressDelay = 0.2
     SettingsItem1 = 1  # Update
     SettingsItem2 = 0  # System Stats
@@ -197,16 +198,17 @@ def SettingsInterface(LanguageSet):
             elif SettingsItem3 == 1:
                 VWUtils.dispappstart()
                 time.sleep(0.5)
-                setLang = LanguageSet
                 if LanguageSet == "en":
                     print("Changing language to Arabic.")
                     setLang = "ar"
-                    return setLang
+                    
                 elif LanguageSet == "ar":
                     print("Changing language to English.")
                     setLang = "en"
-                    return setLang
+                    
 
             elif SettingsItem4 == 1:
                 SettingsExit = 1
             time.sleep(ButtonPressDelay)
+
+    return setLang
