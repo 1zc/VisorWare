@@ -58,24 +58,17 @@ def connCheck(): # Checks for availability of internet connection.
         pass
     return False
 
-def noConn():
-    print("Failed to connect to the internet. Aborting...")
-    image = Image.open('img/en/NoConn.ppm').convert('1')
-    disp.image(image)
-    disp.display()
-    time.sleep(2)
-
 def dispclear():
     disp.clear()
     disp.display()
 
-def dispappexit():
-    image = Image.open('img/en/AppExit.ppm').convert('1')
+def dispappexit(LanguageSet):
+    image = Image.open("img/"+LanguageSet+"/AppExit.ppm").convert('1')
     disp.image(image)
     disp.display()
 
-def dispappstart():
-    image = Image.open('img/en/AppLaunch.ppm').convert('1')
+def dispappstart(LanguageSet):
+    image = Image.open("img/"+LanguageSet+"/AppLaunch.ppm").convert('1')
     disp.image(image)
     disp.display()
 

@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '2509201810'
+currversion = '2709201810'
 LanguageSet = "en"
 
 #####################################################################################
@@ -81,7 +81,6 @@ if cfgfile.read(1) == '0':
         print('\n\nConfiguring VWUD configs.')
         os.system('cd /home/pi/ && mkdir VWUD')
         os.system('sudo cp conf/VWCTRL.py /home/pi/VWUD/VWCTRL.py')
-        os.system('sudo cp conf/UD.ppm /home/pi/VWUD/UD.ppm')
         os.system('sudo cp conf/cfg.txt /home/pi/VWUD/cfg.txt')
 
         cfgfile.close()
@@ -209,10 +208,10 @@ def APPPower(): # Application function that allows options for power control.
             VWUtils.dispimg("img/"+LanguageSet+"/POWERShutdown.ppm")
 
         elif PowerItem3 == 1:
-            VWUtils.dispimg("img/en/POWERQuit.ppm")
+            VWUtils.dispimg("img/"+LanguageSet+"/POWERQuit.ppm")
 
         elif PowerItem4 == 1:
-            VWUtils.dispimg("img/en/ExitToMenu.ppm")
+            VWUtils.dispimg("img/"+LanguageSet+"/ExitToMenu.ppm")
 
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
@@ -266,30 +265,30 @@ def APPPower(): # Application function that allows options for power control.
             print('[INTERFACE] : Button-Press --> HOME')
             if PowerItem1 == 1:
                 print(Base.WARNING, '[POWER] : REBOOTING', Base.END)
-                VWUtils.dispimg("img/en/splash.ppm")
+                VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
                 time.sleep(3)
                 VWUtils.dispclear()
                 os.system('sudo reboot')
                 exit()
             elif PowerItem2 == 1:
                 print(Base.WARNING, '[POWER] : SHUTTING DOWN', Base.END)
-                VWUtils.dispimg("img/en/splash.ppm")
+                VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
                 time.sleep(3)
                 VWUtils.dispclear()
                 os.system('sudo halt')
                 exit()
             elif PowerItem3 == 1:
                 print(Base.FAILRED, '[POWER] : Quitting VisorWare.', Base.END)
-                VWUtils.dispimg("img/en/splash.ppm")
+                VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
                 time.sleep(3)
-                VWUtils.dispimg("img/en/POWERQuitConsequence.ppm")
+                VWUtils.dispimg("img/"+LanguageSet+"/POWERQuitConsequence.ppm")
                 exit()
             elif PowerItem4 == 1:
                 PowerExit = 1
             time.sleep(ButtonPressDelay)
 
     print('[POWER] : Exiting Power options and returning to menu.')
-    VWUtils.dispappexit()
+    VWUtils.dispappexit(LanguageSet)
     time.sleep(0.5)
 
 def APPSettings(): # Application function that controls settings.
@@ -298,26 +297,28 @@ def APPSettings(): # Application function that controls settings.
     LanguageSet = VWSet.SettingsInterface(TempLang)
 
     print('[SETTINGS] : Exiting Settings and returning to the main menu.')
-    VWUtils.dispappexit()
+    VWUtils.dispappexit(LanguageSet)
     time.sleep(0.5)
 
 def APPWeather(): # By Nanda Gopal.
     if VWUtils.connCheck() == True:
         VWWeather.weather()
     elif VWUtils.connCheck() == False:
-        VWUtils.noConn()
+        print("Failed to connect to the internet. Aborting...")
+        VWUtils.dispimg("img/"+LanguageSet+"/NoConn.ppm")
+        time.sleep(2)
 
     print("[WEATHER] : Exiting the Weather app and returning to the main menu.")
-    VWUtils.dispappexit()
+    VWUtils.dispappexit(LanguageSet)
     time.sleep(0.5)
 
 def AcoustiVisor(): # Core Application function for the AcoustiVisor Demo app.
     if VWUtils.connCheck() == True:
         while GPIO.input(homeb) == True:
             print('[VOICE-ENGINE] : Listening!')
-            VWUtils.dispimg("img/en/VEListening.ppm")
+            VWUtils.dispimg("img/"+LanguageSet+"/VEListening.ppm")
             text = recognizer.recognize()
-            VWUtils.dispimg("img/en/VEIdle.ppm")
+            VWUtils.dispimg("img/"+LanguageSet+"/VEIdle.ppm")
             if text is None:
                     print('[VOICE-ENGINE] : Input was unrecognizable.')
             else:
@@ -325,10 +326,12 @@ def AcoustiVisor(): # Core Application function for the AcoustiVisor Demo app.
                 signDictionary.signRender(text)
 
     elif VWUtils.connCheck() == False:
-        VWUtils.noConn()
+        print("Failed to connect to the internet. Aborting...")
+        VWUtils.dispimg("img/"+LanguageSet+"/NoConn.ppm")
+        time.sleep(2)
 
     print("[ACOUSTIVISOR] : Quitting AcoustiVisor and returning to the main menu.")
-    VWUtils.dispappexit()
+    VWUtils.dispappexit(LanguageSet)
     time.sleep(0.5)
 
 #####################################################################
@@ -337,7 +340,7 @@ print("[INTERFACE] : Main Menu is live.")
 
 while True:
     if MenuItem1 == 1:
-        VWUtils.dispimg("img/en/Acoustivisor.ppm")
+        VWUtils.dispimg("img/"+LanguageSet+"/Acoustivisor.ppm")
 
     elif MenuItem2 == 1:
         VWUtils.dispimg("img/"+LanguageSet+"/Settings.ppm")
@@ -401,22 +404,22 @@ while True:
         print('[INTERFACE] : Button-Press --> HOME')
         if MenuItem1 == 1:
             print(Base.WARNING, "[INTERFACE] : Starting AcoustiVisor Demo App.", Base.END)
-            VWUtils.dispappstart()
+            VWUtils.dispappstart(LanguageSet)
             time.sleep(0.5)  
             AcoustiVisor()
         elif MenuItem2 == 1:
             print(Base.WARNING, "[INTERFACE] : Starting the Settings App.", Base.END)
-            VWUtils.dispappstart()
+            VWUtils.dispappstart(LanguageSet)
             time.sleep(0.5)
             APPSettings()
         elif MenuItem3 == 1:
             print(Base.WARNING, "[INTERFACE] : Starting the Power options interface.", Base.END)
-            VWUtils.dispappstart()
+            VWUtils.dispappstart(LanguageSet)
             time.sleep(0.5)
             APPPower()
         elif MenuItem4 == 1:
             print(Base.WARNING, "[INTERFACE] : Starting Weather App.", Base.END)
-            VWUtils.dispappstart()
+            VWUtils.dispappstart(LanguageSet)
             time.sleep(0.5)
             APPWeather()
         time.sleep(ButtonPressDelay)
