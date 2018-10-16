@@ -91,8 +91,10 @@ if cfgfile.read(1) == '0':
         # Configuring start-up interfaces.
         print('\n\nConfiguring Start-Up Interfaces...\n')
         os.system('sudo chmod u+x /home/pi/VisorWare/launcher.sh')
-        #os.system('sudo cp conf/lzc_visorware.service /etc/systemd/system/lzc_visorware.service')
-        #os.system('sudo systemctl enable lzc_visorware.service')
+        os.system('sudo cp conf/lzc_visorware.service /etc/systemd/system/lzc_visorware.service')
+        os.system('sudo systemctl enable lzc_visorware.service')
+        os.system('sudo systemctl disable apt-daily.service')
+        os.system('sudo systemctl disable apt-daily-upgrade.service')
         print(ANSI.Color(120), "\nDONE.", ANSI.END)
 
 
@@ -110,6 +112,7 @@ if cfgfile.read(1) == '0':
     else:
         print(Base.FAILRED, '\nFIRST TIME SETUP FAILED. NO ACTIVE INTERNET CONNECTION DETECTED.', Base.END)
         print(Base.WARNING, 'Please set up your internet connection before running this program.', Base.END)
+        cfgfile.close()
         exit()
 
 else:

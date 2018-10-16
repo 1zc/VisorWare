@@ -12,16 +12,34 @@
 
 import os
 import subprocess
+import requests
 
 print("Installing updates...\n")
 
-print('\n\nDeleting old VisorWare...\n')
+print('Deleting old VisorWare...\n')
 os.system('cd /home/pi && sudo rm VisorWare -r -f')
+print('Done.')
+
 print('\n\nGetting new VisorWare...\n')
 os.system('cd /home/pi && git clone https://github.com/LiamZC/VisorWare')
-print('\n\nCleaning up...\n')
+print('Done.')
+
+print('\nUpgrading...')
+cfgp = '/home/pi/VisorWare/src/cfg/udcfg.txt'
+cfgfile = open(cfgp, 'r+')
+if cfgfile.read(1) == '1':
+    os.system('sudo python3 /home/pi/VisorWare/src/manualUD.py')
+    print('Done.')
+    cfgfile.close()
+else:
+    print('Done. No upgrade parameter set.')
+    cfgfile.close()
+
+print('\nCleaning up...\n')
 os.system('sudo rm /home/pi/VisorWare/src/cfg/cfg.txt')
 os.system('cp cfg.txt /home/pi/VisorWare/src/cfg/cfg.txt')
+print('Done.')
+
 try:
     print('Relaunching VW...')
     exit()
