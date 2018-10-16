@@ -61,6 +61,11 @@ font = ImageFont.load_default()
 EndDelay = 1.5
 AlphaDelay = 0.5
 
+# Special Chars ################################
+def blankSpace():
+    VWUtils.dispclear()
+    time.sleep(0.3)
+
 # Alphabets ####################################
 def letterA():
     VWUtils.dispimg("dictionary/A.ppm")
@@ -252,7 +257,7 @@ def signRender(txt):
             WordRec = 1
             friend()
 
-        if WordRec == 0:
+        if WordRec == 0:           
             for letter in temp:
                 if (letter == 'a') or (letter == 'A'):
                     letterA()
@@ -306,3 +311,5 @@ def signRender(txt):
                     letterY()
                 elif (letter == 'z') or (letter == 'Z'):
                     letterZ()
+            blankSpace()
+                    

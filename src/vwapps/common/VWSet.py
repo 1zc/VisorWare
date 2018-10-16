@@ -194,6 +194,7 @@ def SettingsInterface(LanguageSet):
                     disp.image(image)
                     disp.display()
                     time.sleep(.03)
+                print(Base.WARNING, '[SETTINGS] : Finished Update process. Returning to menu.', Base.END)
                 VWUtils.dispappexit()
                 time.sleep(0.5)
 

@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '2709201810'
+currversion = '1610201810'
 LanguageSet = "en"
 
 #####################################################################################
@@ -61,27 +61,40 @@ if cfgfile.read(1) == '0':
         os.system('sudo apt-get --yes remove --purge libreoffice-calc libreoffice-common libreoffice-core libreoffice-draw libreoffice-gtk libreoffice-impress libreoffice-math libreoffice-writer claws-mail')
         os.system('sudo apt-get --yes remove --purge geany-common geany greenfoot bluej nodered python3-thonny sense-emu-tools epiphany-browser-data epiphany-browser dillo')
         os.system('sudo apt-get autoremove -y && sudo apt-get autoclean -y')
+        print(ANSI.Color(120), "\nDONE.", ANSI.END)
         # Updates repositories and installs all updates available for currently installed software.
         print('\n\nUpdating...\n')
         os.system('sudo apt-get update')
         os.system('sudo apt-get --yes upgrade')
+        print(ANSI.Color(120), "\nDONE.", ANSI.END)
         # Installing VisorWare dependencies.
         print('\n\nInstalling VisorWare dependencies...\n')
         os.system('sudo apt-get --yes --force-yes install python-imaging python-smbus git')
         os.system('sudo sh conf/dispdriver.sh')
+        print(ANSI.Color(120), "\nDONE.", ANSI.END)
         # Installing screenfetch.
-        print('\n\nConfiguring screenfetch.')
+        print('\n\nConfiguring screenfetch...')
         os.system('sudo cp sf/screenfetch /usr/bin/screenfetch')
         os.system('sudo chmod 755 /usr/bin/screenfetch')
+        print(ANSI.Color(120), "\nDONE.", ANSI.END)
         # Configuring important interfaces.
-        print('\n\nConfiguring Audio and Boot configs.')
+        print('\n\nConfiguring Audio and Boot configs...')
         os.system('sudo rm /boot/config.txt -f && sudo cp conf/config.txt /boot/config.txt')
         os.system('sudo rm /home/pi/.asoundrc -f && sudo cp conf/.asoundrc /home/pi/')
+        print(ANSI.Color(120), "\nDONE.", ANSI.END)
         # Installing VW Update service files.
-        print('\n\nConfiguring VWUD configs.')
+        print('\n\nConfiguring VWUD configs...')
         os.system('cd /home/pi/ && mkdir VWUD')
         os.system('sudo cp conf/VWCTRL.py /home/pi/VWUD/VWCTRL.py')
         os.system('sudo cp conf/cfg.txt /home/pi/VWUD/cfg.txt')
+        print(ANSI.Color(120), "\nDONE.", ANSI.END)
+        # Configuring start-up interfaces.
+        print('\n\nConfiguring Start-Up Interfaces...\n')
+        os.system('sudo chmod u+x /home/pi/VisorWare/launcher.sh')
+        #os.system('sudo cp conf/lzc_visorware.service /etc/systemd/system/lzc_visorware.service')
+        #os.system('sudo systemctl enable lzc_visorware.service')
+        print(ANSI.Color(120), "\nDONE.", ANSI.END)
+
 
         cfgfile.close()
         cfgfile = open(cfgp, 'w')
