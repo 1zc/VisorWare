@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '1610201810'
+currversion = '1710201810'
 LanguageSet = "en"
 
 #####################################################################################
@@ -147,8 +147,9 @@ disp.display()
 #######################################
 
 print("Launching VisorWare...\n")
+VWUtils.dispimg("img/"+LanguageSet+"/crsplash.ppm")
+time.sleep(3)
 VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
-time.sleep(5)
 
 ###################################
 # APPLICATION-SPECIFIC DEPENDENCIES AND SETUP:
