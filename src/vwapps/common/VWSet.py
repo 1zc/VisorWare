@@ -14,7 +14,7 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-currversion = '1710201810'
+currversion = '0111201810'
 
 #######################################
 # Display Initialization. DO NOT ALTER!
@@ -168,7 +168,7 @@ def SettingsInterface(LanguageSet):
                 time.sleep(3)
 
             elif SettingsItem2 == 1:
-                VWUtils.dispappstart()
+                VWUtils.dispappstart(setLang)
                 time.sleep(0.5)
                 print(Base.WARNING, '[SETTINGS] : Showing system stats.', Base.END)
                 image = Image.new('1', (128, 64))
@@ -195,11 +195,11 @@ def SettingsInterface(LanguageSet):
                     disp.display()
                     time.sleep(.03)
                 print(Base.WARNING, '[SETTINGS] : Finished Update process. Returning to menu.', Base.END)
-                VWUtils.dispappexit()
+                VWUtils.dispappexit(setLang)
                 time.sleep(0.5)
 
             elif SettingsItem3 == 1:
-                VWUtils.dispappstart()
+                VWUtils.dispappstart(setLang)
                 time.sleep(0.5)
                 if LanguageSet == "en":
                     print("Changing language to Arabic.")
