@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '0111201810'
+currversion = '0311201810'
 LanguageSet = "en"
 
 #####################################################################################
@@ -41,6 +41,19 @@ import requests
 import math
 from termCol import *
 import VWUtils
+
+print("Reading saved language settings...")
+lang = 'cfg/langcfg.txt'
+langfile = open(lang, 'r+')
+
+if langfile.read(2) == "en":
+    LanguageSet = "en"
+    langfile.close()
+    print("Saved Language = en")
+if langfile.read(2) == "ar":
+    LanguageSet = "ar"
+    langfile.close()
+    print("Saved Language = ar")
 
 print("Reading configuration file...")
 cfgp = 'cfg/cfg.txt'
@@ -288,14 +301,48 @@ def APPPower(): # Application function that allows options for power control.
                 os.system('sudo reboot')
                 exit()
             elif PowerItem2 == 1:
-                print(Base.WARNING, '[POWER] : SHUTTING DOWN', Base.END)
-                VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
-                time.sleep(3)
-                VWUtils.dispclear()
-                os.system('sudo halt')
-                exit()
+                print("[POWER] : Shutdown dialog box opened.")
+                sddb = 1
+                sdcn = 1
+                sdcy = 0
+                while sddb == 1:   
+                    if sdcn == 1:
+                        VWUtils.dispimg("img/"+LanguageSet+"/sdcn.ppm")
+                    elif sdcy == 1:
+                        VWUtils.dispimg("img/"+LanguageSet+"/sdcy.ppm")
+
+                    if GPIO.input(leftb) == False:
+                        if sdcn == 1:
+                            sdcy = 1
+                            sdcn = 0
+                        elif sdcy == 1:
+                            sdcn = 1
+                            sdcy = 0
+
+                    elif GPIO.input(rightb) == False:
+                        if sdcn == 1:
+                            sdcy = 1
+                            sdcn = 0
+                        elif sdcy == 1:
+                            sdcn = 1
+                            sdcy = 0
+
+                    elif GPIO.input(homeb) == False:
+                        if sdcn == 1:
+                            sddb = 0
+                        elif sdcy == 1:
+                            print(Base.WARNING, "[POWER] : SHUTTING DOWN.", Base.END)
+                            VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
+                            time.sleep(3)
+                            VWUtils.dispclear()
+                            os.system('sudo halt')
+                            exit()
+
+                    print("[POWER] : Shutdown dialog box closed.")
+
+                
             elif PowerItem3 == 1:
-                print(Base.FAILRED, '[POWER] : Quitting VisorWare.', Base.END)
+                print(Base.FAILRED, "[POWER] : Quitting VisorWare.", Base.END)
                 VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
                 time.sleep(3)
                 VWUtils.dispimg("img/"+LanguageSet+"/POWERQuitConsequence.ppm")
@@ -312,6 +359,10 @@ def APPSettings(): # Application function that controls settings.
     global LanguageSet
     TempLang = LanguageSet    
     LanguageSet = VWSet.SettingsInterface(TempLang)
+    print("Saving language setting to registry.")
+    langfile = open(cfgp, 'w')
+    langfile.write(LanguageSet)
+    langfile.close()
 
     print('[SETTINGS] : Exiting Settings and returning to the main menu.')
     VWUtils.dispappexit(LanguageSet)

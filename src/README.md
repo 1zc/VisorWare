@@ -1,7 +1,7 @@
 # VisorWare
 
 
-Core software for my wearable smart glasses project.
+Core software for my advanced smart-glasses project.
 
 
 
