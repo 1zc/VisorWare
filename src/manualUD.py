@@ -21,10 +21,6 @@ import math
 from termCol import *
 import VWUtils
 
-print("Reading configuration file...")
-cfgp = 'cfg/cfg.txt'
-cfgfile = open(cfgp, 'r+')
-
 os.system("clear")
 print(Base.WARNING,"Running Additional Upgrade. This may take some more time.", Base.END)
 print("")
@@ -55,12 +51,6 @@ os.system('cd /home/pi/ && mkdir VWUD')
 os.system('sudo cp conf/VWCTRL.py /home/pi/VWUD/VWCTRL.py')
 os.system('sudo cp conf/cfg.txt /home/pi/VWUD/cfg.txt')
 print(ANSI.Color(120), "DONE.", ANSI.END)
-
-
-cfgfile.close()
-cfgfile = open(cfgp, 'w')
-cfgfile.write('1')
-cfgfile.close()
 
 print(Base.OKGREEN,"MANUAL UPGRADE HAS BEEN COMPLETED!", Base.END)
 try:

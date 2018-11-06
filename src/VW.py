@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '0311201810'
+currversion = '0611201810'
 LanguageSet = "en"
 
 #####################################################################################
@@ -48,12 +48,11 @@ langfile = open(lang, 'r+')
 
 if langfile.read(2) == "en":
     LanguageSet = "en"
-    langfile.close()
     print("Saved Language = en")
 if langfile.read(2) == "ar":
     LanguageSet = "ar"
-    langfile.close()
     print("Saved Language = ar")
+langfile.close()
 
 print("Reading configuration file...")
 cfgp = 'cfg/cfg.txt'
