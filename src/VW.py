@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '0611201810'
+currversion = '0411201810'
 LanguageSet = "en"
 
 #####################################################################################
@@ -359,7 +359,7 @@ def APPSettings(): # Application function that controls settings.
     TempLang = LanguageSet    
     LanguageSet = VWSet.SettingsInterface(TempLang)
     print("Saving language setting to registry.")
-    langfile = open(cfgp, 'w')
+    langfile = open(lang, 'w')
     langfile.write(LanguageSet)
     langfile.close()
 

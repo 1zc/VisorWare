@@ -55,6 +55,6 @@ try:
     exit()
 finally:
     if majorUpgradeFlag == 1:
-        os.system('sudo python3 /home/pi/VisorWare/src/manualUD.py')
+        os.system('python3 /home/pi/VisorWare/src/manualUD.py')
     else:
         os.system('sh /home/pi/VisorWare/launcher.sh')

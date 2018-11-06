@@ -27,13 +27,13 @@ print("")
 
 # Installing screenfetch.
 print('Configuring screenfetch...')
-os.system('sudo cp sf/screenfetch /usr/bin/screenfetch')
+os.system('sudo cp /home/pi/VisorWare/src/sf/screenfetch /usr/bin/screenfetch')
 os.system('sudo chmod 755 /usr/bin/screenfetch')
 print(ANSI.Color(120), "DONE.", ANSI.END)
 # Configuring important interfaces.
 print('Configuring Audio and Boot configs...')
-os.system('sudo rm /boot/config.txt -f && sudo cp conf/config.txt /boot/config.txt')
-os.system('sudo rm /home/pi/.asoundrc -f && sudo cp conf/.asoundrc /home/pi/')
+os.system('sudo rm /boot/config.txt -f && sudo cp /home/pi/VisorWare/src/conf/config.txt /boot/config.txt')
+os.system('sudo rm /home/pi/.asoundrc -f && sudo cp /home/pi/VisorWare/src/conf/.asoundrc /home/pi/')
 print(ANSI.Color(120), "DONE.", ANSI.END)
 # Configuring start-up interfaces.
 print('Configuring Start-Up Interfaces...\n')
@@ -48,8 +48,8 @@ print(ANSI.Color(120), "DONE.", ANSI.END)
 print('Configuring VWUD configs...')
 os.system('cd /home/pi/ && sudo rm VWUD -r')
 os.system('cd /home/pi/ && mkdir VWUD')
-os.system('sudo cp conf/VWCTRL.py /home/pi/VWUD/VWCTRL.py')
-os.system('sudo cp conf/cfg.txt /home/pi/VWUD/cfg.txt')
+os.system('sudo cp /home/pi/VisorWare/src/conf/VWCTRL.py /home/pi/VWUD/VWCTRL.py')
+os.system('sudo cp /home/pi/VisorWare/src/conf/cfg.txt /home/pi/VWUD/cfg.txt')
 print(ANSI.Color(120), "DONE.", ANSI.END)
 
 print(Base.OKGREEN,"MANUAL UPGRADE HAS BEEN COMPLETED!", Base.END)
