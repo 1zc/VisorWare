@@ -30,6 +30,8 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
+from termCol import *
+
 #######################################
 # Display Initialization. DO NOT ALTER!
 RST = 24
@@ -50,6 +52,18 @@ disp.display()
 #
 #######################################
 
+##################################################
+# Button input board initialization. DO NOT ALTER!
+GPIO.setmode(GPIO.BCM)
+leftb = 17
+homeb = 27
+rightb = 22
+GPIO.setup(leftb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(homeb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#
+##################################################
+
 def connCheck(): # Checks for availability of internet connection.
     try:
         socket.create_connection(("www.google.com", 80))
@@ -61,6 +75,16 @@ def connCheck(): # Checks for availability of internet connection.
 def dispclear():
     disp.clear()
     disp.display()
+
+def ERR999():
+    idlevar = 0
+    image = Image.open("img/"+LanguageSet+"/ERR999.ppm").convert('1')
+    print(Base.FAILRED, "ERROR! Code: 999\n This application has a manufacturer lock and cannot be started.", Base.END)
+    disp.image(image)
+    disp.display()
+    while GPIO.input(homeb) == True:
+        idlevar = 1
+
 
 def dispappexit(LanguageSet):
     image = Image.open("img/"+LanguageSet+"/AppExit.ppm").convert('1')

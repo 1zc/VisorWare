@@ -51,7 +51,7 @@ os.system('cd /home/pi/VWUD && sudo rm temp -r -f')
 print('Done.')
 
 try:
-    print('Relaunching VW...')
+    print('...')
     exit()
 finally:
     if majorUpgradeFlag == 1:
