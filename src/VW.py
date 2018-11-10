@@ -397,7 +397,7 @@ def AcoustiVisor(): # Core Application function for the AcoustiVisor Demo app.
         #VWUtils.dispimg("img/"+LanguageSet+"/NoConn.ppm")
         #time.sleep(2)
 
-    VWUtils.ERR999()
+    VWUtils.ERR999(LanguageSet)
     print("[ACOUSTIVISOR] : Quitting AcoustiVisor and returning to the main menu.")
     VWUtils.dispappexit(LanguageSet)
     time.sleep(0.5)

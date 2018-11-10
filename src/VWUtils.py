@@ -22,6 +22,7 @@
 #####################################################################################
 
 import socket
+import RPi.GPIO as GPIO
 
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
@@ -76,7 +77,7 @@ def dispclear():
     disp.clear()
     disp.display()
 
-def ERR999():
+def ERR999(LanguageSet):
     idlevar = 0
     image = Image.open("img/"+LanguageSet+"/ERR999.ppm").convert('1')
     print(Base.FAILRED, "ERROR! Code: 999\n This application has a manufacturer lock and cannot be started.", Base.END)
