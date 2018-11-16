@@ -96,6 +96,7 @@ if cfgfile.read(1) == '0':
         # Installing VW Update service files.
         print('\n\nConfiguring VWUD configs...')
         os.system('cd /home/pi/ && mkdir VWUD')
+        os.system('cd /home/pi/VWUD && mkdir temp')
         os.system('sudo cp conf/VWCTRL.py /home/pi/VWUD/VWCTRL.py')
         os.system('sudo cp conf/cfg.txt /home/pi/VWUD/cfg.txt')
         print(ANSI.Color(120), "\nDONE.", ANSI.END)
