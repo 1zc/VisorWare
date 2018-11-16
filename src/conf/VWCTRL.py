@@ -17,7 +17,7 @@ import requests
 majorUpgradeFlag = 0
 
 print('Setting up clean update environment...')
-os.system('cd /home/pi/VWUD && sudo mkdir temp')
+os.system('cd /home/pi/VWUD')
 os.system('cp /home/pi/VisorWare/src/cfg/langcfg.txt /home/pi/VWUD/temp/langcfg.txt')
 print('Done.')
 

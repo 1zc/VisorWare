@@ -12,6 +12,22 @@
 # Advanced additional update commands will be run from this script when
 # udcfg.txt is set to 1. 
 
+import time
+import RPi.GPIO as GPIO
+import os
+import subprocess
+import requests
+import math
+from termCol import *
+import VWUtils
+
+import Adafruit_GPIO.SPI as SPI
+import Adafruit_SSD1306
+
+from PIL import Image
+from PIL import ImageFont
+from PIL import ImageDraw
+
 #######################################
 # Display Initialization. DO NOT ALTER!
 RST = 24
@@ -44,15 +60,6 @@ GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #
 ##################################################
 
-import time
-import RPi.GPIO as GPIO
-import os
-import subprocess
-import requests
-import math
-from termCol import *
-import VWUtils
-
 os.system("clear")
 print(Base.WARNING,"Running Additional Upgrade. This may take some more time.", Base.END)
 print("")
@@ -80,6 +87,7 @@ print(ANSI.Color(120), "DONE.", ANSI.END)
 print('Configuring VWUD configs...')
 os.system('cd /home/pi/ && sudo rm VWUD -r')
 os.system('cd /home/pi/ && mkdir VWUD')
+os.system('cd /home/pi/VWUD && mkdir temp')
 os.system('sudo cp /home/pi/VisorWare/src/conf/VWCTRL.py /home/pi/VWUD/VWCTRL.py')
 os.system('sudo cp /home/pi/VisorWare/src/conf/cfg.txt /home/pi/VWUD/cfg.txt')
 print(ANSI.Color(120), "DONE.", ANSI.END)
