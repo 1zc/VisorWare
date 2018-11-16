@@ -18,7 +18,15 @@ majorUpgradeFlag = 0
 
 print('Setting up clean update environment...')
 os.system('cd /home/pi/VWUD')
-os.system('cp /home/pi/VisorWare/src/cfg/langcfg.txt /home/pi/VWUD/temp/langcfg.txt')
+
+langp = '/home/pi/VisorWare/src/cfg/langcfg.txt'
+langfile = open(langp, 'r+')
+if langfile.read(2) == 'ar':
+    LanguageSet = 'ar'
+    langfile.close()
+else:
+    LanguageSet = 'en'
+    langfile.close()
 print('Done.')
 
 print('Deleting old VisorWare...')
@@ -44,8 +52,6 @@ else:
 print('Cleaning up update environment...')
 os.system('sudo rm /home/pi/VisorWare/src/cfg/cfg.txt -f')
 os.system('cp cfg.txt /home/pi/VisorWare/src/cfg/cfg.txt')
-os.system('sudo rm /home/pi/VisorWare/src/cfg/langcfg.txt -f')
-os.system('cp temp/langcfg.txt /home/pi/VisorWare/src/cfg/langcfg.txt')
 print('Done.')
 
 try:
