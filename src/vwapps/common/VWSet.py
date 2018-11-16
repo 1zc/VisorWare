@@ -14,7 +14,7 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-currversion = '1011201810'
+currversion = '1311201810'
 
 #######################################
 # Display Initialization. DO NOT ALTER!
@@ -128,10 +128,6 @@ def SettingsInterface(LanguageSet):
                 print(Base.WARNING, '[SYSTEM] : DO NOT TURN OFF THE POWER OR ATTEMPT TO INTERRUPT THE UPDATE PROCESS.', Base.END)
                 VWUtils.dispimg("img/"+setLang+"/SETTINGUpdating.ppm")
                 if VWUtils.connCheck() == True:
-                    print('\n[SYSTEM] : Updating package repositories...\n')
-                    os.system('sudo apt-get update')
-                    print('\n[SYSTEM] : Installing new packages...\n')
-                    os.system('sudo apt-get --yes upgrade')
                     #
                     # vmark.txt uses the following format: DDMMYYYYxy
                     #       where, DD = Date (01, 11, 31,)
@@ -152,19 +148,51 @@ def SettingsInterface(LanguageSet):
                         VWUtils.dispimg("img/"+setLang+"/SETTINGCompUpdate.ppm")
                     else:
                         vmarkfile.close() 
-                        print(Base.WARNING, '[SYSTEM] : A new version of the VisorWare software is available. Updating...', Base.END)
-                        try:
-                            print('Shutting down VisorWare for updates.')         
-                            exit()
-                        finally:
-                            os.system('cd /home/pi/VWUD && python3 VWCTRL.py') 
+                        print(Base.WARNING, '[SYSTEM] : A new version of the VisorWare software is available.', Base.END)
+                        time.sleep(0.2)
+                        uddb = 1
+                        udcn = 1
+                        udcy = 0
+                        while uddb == 1:   
+                            if udcn == 1:
+                                VWUtils.dispimg("img/"+LanguageSet+"/udcn.ppm")
+                            elif udcy == 1:
+                                VWUtils.dispimg("img/"+LanguageSet+"/udcy.ppm")
+
+                            if GPIO.input(leftb) == False:
+                                if udcn == 1:
+                                    udcy = 1
+                                    udcn = 0
+                                elif udcy == 1:
+                                    udcn = 1
+                                    udcy = 0
+
+                            elif GPIO.input(rightb) == False:
+                                if udcn == 1:
+                                    udcy = 1
+                                    udcn = 0
+                                elif udcy == 1:
+                                    udcn = 1
+                                    udcy = 0
+
+                            elif GPIO.input(homeb) == False:
+                                if udcn == 1:
+                                    uddb = 0
+                                elif udcy == 1:
+                                    print(Base.WARNING, "[SYSTEM] : UPDATING...", Base.END)
+                                    try:
+                                        print("Shutting down VisorWare for updates.")
+                                        exit()
+                                    finally:
+                                        os.system('cd /home/pi/VWUD && python3 VWCTRL.py')
+
+                        print("[SYSTEM] : Update dialog box closed.")
                             
                 elif VWUtils.connCheck() == False:
                     print("Failed to connect to the internet. Aborting...")
                     VWUtils.dispimg("img/"+setLang+"/NoConn.ppm")
                     time.sleep(2)
 
-                print(Base.WARNING, '[SETTINGS] : Finished Update process. Returning to menu.', Base.END)
                 time.sleep(3)
 
             elif SettingsItem2 == 1:
