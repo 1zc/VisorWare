@@ -45,9 +45,7 @@ print('Cleaning up update environment...')
 os.system('sudo rm /home/pi/VisorWare/src/cfg/cfg.txt -f')
 os.system('cp cfg.txt /home/pi/VisorWare/src/cfg/cfg.txt')
 os.system('sudo rm /home/pi/VisorWare/src/cfg/langcfg.txt -f')
-os.system('cp /home/pi/VWUD/temp/langcfg.txt /home/pi/VisorWare/src/cfg/langcfg.txt')
-os.system('sudo rm /home/pi/VWUD/temp/langcfg.txt -f')
-os.system('cd /home/pi/VWUD && sudo rm temp -r -f')
+os.system('cp temp/langcfg.txt /home/pi/VisorWare/src/cfg/langcfg.txt')
 print('Done.')
 
 try:
