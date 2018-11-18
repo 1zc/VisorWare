@@ -16,16 +16,18 @@ import requests
 
 majorUpgradeFlag = 0
 
-print('Setting up clean update environment...')
+print('Reading registry values...\n')
 os.system('cd /home/pi/VWUD')
 
 langp = '/home/pi/VisorWare/src/cfg/langcfg.txt'
 langfile = open(langp, 'r+')
 if langfile.read(2) == 'ar':
     LanguageSet = 'ar'
+    print("Registry_LanguageSet = ar")
     langfile.close()
 else:
     LanguageSet = 'en'
+    print("Registry_LanguageSet = en")
     langfile.close()
 print('Done.')
 
