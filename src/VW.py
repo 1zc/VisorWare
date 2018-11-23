@@ -45,12 +45,12 @@ print("Reading saved language settings...")
 lang = 'cfg/langcfg.txt'
 langfile = open(lang, 'r+')
 
-if langfile.read(2) == 'en':
-    LanguageSet = 'en'
-    print("Saved Language = en")
-if langfile.read(2) == "ar":
-    LanguageSet = "ar"
+if langfile.read(2) == 'ar':
+    LanguageSet = 'ar'
     print("Saved Language = ar")
+else:
+    LanguageSet = "en"
+    print("Saved Language = en")
 langfile.close()
 
 print("Reading configuration file...")
@@ -167,12 +167,12 @@ VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
 
 ###################################
 # APPLICATION-SPECIFIC DEPENDENCIES AND SETUP:
-import aiy.audio
-import aiy.cloudspeech
-import aiy.voicehat
-import signDictionary
-recognizer = aiy.cloudspeech.get_recognizer()
-aiy.audio.get_recorder().start()
+#import aiy.audio
+#import aiy.cloudspeech
+#import aiy.voicehat
+#import signDictionary
+#recognizer = aiy.cloudspeech.get_recognizer()
+#aiy.audio.get_recorder().start()
 ###################################
 
 ###################################
@@ -295,12 +295,45 @@ def APPPower(): # Application function that allows options for power control.
         elif GPIO.input(homeb) == False:
             print('[INTERFACE] : Button-Press --> HOME')
             if PowerItem1 == 1:
-                print(Base.WARNING, '[POWER] : REBOOTING', Base.END)
-                VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
-                time.sleep(3)
-                VWUtils.dispclear()
-                os.system('sudo reboot')
-                exit()
+                time.sleep(0.2)
+                print("[POWER] : Reboot dialog box opened.")
+                rbdb = 1
+                rbcn = 1
+                rbcy = 0
+                while rbdb == 1:   
+                    if rbcn == 1:
+                        VWUtils.dispimg("img/"+LanguageSet+"/rbcn.ppm")
+                    elif rbcy == 1:
+                        VWUtils.dispimg("img/"+LanguageSet+"/rbcy.ppm")
+
+                    if GPIO.input(leftb) == False:
+                        if rbcn == 1:
+                            rbcy = 1
+                            rbcn = 0
+                        elif rbcy == 1:
+                            rbcn = 1
+                            rbcy = 0
+
+                    elif GPIO.input(rightb) == False:
+                        if rbcn == 1:
+                            rbcy = 1
+                            rbcn = 0
+                        elif rbcy == 1:
+                            rbcn = 1
+                            rbcy = 0
+
+                    elif GPIO.input(homeb) == False:
+                        if rbcn == 1:
+                            rbdb = 0
+                        elif rbcy == 1:
+                            print(Base.WARNING, '[POWER] : REBOOTING', Base.END)
+                            VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
+                            time.sleep(3)
+                            VWUtils.dispclear()
+                            os.system('sudo reboot')
+                            exit()
+                print("[POWER] : Reboot dialog box closed.")
+                
             elif PowerItem2 == 1:
                 time.sleep(0.2)
                 print("[POWER] : Shutdown dialog box opened.")
@@ -383,24 +416,24 @@ def APPWeather(): # By Nanda Gopal.
     time.sleep(0.5)
 
 def AcoustiVisor(): # Core Application function for the AcoustiVisor Demo app.
-    if VWUtils.connCheck() == True:
-        while GPIO.input(homeb) == True:
-            print('[VOICE-ENGINE] : Listening!')
-            VWUtils.dispimg("img/"+LanguageSet+"/VEListening.ppm")
-            text = recognizer.recognize()
-            VWUtils.dispimg("img/"+LanguageSet+"/VEIdle.ppm")
-            if text is None:
-                    print('[VOICE-ENGINE] : Input was unrecognizable.')
-            else:
-                print(Base.WARNING, '[VOICE-ENGINE] : Recognized << "', text, '" >>', Base.END)
-                signDictionary.signRender(text)
+    #if VWUtils.connCheck() == True:
+        #while GPIO.input(homeb) == True:
+            #print('[VOICE-ENGINE] : Listening!')
+            #VWUtils.dispimg("img/"+LanguageSet+"/VEListening.ppm")
+            #text = recognizer.recognize()
+            #VWUtils.dispimg("img/"+LanguageSet+"/VEIdle.ppm")
+            #if text is None:
+                    #print('[VOICE-ENGINE] : Input was unrecognizable.')
+            #else:
+                #print(Base.WARNING, '[VOICE-ENGINE] : Recognized << "', text, '" >>', Base.END)
+                #signDictionary.signRender(text)
 
-    else:
-        print("Failed to connect to the internet. Aborting...")
-        VWUtils.dispimg("img/"+LanguageSet+"/NoConn.ppm")
-        time.sleep(2)
+    #else:
+        #print("Failed to connect to the internet. Aborting...")
+        #VWUtils.dispimg("img/"+LanguageSet+"/NoConn.ppm")
+        #time.sleep(2)
 
-    #VWUtils.ERR999(LanguageSet)
+    VWUtils.ERR999(LanguageSet)
     print("[ACOUSTIVISOR] : Quitting AcoustiVisor and returning to the main menu.")
     VWUtils.dispappexit(LanguageSet)
     time.sleep(0.5)
