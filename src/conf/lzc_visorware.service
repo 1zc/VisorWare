@@ -1,10 +1,8 @@
 [Unit]
 Description=VisorWare Script Startup
-After=network.target
 
 [Service]
 User=pi
-Type=idle
 ExecStart=/home/pi/VisorWare/launcher.sh
 Restart=on-failure
 

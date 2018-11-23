@@ -14,7 +14,7 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-currversion = '1811201810'
+currversion = '2311201810'
 
 #######################################
 # Display Initialization. DO NOT ALTER!
@@ -182,6 +182,7 @@ def SettingsInterface(LanguageSet):
                                     print(Base.WARNING, "[SYSTEM] : UPDATING...", Base.END)
                                     try:
                                         print("Shutting down VisorWare for updates.")
+                                        VWUtils.dispimg("img/"+LanguageSet+"/SETTINGUpdating.ppm")
                                         exit()
                                     finally:
                                         os.system('cd /home/pi/VWUD && python3 VWCTRL.py')

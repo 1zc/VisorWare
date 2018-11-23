@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '1811201810'
+currversion = '2311201810'
 
 #####################################################################################
 #                                                                                   #
@@ -104,6 +104,8 @@ if cfgfile.read(1) == '0':
         print('\n\nConfiguring Start-Up Interfaces...\n')
         os.system('sudo chmod u+x /home/pi/VisorWare/launcher.sh')
         os.system('sudo cp conf/lzc_visorware.service /etc/systemd/system/lzc_visorware.service')
+        os.system('sudo systemctl daemon-reload')
+        os.system('sudo systemctl start lzc_visorware.service')
         os.system('sudo systemctl enable lzc_visorware.service')
         os.system('sudo systemctl disable apt-daily.service')
         os.system('sudo systemctl disable apt-daily-upgrade.service')
@@ -165,12 +167,12 @@ VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
 
 ###################################
 # APPLICATION-SPECIFIC DEPENDENCIES AND SETUP:
-#import aiy.audio
-#import aiy.cloudspeech
-#import aiy.voicehat
-#import signDictionary
-#recognizer = aiy.cloudspeech.get_recognizer()
-#aiy.audio.get_recorder().start()
+import aiy.audio
+import aiy.cloudspeech
+import aiy.voicehat
+import signDictionary
+recognizer = aiy.cloudspeech.get_recognizer()
+aiy.audio.get_recorder().start()
 ###################################
 
 ###################################
@@ -338,7 +340,7 @@ def APPPower(): # Application function that allows options for power control.
                             os.system('sudo halt')
                             exit()
 
-                    print("[POWER] : Shutdown dialog box closed.")
+                print("[POWER] : Shutdown dialog box closed.")
 
                 
             elif PowerItem3 == 1:
@@ -381,24 +383,24 @@ def APPWeather(): # By Nanda Gopal.
     time.sleep(0.5)
 
 def AcoustiVisor(): # Core Application function for the AcoustiVisor Demo app.
-    #if VWUtils.connCheck() == True:
-        #while GPIO.input(homeb) == True:
-            #print('[VOICE-ENGINE] : Listening!')
-            #VWUtils.dispimg("img/"+LanguageSet+"/VEListening.ppm")
-            #text = recognizer.recognize()
-            #VWUtils.dispimg("img/"+LanguageSet+"/VEIdle.ppm")
-            #if text is None:
-                    #print('[VOICE-ENGINE] : Input was unrecognizable.')
-            #else:
-                #print(Base.WARNING, '[VOICE-ENGINE] : Recognized << "', text, '" >>', Base.END)
-                #signDictionary.signRender(text)
+    if VWUtils.connCheck() == True:
+        while GPIO.input(homeb) == True:
+            print('[VOICE-ENGINE] : Listening!')
+            VWUtils.dispimg("img/"+LanguageSet+"/VEListening.ppm")
+            text = recognizer.recognize()
+            VWUtils.dispimg("img/"+LanguageSet+"/VEIdle.ppm")
+            if text is None:
+                    print('[VOICE-ENGINE] : Input was unrecognizable.')
+            else:
+                print(Base.WARNING, '[VOICE-ENGINE] : Recognized << "', text, '" >>', Base.END)
+                signDictionary.signRender(text)
 
-    #elif VWUtils.connCheck() == False:
-        #print("Failed to connect to the internet. Aborting...")
-        #VWUtils.dispimg("img/"+LanguageSet+"/NoConn.ppm")
-        #time.sleep(2)
+    else:
+        print("Failed to connect to the internet. Aborting...")
+        VWUtils.dispimg("img/"+LanguageSet+"/NoConn.ppm")
+        time.sleep(2)
 
-    VWUtils.ERR999(LanguageSet)
+    #VWUtils.ERR999(LanguageSet)
     print("[ACOUSTIVISOR] : Quitting AcoustiVisor and returning to the main menu.")
     VWUtils.dispappexit(LanguageSet)
     time.sleep(0.5)
