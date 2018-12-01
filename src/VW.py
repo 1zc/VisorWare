@@ -167,7 +167,7 @@ VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
 
 ###################################
 # APPLICATION-SPECIFIC DEPENDENCIES AND SETUP:
-#import aiy.audio 
+#import aiy.audio
 #import aiy.cloudspeech
 #import aiy.voicehat
 #import signDictionary
