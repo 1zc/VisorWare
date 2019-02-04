@@ -4,7 +4,7 @@
 #####################################################################################
 #                                                                                   #
 #    VWUtils.py - Module for provision of various utility functions for VisorWare.  #
-#    Copyright (C) 2018  Liam Z. Charles                                            #
+#    Copyright (C) 2019  Liam Z. Charles                                            #
 #                                                                                   #
 #    This program is free software: you can redistribute it and/or modify           #
 #    it under the terms of the GNU General Public License as published by           #
