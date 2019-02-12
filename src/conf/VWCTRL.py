@@ -56,6 +56,9 @@ os.system('sudo rm /home/pi/VisorWare/src/cfg/cfg.txt -f')
 os.system('cp cfg.txt /home/pi/VisorWare/src/cfg/cfg.txt')
 print('Done.')
 
+print('Finalizing...')
+os.system('cd /home/pi/VisorWare && sudo chmod u+x launcher.sh')
+
 try:
     print('...')
     exit()

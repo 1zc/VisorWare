@@ -3,7 +3,7 @@ Description=VisorWare Script Startup
 
 [Service]
 User=pi
-ExecStart=/home/pi/VisorWare/launcher.sh
+ExecStart=/bin/bash /home/pi/VisorWare/launcher.sh
 Restart=on-failure
 
 [Install]

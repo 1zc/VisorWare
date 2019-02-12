@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '2311201810'
+currversion = '1202201910'
 
 #####################################################################################
 #                                                                                   #
@@ -105,8 +105,8 @@ if cfgfile.read(1) == '0':
         os.system('sudo chmod u+x /home/pi/VisorWare/launcher.sh')
         os.system('sudo cp conf/lzc_visorware.service /etc/systemd/system/lzc_visorware.service')
         os.system('sudo systemctl daemon-reload')
-        os.system('sudo systemctl start lzc_visorware.service')
         os.system('sudo systemctl enable lzc_visorware.service')
+        os.system('sudo systemctl start lzc_visorware.service')
         os.system('sudo systemctl disable apt-daily.service')
         os.system('sudo systemctl disable apt-daily-upgrade.service')
         print(ANSI.Color(120), "\nDONE.", ANSI.END)
