@@ -54,7 +54,8 @@ def SettingsInterface(LanguageSet):
     SettingsItem2 = 0  # System Stats
     SettingsItem3 = 0  # Language
     SettingsItem4 = 0  # Exit to menu
-    SettingsItem5 = 0  # BLANK AND UNUSED.
+    SettingsItem5 = 0  # Version - UNDISPLAYED
+    SettingsItem6 = 0  # BLANK AND UNALLOCATED
     SettingsExit = 0
 
     while SettingsExit == 0:
@@ -73,9 +74,13 @@ def SettingsInterface(LanguageSet):
         elif SettingsItem4 == 1:
             VWUtils.dispimg("img/"+setLang+"/ExitToMenu.ppm")
 
+        #elif SettingsItem5 == 1:
+            #VWUtils.dispimg("img/"+setLang+"/Version.ppm")
+
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
             if SettingsItem1 == 1:
+                #SettingsItem5 = 1
                 SettingsItem4 = 1
                 SettingsItem3 = 0
                 SettingsItem2 = 0
@@ -84,17 +89,26 @@ def SettingsInterface(LanguageSet):
                 SettingsItem1 = 1
                 SettingsItem3 = 0
                 SettingsItem4 = 0
+                #SettingsItem5 = 0
                 SettingsItem2 = 0
             elif SettingsItem3 == 1:
                 SettingsItem2 = 1
                 SettingsItem1 = 0
                 SettingsItem4 = 0
+                #SettingsItem5 = 0
                 SettingsItem3 = 0
             elif SettingsItem4 == 1:
                 SettingsItem3 = 1
                 SettingsItem2 = 0
                 SettingsItem1 = 0
+                #SettingsItem5 = 0
                 SettingsItem4 = 0
+            #elif SettingsItem5 == 1:
+                #SettingsItem4 = 1
+                #SettingsItem5 = 0
+                #SettingsItem1 = 0
+                #SettingsItem3 = 0
+                #SettingsItem2 = 0
             time.sleep(ButtonPressDelay)
 
         elif GPIO.input(rightb) == False:
@@ -102,23 +116,33 @@ def SettingsInterface(LanguageSet):
             if SettingsItem1 == 1:
                 SettingsItem2 = 1
                 SettingsItem4 = 0
+                #SettingsItem5 = 0
                 SettingsItem3 = 0
                 SettingsItem1 = 0
             elif SettingsItem2 == 1:
                 SettingsItem3 = 1
                 SettingsItem1 = 0
+                #SettingsItem5 = 0
                 SettingsItem4 = 0
                 SettingsItem2 = 0
             elif SettingsItem3 == 1:
                 SettingsItem4 = 1
                 SettingsItem1 = 0
+                #SettingsItem5 = 0
                 SettingsItem2 = 0
                 SettingsItem3 = 0
             elif SettingsItem4 == 1:
-                SettingsItem1 = 1
+                #SettingsItem5 = 1
+                SettingsItem1 = 0
                 SettingsItem2 = 0
                 SettingsItem3 = 0
                 SettingsItem4 = 0
+            #elif SettingsItem5 == 1:
+                #SettingsItem1 = 1
+                #SettingsItem5 = 0
+                #SettingsItem2 = 0
+                #SettingsItem3 = 0
+                #SettingsItem4 = 0
             time.sleep(ButtonPressDelay)
 
         elif GPIO.input(homeb) == False:
@@ -241,6 +265,10 @@ def SettingsInterface(LanguageSet):
 
             elif SettingsItem4 == 1:
                 SettingsExit = 1
+
+            elif SettingsItem5 == 1:
+                print("Version -> ", currversion)
+
             time.sleep(ButtonPressDelay)
 
     return setLang
