@@ -86,6 +86,13 @@ def ERR999(LanguageSet):
     while GPIO.input(homeb) == True:
         idlevar = 1
 
+#def disptext():
+    #disp.clear()
+    #disp.display()
+    #image = "lol"
+    #image = image.transpose(Image.FLIP_LEFT_RIGHT)
+    #disp.image(image)
+    #disp.display()
 
 def dispappexit(LanguageSet):
     image = Image.open("img/"+LanguageSet+"/AppExit.ppm").convert('1')

@@ -39,7 +39,6 @@ import subprocess
 import requests
 import math
 from termCol import *
-import VWUtils
 
 print("Reading saved language settings...")
 lang = 'cfg/langcfg.txt'
@@ -81,6 +80,7 @@ if cfgfile.read(1) == '0':
         # Installing VisorWare dependencies.
         print('\n\nInstalling VisorWare dependencies...\n')
         os.system('sudo apt-get --yes --force-yes install python-imaging python-smbus git')
+        os.system('sudo apt-get --yes --force-yes install bluetooth blueman bluez python-bluetooth')
         os.system('sudo sh conf/dispdriver.sh')
         print(ANSI.Color(120), "\nDONE.", ANSI.END)
         # Installing screenfetch.
@@ -133,6 +133,7 @@ else:
     print("CFG is good. Continuing with startup...")
     cfgfile.close()
 
+import VWUtils
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 
