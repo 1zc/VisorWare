@@ -29,6 +29,8 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
+from termCol import *
+
 #######################################
 # i2C Display Initialization. DO NOT ALTER!
 RST = 24

@@ -173,6 +173,7 @@ print("Launching VisorWare...\n")
 VisionEngine.dispimg("img/"+LanguageSet+"/crsplash.ppm")
 time.sleep(3)
 VisionEngine.dispimg("img/"+LanguageSet+"/splash.ppm")
+time.sleep(6)
 
 ###################################
 # APPLICATION-SPECIFIC DEPENDENCIES AND SETUP:
@@ -322,6 +323,7 @@ def APPPower(): # Application function that allows options for power control.
                         elif rbcy == 1:
                             rbcn = 1
                             rbcy = 0
+                        time.sleep(ButtonPressDelay)
 
                     elif GPIO.input(rightb) == False:
                         if rbcn == 1:
@@ -330,6 +332,7 @@ def APPPower(): # Application function that allows options for power control.
                         elif rbcy == 1:
                             rbcn = 1
                             rbcy = 0
+                        time.sleep(ButtonPressDelay)
 
                     elif GPIO.input(homeb) == False:
                         if rbcn == 1:
@@ -341,6 +344,7 @@ def APPPower(): # Application function that allows options for power control.
                             VisionEngine.dispclear()
                             os.system('sudo reboot')
                             exit()
+                        time.sleep(ButtonPressDelay)
                 print("[POWER] : Reboot dialog box closed.")
                 
             elif PowerItem2 == 1:
@@ -362,6 +366,7 @@ def APPPower(): # Application function that allows options for power control.
                         elif sdcy == 1:
                             sdcn = 1
                             sdcy = 0
+                        time.sleep(ButtonPressDelay)
 
                     elif GPIO.input(rightb) == False:
                         if sdcn == 1:
@@ -370,6 +375,7 @@ def APPPower(): # Application function that allows options for power control.
                         elif sdcy == 1:
                             sdcn = 1
                             sdcy = 0
+                        time.sleep(ButtonPressDelay)
 
                     elif GPIO.input(homeb) == False:
                         if sdcn == 1:
@@ -381,6 +387,7 @@ def APPPower(): # Application function that allows options for power control.
                             VisionEngine.dispclear()
                             os.system('sudo halt')
                             exit()
+                        time.sleep(ButtonPressDelay)
 
                 print("[POWER] : Shutdown dialog box closed.")
 
