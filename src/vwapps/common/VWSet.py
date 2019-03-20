@@ -6,6 +6,7 @@ import requests
 import math
 from termCol import *
 import VWUtils
+import VisionEngine
 
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
@@ -60,22 +61,22 @@ def SettingsInterface(LanguageSet):
 
     while SettingsExit == 0:
         if SettingsItem1 == 1:
-            VWUtils.dispimg("img/"+setLang+"/SETTINGUpdate.ppm")
+            VisionEngine.dispimg("img/"+setLang+"/SETTINGUpdate.ppm")
 
         elif SettingsItem2 == 1:
-            VWUtils.dispimg("img/"+setLang+"/SETTINGStats.ppm")
+            VisionEngine.dispimg("img/"+setLang+"/SETTINGStats.ppm")
      
         elif SettingsItem3 == 1:
             if setLang == "en":
-                VWUtils.dispimg("img/en/SETTINGLanguage.ppm")
+                VisionEngine.dispimg("img/en/SETTINGLanguage.ppm")
             elif setLang == "ar":
-                VWUtils.dispimg("img/ar/SETTINGLanguage.ppm")
+                VisionEngine.dispimg("img/ar/SETTINGLanguage.ppm")
 
         elif SettingsItem4 == 1:
-            VWUtils.dispimg("img/"+setLang+"/ExitToMenu.ppm")
+            VisionEngine.dispimg("img/"+setLang+"/ExitToMenu.ppm")
 
         #elif SettingsItem5 == 1:
-            #VWUtils.dispimg("img/"+setLang+"/Version.ppm")
+            #VisionEngine.dispimg("img/"+setLang+"/Version.ppm")
 
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
@@ -150,7 +151,7 @@ def SettingsInterface(LanguageSet):
             if SettingsItem1 == 1:
                 print(Base.WARNING, '[SETTINGS] : Commencing update process.', Base.END)
                 print(Base.WARNING, '[SYSTEM] : DO NOT TURN OFF THE POWER OR ATTEMPT TO INTERRUPT THE UPDATE PROCESS.', Base.END)
-                VWUtils.dispimg("img/"+setLang+"/SETTINGUpdating.ppm")
+                VisionEngine.dispimg("img/"+setLang+"/SETTINGUpdating.ppm")
                 if VWUtils.connCheck() == True:
                     #
                     # vmark.txt uses the following format: DDMMYYYYxy
@@ -169,7 +170,7 @@ def SettingsInterface(LanguageSet):
                     if vmarkfile.read(10) == currversion:
                         vmarkfile.close()
                         print(Base.OKGREEN, '[SYSTEM] : VisorWare software is up to date.', Base.END)
-                        VWUtils.dispimg("img/"+setLang+"/SETTINGCompUpdate.ppm")
+                        VisionEngine.dispimg("img/"+setLang+"/SETTINGCompUpdate.ppm")
                     else:
                         vmarkfile.close() 
                         print(Base.WARNING, '[SYSTEM] : A new version of the VisorWare software is available.', Base.END)
@@ -179,9 +180,9 @@ def SettingsInterface(LanguageSet):
                         udcy = 0
                         while uddb == 1:   
                             if udcn == 1:
-                                VWUtils.dispimg("img/"+LanguageSet+"/udcn.ppm")
+                                VisionEngine.dispimg("img/"+LanguageSet+"/udcn.ppm")
                             elif udcy == 1:
-                                VWUtils.dispimg("img/"+LanguageSet+"/udcy.ppm")
+                                VisionEngine.dispimg("img/"+LanguageSet+"/udcy.ppm")
 
                             if GPIO.input(leftb) == False:
                                 if udcn == 1:
@@ -206,7 +207,7 @@ def SettingsInterface(LanguageSet):
                                     print(Base.WARNING, "[SYSTEM] : UPDATING...", Base.END)
                                     try:
                                         print("Shutting down VisorWare for updates.")
-                                        VWUtils.dispimg("img/"+LanguageSet+"/SETTINGUpdating.ppm")
+                                        VisionEngine.dispimg("img/"+LanguageSet+"/SETTINGUpdating.ppm")
                                         exit()
                                     finally:
                                         os.system('cd /home/pi/VWUD && python3 VWCTRL.py')
@@ -215,13 +216,13 @@ def SettingsInterface(LanguageSet):
                             
                 elif VWUtils.connCheck() == False:
                     print("Failed to connect to the internet. Aborting...")
-                    VWUtils.dispimg("img/"+setLang+"/NoConn.ppm")
+                    VisionEngine.dispimg("img/"+setLang+"/NoConn.ppm")
                     time.sleep(2)
 
                 time.sleep(3)
 
             elif SettingsItem2 == 1:
-                VWUtils.dispappstart(setLang)
+                VisionEngine.dispappstart(setLang)
                 time.sleep(0.5)
                 print(Base.WARNING, '[SETTINGS] : Showing system stats.', Base.END)
                 image = Image.new('1', (128, 64))
@@ -248,11 +249,11 @@ def SettingsInterface(LanguageSet):
                     disp.display()
                     time.sleep(.03)
                 print(Base.WARNING, '[SETTINGS] : Finished Update process. Returning to menu.', Base.END)
-                VWUtils.dispappexit(setLang)
+                VisionEngine.dispappexit(setLang)
                 time.sleep(0.5)
 
             elif SettingsItem3 == 1:
-                VWUtils.dispappstart(setLang)
+                VisionEngine.dispappstart(setLang)
                 time.sleep(0.5)
                 if LanguageSet == "en":
                     print("Changing language to Arabic.")
