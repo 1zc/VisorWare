@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '1202201910'
+currversion = '2003201910'
 
 #####################################################################################
 #                                                                                   #
@@ -38,6 +38,7 @@ import os
 import subprocess
 import requests
 import math
+import VWUtils
 from termCol import *
 
 print("Reading saved language settings...")
@@ -58,6 +59,13 @@ cfgfile = open(cfgp, 'r+')
 
 if cfgfile.read(1) == '0':
     os.system("clear")
+    print(Base.FAILRED,'____   ____.__                    __      __                        ', Base.END)
+    print(Base.FAILRED,'\   \ /   /|__| _________________/  \    /  \_____ _______   ____   ', Base.END)
+    print(Base.FAILRED,' \   Y   / |  |/  ___/  _ \_  __ \   \/\/   /\__  \\_  __ \_/ __ \  ', Base.END)
+    print(Base.FAILRED,'  \     /  |  |\___ (  <_> )  | \/\        /  / __ \|  | \/\  ___/  ', Base.END)
+    print(Base.FAILRED,'   \___/   |__/____  >____/|__|    \__/\  /  (____  /__|    \___  > ', Base.END)
+    print(Base.FAILRED,'                   \/                   \/        \/            \/  ', Base.END)
+    print("")
     print("First time VisorWare is being launched.")
     print(Base.WARNING,"Running first-time setup. THIS WILL TAKE A VERY LONG TIME!", Base.END)
     print("")
@@ -133,7 +141,7 @@ else:
     print("CFG is good. Continuing with startup...")
     cfgfile.close()
 
-import VWUtils
+import VisionEngine
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 
@@ -142,7 +150,7 @@ from PIL import ImageFont
 from PIL import ImageDraw
 
 #######################################
-# Display Initialization. DO NOT ALTER!
+# i2C Display Initialization. DO NOT ALTER!
 RST = 24
 DC = 23
 SPI_PORT = 0
@@ -162,9 +170,9 @@ disp.display()
 #######################################
 
 print("Launching VisorWare...\n")
-VWUtils.dispimg("img/"+LanguageSet+"/crsplash.ppm")
+VisionEngine.dispimg("img/"+LanguageSet+"/crsplash.ppm")
 time.sleep(3)
-VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
+VisionEngine.dispimg("img/"+LanguageSet+"/splash.ppm")
 
 ###################################
 # APPLICATION-SPECIFIC DEPENDENCIES AND SETUP:
@@ -234,16 +242,16 @@ def APPPower(): # Application function that allows options for power control.
     PowerExit = 0
     while PowerExit == 0:
         if PowerItem1 == 1:
-            VWUtils.dispimg("img/"+LanguageSet+"/POWERReboot.ppm")
+            VisionEngine.dispimg("img/"+LanguageSet+"/POWERReboot.ppm")
 
         elif PowerItem2 == 1:
-            VWUtils.dispimg("img/"+LanguageSet+"/POWERShutdown.ppm")
+            VisionEngine.dispimg("img/"+LanguageSet+"/POWERShutdown.ppm")
 
         elif PowerItem3 == 1:
-            VWUtils.dispimg("img/"+LanguageSet+"/POWERQuit.ppm")
+            VisionEngine.dispimg("img/"+LanguageSet+"/POWERQuit.ppm")
 
         elif PowerItem4 == 1:
-            VWUtils.dispimg("img/"+LanguageSet+"/ExitToMenu.ppm")
+            VisionEngine.dispimg("img/"+LanguageSet+"/ExitToMenu.ppm")
 
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
@@ -303,9 +311,9 @@ def APPPower(): # Application function that allows options for power control.
                 rbcy = 0
                 while rbdb == 1:   
                     if rbcn == 1:
-                        VWUtils.dispimg("img/"+LanguageSet+"/rbcn.ppm")
+                        VisionEngine.dispimg("img/"+LanguageSet+"/rbcn.ppm")
                     elif rbcy == 1:
-                        VWUtils.dispimg("img/"+LanguageSet+"/rbcy.ppm")
+                        VisionEngine.dispimg("img/"+LanguageSet+"/rbcy.ppm")
 
                     if GPIO.input(leftb) == False:
                         if rbcn == 1:
@@ -328,9 +336,9 @@ def APPPower(): # Application function that allows options for power control.
                             rbdb = 0
                         elif rbcy == 1:
                             print(Base.WARNING, '[POWER] : REBOOTING', Base.END)
-                            VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
+                            VisionEngine.dispimg("img/"+LanguageSet+"/splash.ppm")
                             time.sleep(3)
-                            VWUtils.dispclear()
+                            VisionEngine.dispclear()
                             os.system('sudo reboot')
                             exit()
                 print("[POWER] : Reboot dialog box closed.")
@@ -343,9 +351,9 @@ def APPPower(): # Application function that allows options for power control.
                 sdcy = 0
                 while sddb == 1:   
                     if sdcn == 1:
-                        VWUtils.dispimg("img/"+LanguageSet+"/sdcn.ppm")
+                        VisionEngine.dispimg("img/"+LanguageSet+"/sdcn.ppm")
                     elif sdcy == 1:
-                        VWUtils.dispimg("img/"+LanguageSet+"/sdcy.ppm")
+                        VisionEngine.dispimg("img/"+LanguageSet+"/sdcy.ppm")
 
                     if GPIO.input(leftb) == False:
                         if sdcn == 1:
@@ -368,9 +376,9 @@ def APPPower(): # Application function that allows options for power control.
                             sddb = 0
                         elif sdcy == 1:
                             print(Base.WARNING, "[POWER] : SHUTTING DOWN.", Base.END)
-                            VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
+                            VisionEngine.dispimg("img/"+LanguageSet+"/splash.ppm")
                             time.sleep(3)
-                            VWUtils.dispclear()
+                            VisionEngine.dispclear()
                             os.system('sudo halt')
                             exit()
 
@@ -379,16 +387,16 @@ def APPPower(): # Application function that allows options for power control.
                 
             elif PowerItem3 == 1:
                 print(Base.FAILRED, "[POWER] : Quitting VisorWare.", Base.END)
-                VWUtils.dispimg("img/"+LanguageSet+"/splash.ppm")
+                VisionEngine.dispimg("img/"+LanguageSet+"/splash.ppm")
                 time.sleep(3)
-                VWUtils.dispimg("img/"+LanguageSet+"/POWERQuitConsequence.ppm")
+                VisionEngine.dispimg("img/"+LanguageSet+"/POWERQuitConsequence.ppm")
                 exit()
             elif PowerItem4 == 1:
                 PowerExit = 1
             time.sleep(ButtonPressDelay)
 
     print('[POWER] : Exiting Power options and returning to menu.')
-    VWUtils.dispappexit(LanguageSet)
+    VisionEngine.dispappexit(LanguageSet)
     time.sleep(0.5)
 
 def APPSettings(): # Application function that controls settings.
@@ -401,28 +409,28 @@ def APPSettings(): # Application function that controls settings.
     langfile.close()
 
     print('[SETTINGS] : Exiting Settings and returning to the main menu.')
-    VWUtils.dispappexit(LanguageSet)
+    VisionEngine.dispappexit(LanguageSet)
     time.sleep(0.5)
 
 def APPWeather(): # By Nanda Gopal.
-    if VWUtils.connCheck() == True:
+    if VisionEngine.connCheck() == True:
         VWWeather.weather()
-    elif VWUtils.connCheck() == False:
+    elif VisionEngine.connCheck() == False:
         print("Failed to connect to the internet. Aborting...")
-        VWUtils.dispimg("img/"+LanguageSet+"/NoConn.ppm")
+        VisionEngine.dispimg("img/"+LanguageSet+"/NoConn.ppm")
         time.sleep(2)
 
     print("[WEATHER] : Exiting the Weather app and returning to the main menu.")
-    VWUtils.dispappexit(LanguageSet)
+    VisionEngine.dispappexit(LanguageSet)
     time.sleep(0.5)
 
 def AcoustiVisor(): # Core Application function for the AcoustiVisor Demo app.
-    #if VWUtils.connCheck() == True:
+    #if VisionEngine.connCheck() == True:
         #while GPIO.input(homeb) == True:
             #print('[VOICE-ENGINE] : Listening!')
-            #VWUtils.dispimg("img/"+LanguageSet+"/VEListening.ppm")
+            #VisionEngine.dispimg("img/"+LanguageSet+"/VEListening.ppm")
             #text = recognizer.recognize()
-            #VWUtils.dispimg("img/"+LanguageSet+"/VEIdle.ppm")
+            #VisionEngine.dispimg("img/"+LanguageSet+"/VEIdle.ppm")
             #if text is None:
                     #print('[VOICE-ENGINE] : Input was unrecognizable.')
             #else:
@@ -431,12 +439,12 @@ def AcoustiVisor(): # Core Application function for the AcoustiVisor Demo app.
 
     #else:
         #print("Failed to connect to the internet. Aborting...")
-        #VWUtils.dispimg("img/"+LanguageSet+"/NoConn.ppm")
+        #VisionEngine.dispimg("img/"+LanguageSet+"/NoConn.ppm")
         #time.sleep(2)
 
-    VWUtils.ERR999(LanguageSet)
+    VisionEngine.ERR999(LanguageSet)
     print("[ACOUSTIVISOR] : Quitting AcoustiVisor and returning to the main menu.")
-    VWUtils.dispappexit(LanguageSet)
+    VisionEngine.dispappexit(LanguageSet)
     time.sleep(0.5)
 
 #####################################################################
@@ -445,16 +453,16 @@ print("[INTERFACE] : Main Menu is live.")
 
 while True:
     if MenuItem1 == 1:
-        VWUtils.dispimg("img/"+LanguageSet+"/Acoustivisor.ppm")
+        VisionEngine.dispimg("img/"+LanguageSet+"/Acoustivisor.ppm")
 
     elif MenuItem2 == 1:
-        VWUtils.dispimg("img/"+LanguageSet+"/Settings.ppm")
+        VisionEngine.dispimg("img/"+LanguageSet+"/Settings.ppm")
 
     elif MenuItem3 == 1:
-        VWUtils.dispimg("img/"+LanguageSet+"/Power.ppm")
+        VisionEngine.dispimg("img/"+LanguageSet+"/Power.ppm")
 
     elif MenuItem4 == 1:
-        VWUtils.dispimg("img/"+LanguageSet+"/Weather.ppm")
+        VisionEngine.dispimg("img/"+LanguageSet+"/Weather.ppm")
 
 
     if GPIO.input(leftb) == False:
@@ -509,22 +517,22 @@ while True:
         print('[INTERFACE] : Button-Press --> HOME')
         if MenuItem1 == 1:
             print(Base.WARNING, "[INTERFACE] : Starting AcoustiVisor Demo App.", Base.END)
-            VWUtils.dispappstart(LanguageSet)
+            VisionEngine.dispappstart(LanguageSet)
             time.sleep(0.5)  
             AcoustiVisor()
         elif MenuItem2 == 1:
             print(Base.WARNING, "[INTERFACE] : Starting the Settings App.", Base.END)
-            VWUtils.dispappstart(LanguageSet)
+            VisionEngine.dispappstart(LanguageSet)
             time.sleep(0.5)
             APPSettings()
         elif MenuItem3 == 1:
             print(Base.WARNING, "[INTERFACE] : Starting the Power options interface.", Base.END)
-            VWUtils.dispappstart(LanguageSet)
+            VisionEngine.dispappstart(LanguageSet)
             time.sleep(0.5)
             APPPower()
         elif MenuItem4 == 1:
             print(Base.WARNING, "[INTERFACE] : Starting Weather App.", Base.END)
-            VWUtils.dispappstart(LanguageSet)
+            VisionEngine.dispappstart(LanguageSet)
             time.sleep(0.5)
             APPWeather()
         time.sleep(ButtonPressDelay)

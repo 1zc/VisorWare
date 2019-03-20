@@ -42,7 +42,6 @@ hdmi_mode=85
 #uncomment to overclock the arm. 700 MHz is the default.
 arm_freq=900
 gpu_mem = 64
-core_freq = 500
 
 # Uncomment some or all of these to enable the optional hardware interfaces
 dtparam=i2c_arm=on,i2c_arm_baudrate=400000
