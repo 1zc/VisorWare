@@ -79,6 +79,7 @@ if cfgfile.read(1) == '0':
         os.system('sudo apt-get --yes remove --purge libreoffice-calc libreoffice-common libreoffice-core libreoffice-draw libreoffice-gtk libreoffice-impress libreoffice-math libreoffice-writer claws-mail')
         os.system('sudo apt-get --yes remove --purge geany-common geany greenfoot bluej nodered python3-thonny sense-emu-tools epiphany-browser-data epiphany-browser dillo')
         os.system('sudo apt-get autoremove -y && sudo apt-get autoclean -y')
+        os.system('sudo apt autoremove -y && sudo apt autoclean -y')
         print(ANSI.Color(120), "\nDONE.", ANSI.END)
         # Updates repositories and installs all updates available for currently installed software.
         print('\n\nUpdating...\n')
@@ -142,38 +143,13 @@ else:
     cfgfile.close()
 
 import VisionEngine
-import Adafruit_GPIO.SPI as SPI
-import Adafruit_SSD1306
-
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
-
-#######################################
-# i2C Display Initialization. DO NOT ALTER!
-RST = 24
-DC = 23
-SPI_PORT = 0
-SPI_DEVICE = 0
-disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
-disp.begin()
-width = disp.width
-height = disp.height
-padding = -2
-top = padding
-bottom = height=padding
-x = 0
-font = ImageFont.load_default()
-disp.clear()
-disp.display()
-#
-#######################################
+import errorHandle
 
 print("Launching VisorWare...\n")
 VisionEngine.dispimg("img/"+LanguageSet+"/crsplash.ppm")
-time.sleep(3)
+time.sleep(2)
 VisionEngine.dispimg("img/"+LanguageSet+"/splash.ppm")
-time.sleep(6)
+time.sleep(3)
 
 ###################################
 # APPLICATION-SPECIFIC DEPENDENCIES AND SETUP:
@@ -230,6 +206,7 @@ MenuItem4 = 0  # Weather App.
 MenuItem5 = 0  # BLANK AND UNUSED.
 MenuItem6 = 0  # BLANK AND UNUSED
 
+debugStatus = False
 ButtonPressDelay = 0.2 # Latency of registering button presses.
 MenuItem1 = 1
 #####################################################################
@@ -420,9 +397,9 @@ def APPSettings(): # Application function that controls settings.
     time.sleep(0.5)
 
 def APPWeather(): # By Nanda Gopal.
-    if VisionEngine.connCheck() == True:
+    if VWUtils.connCheck() == True:
         VWWeather.weather()
-    elif VisionEngine.connCheck() == False:
+    elif VWUtils.connCheck() == False:
         print("Failed to connect to the internet. Aborting...")
         VisionEngine.dispimg("img/"+LanguageSet+"/NoConn.ppm")
         time.sleep(2)
@@ -448,8 +425,9 @@ def AcoustiVisor(): # Core Application function for the AcoustiVisor Demo app.
         #print("Failed to connect to the internet. Aborting...")
         #VisionEngine.dispimg("img/"+LanguageSet+"/NoConn.ppm")
         #time.sleep(2)
-
-    VisionEngine.ERR999(LanguageSet)
+    
+    errorCode = 999
+    errorHandle.errCode(LanguageSet, errorCode, debugStatus)
     print("[ACOUSTIVISOR] : Quitting AcoustiVisor and returning to the main menu.")
     VisionEngine.dispappexit(LanguageSet)
     time.sleep(0.5)

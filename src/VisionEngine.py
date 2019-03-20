@@ -3,7 +3,7 @@
 
 #####################################################################################
 #                                                                                   #
-#    VisionEngine.py - Graphical Rendering Engine for VisorWare supported hardware. #
+#    VisionEngine - Graphical Rendering Engine for VisorWare supported hardware.    #
 #    Copyright (C) 2019  Liam Z. Charles                                            #
 #                                                                                   #
 #    This program is free software: you can redistribute it and/or modify           #
@@ -51,6 +51,20 @@ disp.display()
 #
 #######################################
 
+def renderFlip(imagePath):
+    image = Image.open(imagePath).convert('1')
+    image = image.transpose(Image.FLIP_LEFT_RIGHT)
+    disp.image(image)
+    disp.display()
+
+def render(imagePath, debugStatus):
+    image = Image.open(imagePath).convert('1')
+    if debugStatus == True:
+        disp.image(image)
+        disp.display()
+    else:
+        renderFlip(image)
+
 def dispclear():
     disp.clear()
     disp.display()
@@ -70,19 +84,16 @@ def dispimg(img):
     disp.image(image)
     disp.display()
 
-#def disptext():
-    #disp.clear()
-    #disp.display()
-    #image = "lol"
-    #image = image.transpose(Image.FLIP_LEFT_RIGHT)
-    #disp.image(image)
-    #disp.display()
+def disptext(s1, s2, s3, s4, off1, off2, off3, off4):
+    image = Image.new('1',  (disp.width, disp.height))
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((0, 0, disp.width, disp.height), outline=0, fill=0)
 
-def ERR999(LanguageSet):
-    idlevar = 0
-    image = Image.open("img/"+LanguageSet+"/ERR999.ppm").convert('1')
-    print(Base.FAILRED, "ERROR! Code: 999\n This application has a manufacturer lock and cannot be started.", Base.END)
+    draw.text((x, top+off1), s1.decode('utf-8'),  font=font, fill=255)
+    draw.text((x, top+off2), s2.decode('utf-8'),  font=font, fill=255)
+    draw.text((x, top+off3), s3.decode('utf-8'),  font=font, fill=255)
+    draw.text((x, top+off4), s4.decode('utf-8'),  font=font, fill=255)
+
+    image = image.transpose(Image.FLIP_LEFT_RIGHT)
     disp.image(image)
     disp.display()
-    while GPIO.input(homeb) == True:
-        idlevar = 1

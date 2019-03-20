@@ -1,9 +1,9 @@
-# VWUtils - contains utility functions.
+# errorHandle - Simple error code management system for VisorWare.
 # Packaged with VisorWare, a project by Liam Z. Charles.
 
 #####################################################################################
 #                                                                                   #
-#    VWUtils.py - Module for provision of various utility functions for VisorWare.  #
+#    errorHandle - Simple error code management system for VisorWare.               #
 #    Copyright (C) 2019  Liam Z. Charles                                            #
 #                                                                                   #
 #    This program is free software: you can redistribute it and/or modify           #
@@ -21,16 +21,25 @@
 #                                                                                   #
 #####################################################################################
 
-import socket
+import VisionEngine
+import RPi.GPIO as GPIO
 from termCol import *
 
-def connCheck(): # Checks for availability of internet connection.
-    try:
-        socket.create_connection(("www.google.com", 80))
-        return True
-    except OSError:
-        pass
-    return False
+##################################################
+# Button input board initialization. DO NOT ALTER!
+GPIO.setmode(GPIO.BCM)
+leftb = 17
+homeb = 27
+rightb = 22
+GPIO.setup(leftb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(homeb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#
+##################################################
 
-
-
+def errCode(LanguageSet, errorCode, debugStatus):
+    idlevar = 0
+    print(Base.FAILRED, "ERROR! Code: " + errorCode, Base.END)
+    VisionEngine.render("img/"+LanguageSet+"/ERR999.ppm", debugStatus)
+    while GPIO.input(homeb) == True:
+        idlevar = 1

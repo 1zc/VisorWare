@@ -134,7 +134,7 @@ def SettingsInterface(LanguageSet):
                 SettingsItem3 = 0
             elif SettingsItem4 == 1:
                 #SettingsItem5 = 1
-                SettingsItem1 = 0
+                SettingsItem1 = 1
                 SettingsItem2 = 0
                 SettingsItem3 = 0
                 SettingsItem4 = 0
@@ -223,16 +223,11 @@ def SettingsInterface(LanguageSet):
 
             elif SettingsItem2 == 1:
                 VisionEngine.dispappstart(setLang)
-                time.sleep(0.5)
                 print(Base.WARNING, '[SETTINGS] : Showing system stats.', Base.END)
-                image = Image.new('1', (128, 64))
-                draw = ImageDraw.Draw(image)
-                draw.rectangle((0,0,128,64), outline=0, fill=0)
                 time.sleep(0.5)
-                while GPIO.input(homeb) == True:
-                    draw.rectangle((0,0,128,64), outline=0, fill=0)
+                while GPIO.input(homeb) == True:                    
                     cmd = "hostname -I | cut -d\' \' -f1"
-                    IP = subprocess.check_output(cmd, shell = True )
+                    IP = subprocess.check_output(cmd, shell = True)
                     cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
                     CPU = subprocess.check_output(cmd, shell = True )
                     cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
@@ -240,15 +235,9 @@ def SettingsInterface(LanguageSet):
                     cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
                     Disk = subprocess.check_output(cmd, shell = True )
 
-                    draw.text((x, top),       "IP: " + (IP.decode('utf-8')),  font=font, fill=255)
-                    draw.text((x, top+8),     (CPU.decode('utf-8')), font=font, fill=255)
-                    draw.text((x, top+16),    (MemUsage.decode('utf-8')),  font=font, fill=255)
-                    draw.text((x, top+25),    (Disk.decode('utf-8')),  font=font, fill=255)
-
-                    disp.image(image)
-                    disp.display()
+                    VisionEngine.disptext(IP,CPU,MemUsage,Disk,0,8,16,25)
                     time.sleep(.03)
-                print(Base.WARNING, '[SETTINGS] : Finished Update process. Returning to menu.', Base.END)
+                print(Base.WARNING, '[SETTINGS] : Exiting system stats.', Base.END)
                 VisionEngine.dispappexit(setLang)
                 time.sleep(0.5)
 

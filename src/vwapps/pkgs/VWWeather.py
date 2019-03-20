@@ -6,6 +6,7 @@ import requests
 import math
 from termCol import *
 import VWUtils
+import VisionEngine
 
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
@@ -63,5 +64,6 @@ def weather():
         draw.rectangle((0,0,128,64), outline=0, fill=0)
         draw.text((x, top),       "Temperature: " + (str(current_temp)),  font=font, fill=255)
         draw.text((x, top+8),    "Humidity: " + (str(current_humidity)),  font=font, fill=255)
+        image = image.transpose(Image.FLIP_LEFT_RIGHT)
         disp.image(image)
         disp.display()
