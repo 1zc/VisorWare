@@ -40,6 +40,6 @@ GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 def errCode(LanguageSet, errorCode, debugStatus):
     idlevar = 0
     print(Base.FAILRED, "ERROR! Code: " + errorCode, Base.END)
-    VisionEngine.render("img/"+LanguageSet+"/ERR999.ppm", debugStatus)
+    VisionEngine.render("img/"+LanguageSet+"/ERR"+errorCode+".ppm", debugStatus)
     while GPIO.input(homeb) == True:
         idlevar = 1

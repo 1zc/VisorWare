@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '2003201910'
+currversion = '2103201910'
 
 #####################################################################################
 #                                                                                   #
@@ -380,7 +380,7 @@ def APPPower(): # Application function that allows options for power control.
             time.sleep(ButtonPressDelay)
 
     print('[POWER] : Exiting Power options and returning to menu.')
-    VisionEngine.appExit(LanguageSet)
+    VisionEngine.appExit(LanguageSet, debugStatus)
     time.sleep(0.5)
 
 def APPSettings(): # Application function that controls settings.
@@ -393,19 +393,19 @@ def APPSettings(): # Application function that controls settings.
     langfile.close()
 
     print('[SETTINGS] : Exiting Settings and returning to the main menu.')
-    VisionEngine.appExit(LanguageSet)
+    VisionEngine.appExit(LanguageSet, debugStatus)
     time.sleep(0.5)
 
 def APPWeather(): # By Nanda Gopal.
     if VWUtils.connCheck() == True:
-        VWWeather.weather()
+        VWWeather.weather(debugStatus)
     elif VWUtils.connCheck() == False:
         print("Failed to connect to the internet. Aborting...")
         VisionEngine.render("img/"+LanguageSet+"/NoConn.ppm", debugStatus)
         time.sleep(2)
 
     print("[WEATHER] : Exiting the Weather app and returning to the main menu.")
-    VisionEngine.appExit(LanguageSet)
+    VisionEngine.appExit(LanguageSet, debugStatus)
     time.sleep(0.5)
 
 def AcoustiVisor(): # Core Application function for the Speech-to-ASL Demo app.
@@ -426,10 +426,10 @@ def AcoustiVisor(): # Core Application function for the Speech-to-ASL Demo app.
         #VisionEngine.render("img/"+LanguageSet+"/NoConn.ppm", debugStatus)
         #time.sleep(2)
     
-    errorCode = LOCK999
+    errorCode = 'LOCK999'
     errorHandle.errCode(LanguageSet, errorCode, debugStatus)
     print("[ACOUSTIVISOR] : Quitting AcoustiVisor and returning to the main menu.")
-    VisionEngine.appExit(LanguageSet)
+    VisionEngine.appExit(LanguageSet, debugStatus)
     time.sleep(0.5)
 
 #####################################################################
@@ -502,22 +502,22 @@ while True:
         print('[INTERFACE] : Button-Press --> HOME')
         if MenuItem1 == 1:
             print(Base.WARNING, "[INTERFACE] : Starting AcoustiVisor Demo App.", Base.END)
-            VisionEngine.dispappstart(LanguageSet)
+            VisionEngine.appStart(LanguageSet, debugStatus)
             time.sleep(0.5)  
             AcoustiVisor()
         elif MenuItem2 == 1:
             print(Base.WARNING, "[INTERFACE] : Starting the Settings App.", Base.END)
-            VisionEngine.dispappstart(LanguageSet)
+            VisionEngine.appStart(LanguageSet, debugStatus)
             time.sleep(0.5)
             APPSettings()
         elif MenuItem3 == 1:
             print(Base.WARNING, "[INTERFACE] : Starting the Power options interface.", Base.END)
-            VisionEngine.dispappstart(LanguageSet)
+            VisionEngine.appStart(LanguageSet, debugStatus)
             time.sleep(0.5)
             APPPower()
         elif MenuItem4 == 1:
             print(Base.WARNING, "[INTERFACE] : Starting Weather App.", Base.END)
-            VisionEngine.dispappstart(LanguageSet)
+            VisionEngine.appStart(LanguageSet, debugStatus)
             time.sleep(0.5)
             APPWeather()
         time.sleep(ButtonPressDelay)

@@ -45,7 +45,7 @@ GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #
 ##################################################
 
-def weather():
+def weather(debugStatus):
     print("Starting live weather stream...")
     TempDisp = 1
     HumidDisp = 0
@@ -59,11 +59,7 @@ def weather():
         current_humidity = main_data.get('humidity')
         current_temp = round(current_tempK - 273, 1)
         CurrTemp = int(current_temp)
-        image = Image.new('1', (128, 64))
-        draw = ImageDraw.Draw(image)
-        draw.rectangle((0,0,128,64), outline=0, fill=0)
-        draw.text((x, top),       "Temperature: " + (str(current_temp)),  font=font, fill=255)
-        draw.text((x, top+8),    "Humidity: " + (str(current_humidity)),  font=font, fill=255)
-        image = image.transpose(Image.FLIP_LEFT_RIGHT)
-        disp.image(image)
-        disp.display()
+        FinalTemp = "Temperature: " + (str(current_temp))
+        FinalHumid = "Humidity: " + (str(current_humidity))
+
+        VisionEngine.disptext(FinalTemp, FinalHumid, " ", " ", 0, 12,24,36, debugStatus, '0')

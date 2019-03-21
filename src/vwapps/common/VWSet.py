@@ -15,7 +15,7 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-currversion = '2003201910'
+currversion = '2103201910'
 
 #######################################
 # Display Initialization. DO NOT ALTER!
@@ -222,7 +222,7 @@ def SettingsInterface(LanguageSet, debugStatus):
                 time.sleep(3)
 
             elif SettingsItem2 == 1:
-                VisionEngine.dispappstart(setLang)
+                VisionEngine.appStart(setLang, debugStatus)
                 print(Base.WARNING, '[SETTINGS] : Showing system stats.', Base.END)
                 time.sleep(0.5)
                 while GPIO.input(homeb) == True:                    
@@ -235,14 +235,14 @@ def SettingsInterface(LanguageSet, debugStatus):
                     cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
                     Disk = subprocess.check_output(cmd, shell = True )
 
-                    VisionEngine.disptext(IP,CPU,MemUsage,Disk,0,12,24,36,setDebug)
+                    VisionEngine.disptext(IP,CPU,MemUsage,Disk,0,15,27,39,debugStatus,'8')
                     time.sleep(.03)
                 print(Base.WARNING, '[SETTINGS] : Exiting system stats.', Base.END)
-                VisionEngine.appExit(setLang)
+                VisionEngine.appExit(setLang, debugStatus)
                 time.sleep(0.5)
 
             elif SettingsItem3 == 1:
-                VisionEngine.dispappstart(setLang)
+                VisionEngine.appStart(setLang, debugStatus)
                 time.sleep(0.5)
                 if LanguageSet == "en":
                     print("Changing language to Arabic.")
