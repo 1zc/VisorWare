@@ -142,13 +142,26 @@ else:
     print("CFG is good. Continuing with startup...")
     cfgfile.close()
 
+# Core Variable Initialization ######################################
+MenuItem1 = 0  # AcoustiVisor
+MenuItem2 = 0  # Settings.
+MenuItem3 = 0  # Power.
+MenuItem4 = 0  # Weather App.
+MenuItem5 = 0  # BLANK AND UNUSED.
+MenuItem6 = 0  # BLANK AND UNUSED
+
+debugStatus = False
+ButtonPressDelay = 0.2 # Latency of registering button presses.
+MenuItem1 = 1
+#####################################################################
+
 import VisionEngine
 import errorHandle
 
 print("Launching VisorWare...\n")
-VisionEngine.dispimg("img/"+LanguageSet+"/crsplash.ppm")
+VisionEngine.render("img/"+LanguageSet+"/crsplash.ppm", debugStatus)
 time.sleep(2)
-VisionEngine.dispimg("img/"+LanguageSet+"/splash.ppm")
+VisionEngine.render("img/"+LanguageSet+"/splash.ppm", debugStatus)
 time.sleep(3)
 
 ###################################
@@ -198,19 +211,6 @@ print(Base.OKGREEN,'                   \/                   \/        \/        
 print (Base.OKGREEN,"\nVersion 1.0 | Build ",currversion , Base.END)
 print (Base.FAILRED,"This is a special demo version of VisorWare. Updates can break build, please proceed with caution.", Base.END)
 
-# Core Variables ####################################################
-MenuItem1 = 0  # AcoustiVisor
-MenuItem2 = 0  # Settings.
-MenuItem3 = 0  # Power.
-MenuItem4 = 0  # Weather App.
-MenuItem5 = 0  # BLANK AND UNUSED.
-MenuItem6 = 0  # BLANK AND UNUSED
-
-debugStatus = False
-ButtonPressDelay = 0.2 # Latency of registering button presses.
-MenuItem1 = 1
-#####################################################################
-
 # APPLICATIONS: #####################################################
 def APPPower(): # Application function that allows options for power control.
     PowerItem1 = 1 # Shutdown
@@ -220,16 +220,16 @@ def APPPower(): # Application function that allows options for power control.
     PowerExit = 0
     while PowerExit == 0:
         if PowerItem1 == 1:
-            VisionEngine.dispimg("img/"+LanguageSet+"/POWERReboot.ppm")
+            VisionEngine.render("img/"+LanguageSet+"/POWERReboot.ppm", debugStatus)
 
         elif PowerItem2 == 1:
-            VisionEngine.dispimg("img/"+LanguageSet+"/POWERShutdown.ppm")
+            VisionEngine.render("img/"+LanguageSet+"/POWERShutdown.ppm", debugStatus)
 
         elif PowerItem3 == 1:
-            VisionEngine.dispimg("img/"+LanguageSet+"/POWERQuit.ppm")
+            VisionEngine.render("img/"+LanguageSet+"/POWERQuit.ppm", debugStatus)
 
         elif PowerItem4 == 1:
-            VisionEngine.dispimg("img/"+LanguageSet+"/ExitToMenu.ppm")
+            VisionEngine.render("img/"+LanguageSet+"/ExitToMenu.ppm", debugStatus)
 
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')

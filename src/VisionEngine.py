@@ -29,8 +29,6 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-from termCol import *
-
 #######################################
 # i2C Display Initialization. DO NOT ALTER!
 RST = 24
@@ -45,7 +43,8 @@ padding = -2
 top = padding
 bottom = height=padding
 x = 0
-font = ImageFont.load_default()
+fontsize = 12
+font = ImageFont.truetype("roboto.ttf", fontsize)
 disp.clear()
 disp.display()
 #
@@ -60,10 +59,10 @@ def renderFlip(imagePath):
 def render(imagePath, debugStatus):
     image = Image.open(imagePath).convert('1')
     if debugStatus == True:
+        renderFlip(image)        
+    else:
         disp.image(image)
         disp.display()
-    else:
-        renderFlip(image)
 
 def dispclear():
     disp.clear()
