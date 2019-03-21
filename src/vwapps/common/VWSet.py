@@ -47,7 +47,7 @@ GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #
 ##################################################
 
-def SettingsInterface(LanguageSet):
+def SettingsInterface(LanguageSet, debugStatus):
     global currversion
     setLang = LanguageSet
     ButtonPressDelay = 0.2
@@ -235,10 +235,10 @@ def SettingsInterface(LanguageSet):
                     cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
                     Disk = subprocess.check_output(cmd, shell = True )
 
-                    VisionEngine.disptext(IP,CPU,MemUsage,Disk,0,8,16,25)
+                    VisionEngine.disptext(IP,CPU,MemUsage,Disk,0,12,24,36,setDebug)
                     time.sleep(.03)
                 print(Base.WARNING, '[SETTINGS] : Exiting system stats.', Base.END)
-                VisionEngine.dispappexit(setLang)
+                VisionEngine.appExit(setLang)
                 time.sleep(0.5)
 
             elif SettingsItem3 == 1:

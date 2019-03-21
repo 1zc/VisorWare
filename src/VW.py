@@ -289,9 +289,9 @@ def APPPower(): # Application function that allows options for power control.
                 rbcy = 0
                 while rbdb == 1:   
                     if rbcn == 1:
-                        VisionEngine.dispimg("img/"+LanguageSet+"/rbcn.ppm")
+                        VisionEngine.render("img/"+LanguageSet+"/rbcn.ppm", debugStatus)
                     elif rbcy == 1:
-                        VisionEngine.dispimg("img/"+LanguageSet+"/rbcy.ppm")
+                        VisionEngine.render("img/"+LanguageSet+"/rbcy.ppm", debugStatus)
 
                     if GPIO.input(leftb) == False:
                         if rbcn == 1:
@@ -316,9 +316,9 @@ def APPPower(): # Application function that allows options for power control.
                             rbdb = 0
                         elif rbcy == 1:
                             print(Base.WARNING, '[POWER] : REBOOTING', Base.END)
-                            VisionEngine.dispimg("img/"+LanguageSet+"/splash.ppm")
+                            VisionEngine.render("img/"+LanguageSet+"/splash.ppm", debugStatus)
                             time.sleep(3)
-                            VisionEngine.dispclear()
+                            VisionEngine.clr()
                             os.system('sudo reboot')
                             exit()
                         time.sleep(ButtonPressDelay)
@@ -332,9 +332,9 @@ def APPPower(): # Application function that allows options for power control.
                 sdcy = 0
                 while sddb == 1:   
                     if sdcn == 1:
-                        VisionEngine.dispimg("img/"+LanguageSet+"/sdcn.ppm")
+                        VisionEngine.render("img/"+LanguageSet+"/sdcn.ppm", debugStatus)
                     elif sdcy == 1:
-                        VisionEngine.dispimg("img/"+LanguageSet+"/sdcy.ppm")
+                        VisionEngine.render("img/"+LanguageSet+"/sdcy.ppm", debugStatus)
 
                     if GPIO.input(leftb) == False:
                         if sdcn == 1:
@@ -359,9 +359,9 @@ def APPPower(): # Application function that allows options for power control.
                             sddb = 0
                         elif sdcy == 1:
                             print(Base.WARNING, "[POWER] : SHUTTING DOWN.", Base.END)
-                            VisionEngine.dispimg("img/"+LanguageSet+"/splash.ppm")
+                            VisionEngine.render("img/"+LanguageSet+"/splash.ppm", debugStatus)
                             time.sleep(3)
-                            VisionEngine.dispclear()
+                            VisionEngine.clr()
                             os.system('sudo halt')
                             exit()
                         time.sleep(ButtonPressDelay)
@@ -371,29 +371,29 @@ def APPPower(): # Application function that allows options for power control.
                 
             elif PowerItem3 == 1:
                 print(Base.FAILRED, "[POWER] : Quitting VisorWare.", Base.END)
-                VisionEngine.dispimg("img/"+LanguageSet+"/splash.ppm")
+                VisionEngine.render("img/"+LanguageSet+"/splash.ppm", debugStatus)
                 time.sleep(3)
-                VisionEngine.dispimg("img/"+LanguageSet+"/POWERQuitConsequence.ppm")
+                VisionEngine.render("img/"+LanguageSet+"/POWERQuitConsequence.ppm", debugStatus)
                 exit()
             elif PowerItem4 == 1:
                 PowerExit = 1
             time.sleep(ButtonPressDelay)
 
     print('[POWER] : Exiting Power options and returning to menu.')
-    VisionEngine.dispappexit(LanguageSet)
+    VisionEngine.appExit(LanguageSet)
     time.sleep(0.5)
 
 def APPSettings(): # Application function that controls settings.
     global LanguageSet
     TempLang = LanguageSet    
-    LanguageSet = VWSet.SettingsInterface(TempLang)
+    LanguageSet = VWSet.SettingsInterface(TempLang, debugStatus)
     print("Saving language setting to registry.")
     langfile = open(lang, 'w')
     langfile.write(LanguageSet)
     langfile.close()
 
     print('[SETTINGS] : Exiting Settings and returning to the main menu.')
-    VisionEngine.dispappexit(LanguageSet)
+    VisionEngine.appExit(LanguageSet)
     time.sleep(0.5)
 
 def APPWeather(): # By Nanda Gopal.
@@ -401,20 +401,20 @@ def APPWeather(): # By Nanda Gopal.
         VWWeather.weather()
     elif VWUtils.connCheck() == False:
         print("Failed to connect to the internet. Aborting...")
-        VisionEngine.dispimg("img/"+LanguageSet+"/NoConn.ppm")
+        VisionEngine.render("img/"+LanguageSet+"/NoConn.ppm", debugStatus)
         time.sleep(2)
 
     print("[WEATHER] : Exiting the Weather app and returning to the main menu.")
-    VisionEngine.dispappexit(LanguageSet)
+    VisionEngine.appExit(LanguageSet)
     time.sleep(0.5)
 
-def AcoustiVisor(): # Core Application function for the AcoustiVisor Demo app.
+def AcoustiVisor(): # Core Application function for the Speech-to-ASL Demo app.
     #if VisionEngine.connCheck() == True:
         #while GPIO.input(homeb) == True:
             #print('[VOICE-ENGINE] : Listening!')
-            #VisionEngine.dispimg("img/"+LanguageSet+"/VEListening.ppm")
+            #VisionEngine.render("img/"+LanguageSet+"/VEListening.ppm", debugStatus)
             #text = recognizer.recognize()
-            #VisionEngine.dispimg("img/"+LanguageSet+"/VEIdle.ppm")
+            #VisionEngine.render("img/"+LanguageSet+"/VEIdle.ppm", debugStatus)
             #if text is None:
                     #print('[VOICE-ENGINE] : Input was unrecognizable.')
             #else:
@@ -423,13 +423,13 @@ def AcoustiVisor(): # Core Application function for the AcoustiVisor Demo app.
 
     #else:
         #print("Failed to connect to the internet. Aborting...")
-        #VisionEngine.dispimg("img/"+LanguageSet+"/NoConn.ppm")
+        #VisionEngine.render("img/"+LanguageSet+"/NoConn.ppm", debugStatus)
         #time.sleep(2)
     
-    errorCode = 999
+    errorCode = LOCK999
     errorHandle.errCode(LanguageSet, errorCode, debugStatus)
     print("[ACOUSTIVISOR] : Quitting AcoustiVisor and returning to the main menu.")
-    VisionEngine.dispappexit(LanguageSet)
+    VisionEngine.appExit(LanguageSet)
     time.sleep(0.5)
 
 #####################################################################
@@ -438,16 +438,16 @@ print("[INTERFACE] : Main Menu is live.")
 
 while True:
     if MenuItem1 == 1:
-        VisionEngine.dispimg("img/"+LanguageSet+"/Acoustivisor.ppm")
+        VisionEngine.render("img/"+LanguageSet+"/Acoustivisor.ppm", debugStatus)
 
     elif MenuItem2 == 1:
-        VisionEngine.dispimg("img/"+LanguageSet+"/Settings.ppm")
+        VisionEngine.render("img/"+LanguageSet+"/Settings.ppm", debugStatus)
 
     elif MenuItem3 == 1:
-        VisionEngine.dispimg("img/"+LanguageSet+"/Power.ppm")
+        VisionEngine.render("img/"+LanguageSet+"/Power.ppm", debugStatus)
 
     elif MenuItem4 == 1:
-        VisionEngine.dispimg("img/"+LanguageSet+"/Weather.ppm")
+        VisionEngine.render("img/"+LanguageSet+"/Weather.ppm", debugStatus)
 
 
     if GPIO.input(leftb) == False:

@@ -44,7 +44,7 @@ top = padding
 bottom = height=padding
 x = 0
 fontsize = 12
-font = ImageFont.truetype("roboto.ttf", fontsize)
+font = ImageFont.truetype("fonts/roboto.ttf", fontsize)
 disp.clear()
 disp.display()
 #
@@ -64,11 +64,11 @@ def render(imagePath, debugStatus):
         disp.image(image)
         disp.display()
 
-def dispclear():
+def clr():
     disp.clear()
     disp.display()
 
-def dispappexit(LanguageSet):
+def appExit(LanguageSet):
     image = Image.open("img/"+LanguageSet+"/AppExit.ppm").convert('1')
     disp.image(image)
     disp.display()
@@ -83,7 +83,7 @@ def dispimg(img):
     disp.image(image)
     disp.display()
 
-def disptext(s1, s2, s3, s4, off1, off2, off3, off4):
+def disptext(s1, s2, s3, s4, off1, off2, off3, off4, debugStatus):
     image = Image.new('1',  (disp.width, disp.height))
     draw = ImageDraw.Draw(image)
     draw.rectangle((0, 0, disp.width, disp.height), outline=0, fill=0)
@@ -93,6 +93,4 @@ def disptext(s1, s2, s3, s4, off1, off2, off3, off4):
     draw.text((x, top+off3), s3.decode('utf-8'),  font=font, fill=255)
     draw.text((x, top+off4), s4.decode('utf-8'),  font=font, fill=255)
 
-    image = image.transpose(Image.FLIP_LEFT_RIGHT)
-    disp.image(image)
-    disp.display()
+    render(image, debugStatus)
