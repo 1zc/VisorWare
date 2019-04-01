@@ -4,20 +4,10 @@
 #####################################################################################
 #                                                                                   #
 #    VisionEngine - Graphical Rendering Engine for VisorWare supported hardware.    #
-#    Copyright (C) 2019  Liam Z. Charles                                            #
+#    Copyright (C) 2019  Liam Z. Charles | All Rights Reserved                      #
 #                                                                                   #
-#    This program is free software: you can redistribute it and/or modify           #
-#    it under the terms of the GNU General Public License as published by           #
-#    the Free Software Foundation, either version 3 of the License, or              #
-#    (at your option) any later version.                                            #
-#                                                                                   #
-#    This program is distributed in the hope that it will be useful,                #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#    GNU General Public License for more details.                                   #
-#                                                                                   #
-#    You should have received a copy of the GNU General Public License              #
-#    along with this program.  If not, see <https://www.gnu.org/licenses/>.         #
+#  >>> UNAUTHORIZED DISTRIBUTION and UNAUTHORIZED MODIFICATION                      #
+#      of this software is NOT ALLOWED.                                             #
 #                                                                                   #
 #####################################################################################
 
@@ -50,6 +40,14 @@ disp.display()
 #
 #######################################
 
+# INFORMATION ON PARAMETERS:
+#
+# > imagePath = Directory of the image file. Example: img/test.ppm
+# > debugStatus = Bool variable. If true, the display will display stuff correctly 
+#                 for a testing scenario. Example: Display on a Breadboard.
+# > LanguageSet = Use 'en' for English. Used by VisorWare to display images from
+#                 correct languages.
+
 def renderFlip(imagePath):
     image = Image.open(imagePath).convert('1')
     image = image.transpose(Image.FLIP_LEFT_RIGHT)
@@ -81,7 +79,10 @@ def dispimg(img):
     disp.image(image)
     disp.display()
 
-def disptext(s1, s2, s3, s4, off1, off2, off3, off4, debugStatus, UTFDecode):
+def disptext(s1, s2, s3, s4, off1, off2, off3, off4, debugStatus, UTFDecode): 
+    # s1,s2,s3,s4 are the strings to be printed. 
+    # #off1,off2,off3,off4 are the vertical offset distances between the strings. 
+    # UTFDecode ('8' for UTF-8) decides the mode of string decode.
     image = Image.new('1',  (disp.width, disp.height))
     draw = ImageDraw.Draw(image)
     draw.rectangle((0, 0, disp.width, disp.height), outline=0, fill=0)

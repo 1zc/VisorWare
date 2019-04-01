@@ -47,7 +47,7 @@ GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #
 ##################################################
 
-def SettingsInterface(LanguageSet, debugStatus):
+def SettingsInterface(LanguageSet, ButtonPressDelay, debugStatus):
     global currversion
     setLang = LanguageSet
     ButtonPressDelay = 0.2
@@ -61,19 +61,19 @@ def SettingsInterface(LanguageSet, debugStatus):
 
     while SettingsExit == 0:
         if SettingsItem1 == 1:
-            VisionEngine.dispimg("img/"+setLang+"/SETTINGUpdate.ppm")
+            VisionEngine.render("img/"+setLang+"/SETTINGUpdate.ppm", debugStatus)
 
         elif SettingsItem2 == 1:
-            VisionEngine.dispimg("img/"+setLang+"/SETTINGStats.ppm")
+            VisionEngine.render("img/"+setLang+"/SETTINGStats.ppm", debugStatus)
      
         elif SettingsItem3 == 1:
             if setLang == "en":
-                VisionEngine.dispimg("img/en/SETTINGLanguage.ppm")
+                VisionEngine.render("img/en/SETTINGLanguage.ppm", debugStatus)
             elif setLang == "ar":
-                VisionEngine.dispimg("img/ar/SETTINGLanguage.ppm")
+                VisionEngine.render("img/ar/SETTINGLanguage.ppm", debugStatus)
 
         elif SettingsItem4 == 1:
-            VisionEngine.dispimg("img/"+setLang+"/ExitToMenu.ppm")
+            VisionEngine.render("img/"+setLang+"/ExitToMenu.ppm", debugStatus)
 
         #elif SettingsItem5 == 1:
             #VisionEngine.dispimg("img/"+setLang+"/Version.ppm")
@@ -151,7 +151,7 @@ def SettingsInterface(LanguageSet, debugStatus):
             if SettingsItem1 == 1:
                 print(Base.WARNING, '[SETTINGS] : Commencing update process.', Base.END)
                 print(Base.WARNING, '[SYSTEM] : DO NOT TURN OFF THE POWER OR ATTEMPT TO INTERRUPT THE UPDATE PROCESS.', Base.END)
-                VisionEngine.dispimg("img/"+setLang+"/SETTINGUpdating.ppm")
+                VisionEngine.render("img/"+setLang+"/SETTINGUpdating.ppm", debugStatus)
                 if VWUtils.connCheck() == True:
                     #
                     # vmark.txt uses the following format: DDMMYYYYxy
@@ -170,7 +170,7 @@ def SettingsInterface(LanguageSet, debugStatus):
                     if vmarkfile.read(10) == currversion:
                         vmarkfile.close()
                         print(Base.OKGREEN, '[SYSTEM] : VisorWare software is up to date.', Base.END)
-                        VisionEngine.dispimg("img/"+setLang+"/SETTINGCompUpdate.ppm")
+                        VisionEngine.render("img/"+setLang+"/SETTINGCompUpdate.ppm", debugStatus)
                     else:
                         vmarkfile.close() 
                         print(Base.WARNING, '[SYSTEM] : A new version of the VisorWare software is available.', Base.END)
@@ -180,9 +180,9 @@ def SettingsInterface(LanguageSet, debugStatus):
                         udcy = 0
                         while uddb == 1:   
                             if udcn == 1:
-                                VisionEngine.dispimg("img/"+LanguageSet+"/udcn.ppm")
+                                VisionEngine.render("img/"+LanguageSet+"/udcn.ppm", debugStatus)
                             elif udcy == 1:
-                                VisionEngine.dispimg("img/"+LanguageSet+"/udcy.ppm")
+                                VisionEngine.render("img/"+LanguageSet+"/udcy.ppm", debugStatus)
 
                             if GPIO.input(leftb) == False:
                                 if udcn == 1:
@@ -191,6 +191,7 @@ def SettingsInterface(LanguageSet, debugStatus):
                                 elif udcy == 1:
                                     udcn = 1
                                     udcy = 0
+                                time.sleep(ButtonPressDelay)
 
                             elif GPIO.input(rightb) == False:
                                 if udcn == 1:
@@ -199,6 +200,7 @@ def SettingsInterface(LanguageSet, debugStatus):
                                 elif udcy == 1:
                                     udcn = 1
                                     udcy = 0
+                                time.sleep(ButtonPressDelay)
 
                             elif GPIO.input(homeb) == False:
                                 if udcn == 1:
@@ -207,7 +209,7 @@ def SettingsInterface(LanguageSet, debugStatus):
                                     print(Base.WARNING, "[SYSTEM] : UPDATING...", Base.END)
                                     try:
                                         print("Shutting down VisorWare for updates.")
-                                        VisionEngine.dispimg("img/"+LanguageSet+"/SETTINGUpdating.ppm")
+                                        VisionEngine.render("img/"+LanguageSet+"/SETTINGUpdating.ppm", debugStatus)
                                         exit()
                                     finally:
                                         os.system('cd /home/pi/VWUD && python3 VWCTRL.py')
@@ -216,7 +218,7 @@ def SettingsInterface(LanguageSet, debugStatus):
                             
                 elif VWUtils.connCheck() == False:
                     print("Failed to connect to the internet. Aborting...")
-                    VisionEngine.dispimg("img/"+setLang+"/NoConn.ppm")
+                    VisionEngine.render("img/"+setLang+"/NoConn.ppm", debugStatus)
                     time.sleep(2)
 
                 time.sleep(3)

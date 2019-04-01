@@ -14,21 +14,11 @@ currversion = '2103201910'
 
 #####################################################################################
 #                                                                                   #
-#    VW.py - Core VisorWare source file. (https://github.com/LiamZC/VisorWare)      #
-#    Copyright (C) 2019  Liam Z. Charles                                            #
+#    VW.py - Core software for VisorWare.                                           #
+#    Copyright (C) 2019  Liam Z. Charles | All Rights Reserved                      #
 #                                                                                   #
-#    This program is free software: you can redistribute it and/or modify           #
-#    it under the terms of the GNU General Public License as published by           #
-#    the Free Software Foundation, either version 3 of the License, or              #
-#    (at your option) any later version.                                            #
-#                                                                                   #
-#    This program is distributed in the hope that it will be useful,                #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of                 #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                  #
-#    GNU General Public License for more details.                                   #
-#                                                                                   #
-#    You should have received a copy of the GNU General Public License              #
-#    along with this program.  If not, see <https://www.gnu.org/licenses/>.         #
+#  >>> UNAUTHORIZED DISTRIBUTION and UNAUTHORIZED MODIFICATION                      #
+#      of this software is NOT ALLOWED.                                             #
 #                                                                                   #
 #####################################################################################
 
@@ -386,7 +376,7 @@ def APPPower(): # Application function that allows options for power control.
 def APPSettings(): # Application function that controls settings.
     global LanguageSet
     TempLang = LanguageSet    
-    LanguageSet = VWSet.SettingsInterface(TempLang, debugStatus)
+    LanguageSet = VWSet.SettingsInterface(TempLang, ButtonPressDelay, debugStatus)
     print("Saving language setting to registry.")
     langfile = open(lang, 'w')
     langfile.write(LanguageSet)
