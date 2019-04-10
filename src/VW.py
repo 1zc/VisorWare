@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '0904201910'
+currversion = '1004201910'
 
 #####################################################################################
 #                                                                                   #
@@ -143,7 +143,7 @@ MenuItem4 = 0  # Weather App.
 MenuItem5 = 0  # BLANK AND UNUSED.
 MenuItem6 = 0  # BLANK AND UNUSED
 
-debugStatus = False
+debugStatus = True
 screenOff = False
 ButtonPressDelay = 0.2 # Latency of registering button presses.
 MenuItem1 = 1
@@ -213,166 +213,179 @@ def APPPower(): # Application function that allows options for power control.
     PowerItem3 = 0 # Force quit VisorWare
     PowerItem4 = 0 # Exit to menu
     PowerExit = 0
+    screenOff = False
     while PowerExit == 0:
-        if PowerItem1 == 1:
-            VisionEngine.render("img/"+LanguageSet+"/POWERReboot.ppm", debugStatus)
-
-        elif PowerItem2 == 1:
-            VisionEngine.render("img/"+LanguageSet+"/POWERShutdown.ppm", debugStatus)
-
-        elif PowerItem3 == 1:
-            VisionEngine.render("img/"+LanguageSet+"/POWERQuit.ppm", debugStatus)
-
-        elif PowerItem4 == 1:
-            VisionEngine.render("img/"+LanguageSet+"/ExitToMenu.ppm", debugStatus)
-
-        if GPIO.input(leftb) == False:
-            print('[INTERFACE] : Button-Press --> LEFT')
+        if screenOff == False:
             if PowerItem1 == 1:
-                PowerItem4 = 1
-                PowerItem3 = 0
-                PowerItem2 = 0
-                PowerItem1 = 0
+                VisionEngine.render("img/"+LanguageSet+"/POWERReboot.ppm", debugStatus)
+
             elif PowerItem2 == 1:
-                PowerItem1 = 1
-                PowerItem3 = 0
-                PowerItem4 = 0
-                PowerItem2 = 0
+                VisionEngine.render("img/"+LanguageSet+"/POWERShutdown.ppm", debugStatus)
+
             elif PowerItem3 == 1:
-                PowerItem2 = 1
-                PowerItem1 = 0
-                PowerItem4 = 0
-                PowerItem3 = 0
+                VisionEngine.render("img/"+LanguageSet+"/POWERQuit.ppm", debugStatus)
+
             elif PowerItem4 == 1:
-                PowerItem3 = 1
-                PowerItem2 = 0
-                PowerItem1 = 0
-                PowerItem4 = 0
-            time.sleep(ButtonPressDelay)
+                VisionEngine.render("img/"+LanguageSet+"/ExitToMenu.ppm", debugStatus)
 
-        elif GPIO.input(rightb) == False:
-            print('[INTERFACE] : Button-Press --> RIGHT')
-            if PowerItem1 == 1:
-                PowerItem2 = 1
-                PowerItem3 = 0
-                PowerItem4 = 0
-                PowerItem1 = 0
-            elif PowerItem2 == 1:
-                PowerItem3 = 1
-                PowerItem1 = 0
-                PowerItem4 = 0
-                PowerItem2 = 0
-            elif PowerItem3 == 1:
-                PowerItem4 = 1
-                PowerItem1 = 0
-                PowerItem2 = 0
-                PowerItem3 = 0
-            elif PowerItem4 == 1:
-                PowerItem1 = 1
-                PowerItem2 = 0
-                PowerItem3 = 0
-                PowerItem4 = 0
-            time.sleep(ButtonPressDelay)
+            if GPIO.input(screenb) == False:
+                screenOff = True
 
-        elif GPIO.input(homeb) == False:
-            print('[INTERFACE] : Button-Press --> HOME')
-            if PowerItem1 == 1:
-                time.sleep(0.2)
-                print("[POWER] : Reboot dialog box opened.")
-                rbdb = 1
-                rbcn = 1
-                rbcy = 0
-                while rbdb == 1:   
-                    if rbcn == 1:
-                        VisionEngine.render("img/"+LanguageSet+"/rbcn.ppm", debugStatus)
-                    elif rbcy == 1:
-                        VisionEngine.render("img/"+LanguageSet+"/rbcy.ppm", debugStatus)
+            if GPIO.input(leftb) == False:
+                print('[INTERFACE] : Button-Press --> LEFT')
+                if PowerItem1 == 1:
+                    PowerItem4 = 1
+                    PowerItem3 = 0
+                    PowerItem2 = 0
+                    PowerItem1 = 0
+                elif PowerItem2 == 1:
+                    PowerItem1 = 1
+                    PowerItem3 = 0
+                    PowerItem4 = 0
+                    PowerItem2 = 0
+                elif PowerItem3 == 1:
+                    PowerItem2 = 1
+                    PowerItem1 = 0
+                    PowerItem4 = 0
+                    PowerItem3 = 0
+                elif PowerItem4 == 1:
+                    PowerItem3 = 1
+                    PowerItem2 = 0
+                    PowerItem1 = 0
+                    PowerItem4 = 0
+                time.sleep(ButtonPressDelay)
 
-                    if GPIO.input(leftb) == False:
+            elif GPIO.input(rightb) == False:
+                print('[INTERFACE] : Button-Press --> RIGHT')
+                if PowerItem1 == 1:
+                    PowerItem2 = 1
+                    PowerItem3 = 0
+                    PowerItem4 = 0
+                    PowerItem1 = 0
+                elif PowerItem2 == 1:
+                    PowerItem3 = 1
+                    PowerItem1 = 0
+                    PowerItem4 = 0
+                    PowerItem2 = 0
+                elif PowerItem3 == 1:
+                    PowerItem4 = 1
+                    PowerItem1 = 0
+                    PowerItem2 = 0
+                    PowerItem3 = 0
+                elif PowerItem4 == 1:
+                    PowerItem1 = 1
+                    PowerItem2 = 0
+                    PowerItem3 = 0
+                    PowerItem4 = 0
+                time.sleep(ButtonPressDelay)
+
+            elif GPIO.input(homeb) == False:
+                print('[INTERFACE] : Button-Press --> HOME')
+                if PowerItem1 == 1:
+                    time.sleep(0.2)
+                    print("[POWER] : Reboot dialog box opened.")
+                    rbdb = 1
+                    rbcn = 1
+                    rbcy = 0
+                    while rbdb == 1:   
                         if rbcn == 1:
-                            rbcy = 1
-                            rbcn = 0
+                            VisionEngine.render("img/"+LanguageSet+"/rbcn.ppm", debugStatus)
                         elif rbcy == 1:
-                            rbcn = 1
-                            rbcy = 0
-                        time.sleep(ButtonPressDelay)
+                            VisionEngine.render("img/"+LanguageSet+"/rbcy.ppm", debugStatus)
 
-                    elif GPIO.input(rightb) == False:
-                        if rbcn == 1:
-                            rbcy = 1
-                            rbcn = 0
-                        elif rbcy == 1:
-                            rbcn = 1
-                            rbcy = 0
-                        time.sleep(ButtonPressDelay)
+                        if GPIO.input(leftb) == False:
+                            if rbcn == 1:
+                                rbcy = 1
+                                rbcn = 0
+                            elif rbcy == 1:
+                                rbcn = 1
+                                rbcy = 0
+                            time.sleep(ButtonPressDelay)
 
-                    elif GPIO.input(homeb) == False:
-                        if rbcn == 1:
-                            rbdb = 0
-                        elif rbcy == 1:
-                            print(Base.WARNING, '[POWER] : REBOOTING', Base.END)
-                            VisionEngine.render("img/"+LanguageSet+"/splash.ppm", debugStatus)
-                            time.sleep(3)
-                            VisionEngine.clr()
-                            os.system('sudo reboot')
-                            exit()
-                        time.sleep(ButtonPressDelay)
-                print("[POWER] : Reboot dialog box closed.")
+                        elif GPIO.input(rightb) == False:
+                            if rbcn == 1:
+                                rbcy = 1
+                                rbcn = 0
+                            elif rbcy == 1:
+                                rbcn = 1
+                                rbcy = 0
+                            time.sleep(ButtonPressDelay)
+
+                        elif GPIO.input(homeb) == False:
+                            if rbcn == 1:
+                                rbdb = 0
+                            elif rbcy == 1:
+                                print(Base.WARNING, '[POWER] : REBOOTING', Base.END)
+                                VisionEngine.render("img/"+LanguageSet+"/splash.ppm", debugStatus)
+                                time.sleep(3)
+                                VisionEngine.clr()
+                                os.system('sudo reboot')
+                                exit()
+                            time.sleep(ButtonPressDelay)
+                    print("[POWER] : Reboot dialog box closed.")
                 
-            elif PowerItem2 == 1:
-                time.sleep(0.2)
-                print("[POWER] : Shutdown dialog box opened.")
-                sddb = 1
-                sdcn = 1
-                sdcy = 0
-                while sddb == 1:   
-                    if sdcn == 1:
-                        VisionEngine.render("img/"+LanguageSet+"/sdcn.ppm", debugStatus)
-                    elif sdcy == 1:
-                        VisionEngine.render("img/"+LanguageSet+"/sdcy.ppm", debugStatus)
-
-                    if GPIO.input(leftb) == False:
+                elif PowerItem2 == 1:
+                    time.sleep(0.2)
+                    print("[POWER] : Shutdown dialog box opened.")
+                    sddb = 1
+                    sdcn = 1
+                    sdcy = 0
+                    while sddb == 1:   
                         if sdcn == 1:
-                            sdcy = 1
-                            sdcn = 0
+                            VisionEngine.render("img/"+LanguageSet+"/sdcn.ppm", debugStatus)
                         elif sdcy == 1:
-                            sdcn = 1
-                            sdcy = 0
-                        time.sleep(ButtonPressDelay)
+                            VisionEngine.render("img/"+LanguageSet+"/sdcy.ppm", debugStatus)
 
-                    elif GPIO.input(rightb) == False:
-                        if sdcn == 1:
-                            sdcy = 1
-                            sdcn = 0
-                        elif sdcy == 1:
-                            sdcn = 1
-                            sdcy = 0
-                        time.sleep(ButtonPressDelay)
+                        if GPIO.input(leftb) == False:
+                            if sdcn == 1:
+                                sdcy = 1
+                                sdcn = 0
+                            elif sdcy == 1:
+                                sdcn = 1
+                                sdcy = 0
+                            time.sleep(ButtonPressDelay)
 
-                    elif GPIO.input(homeb) == False:
-                        if sdcn == 1:
-                            sddb = 0
-                        elif sdcy == 1:
-                            print(Base.WARNING, "[POWER] : SHUTTING DOWN.", Base.END)
-                            VisionEngine.render("img/"+LanguageSet+"/splash.ppm", debugStatus)
-                            time.sleep(3)
-                            VisionEngine.clr()
-                            os.system('sudo halt')
-                            exit()
-                        time.sleep(ButtonPressDelay)
+                        elif GPIO.input(rightb) == False:
+                            if sdcn == 1:
+                                sdcy = 1
+                                sdcn = 0
+                            elif sdcy == 1:
+                                sdcn = 1
+                                sdcy = 0
+                            time.sleep(ButtonPressDelay)
 
-                print("[POWER] : Shutdown dialog box closed.")
+                        elif GPIO.input(homeb) == False:
+                            if sdcn == 1:
+                                sddb = 0
+                            elif sdcy == 1:
+                                print(Base.WARNING, "[POWER] : SHUTTING DOWN.", Base.END)
+                                VisionEngine.render("img/"+LanguageSet+"/splash.ppm", debugStatus)
+                                time.sleep(3)
+                                VisionEngine.clr()
+                                os.system('sudo halt')
+                                exit()
+                            time.sleep(ButtonPressDelay)
+
+                    print("[POWER] : Shutdown dialog box closed.")
 
                 
-            elif PowerItem3 == 1:
-                print(Base.FAILRED, "[POWER] : Quitting VisorWare.", Base.END)
-                VisionEngine.render("img/"+LanguageSet+"/splash.ppm", debugStatus)
-                time.sleep(3)
-                VisionEngine.render("img/"+LanguageSet+"/POWERQuitConsequence.ppm", debugStatus)
-                exit()
-            elif PowerItem4 == 1:
-                PowerExit = 1
-            time.sleep(ButtonPressDelay)
+                elif PowerItem3 == 1:
+                    print(Base.FAILRED, "[POWER] : Quitting VisorWare.", Base.END)
+                    VisionEngine.render("img/"+LanguageSet+"/splash.ppm", debugStatus)
+                    time.sleep(3)
+                    VisionEngine.render("img/"+LanguageSet+"/POWERQuitConsequence.ppm", debugStatus)
+                    exit()
+                elif PowerItem4 == 1:
+                    PowerExit = 1
+                time.sleep(ButtonPressDelay)
+        
+        if screenOff == True:
+            VisionEngine.sspnd()
+            while screenOff == True:
+                if GPIO.input(screenb) == False:
+                    screenOff = False
+                    print("[VISIONENGINE] : Exited suspended state.")
+                    time.sleep(ButtonPressDelay) 
 
     print('[POWER] : Exiting Power options and returning to menu.')
     VisionEngine.appExit(LanguageSet, debugStatus)
@@ -431,88 +444,99 @@ def AcoustiVisor(): # Core Application function for the Speech-to-ASL Demo app.
 
 print("[INTERFACE] : Main Menu is live.")
 
-while screenOff == False:
-    if MenuItem1 == 1:
-        VisionEngine.render("img/"+LanguageSet+"/Acoustivisor.ppm", debugStatus)
-
-    elif MenuItem2 == 1:
-        VisionEngine.render("img/"+LanguageSet+"/Settings.ppm", debugStatus)
-
-    elif MenuItem3 == 1:
-        VisionEngine.render("img/"+LanguageSet+"/Power.ppm", debugStatus)
-
-    elif MenuItem4 == 1:
-        VisionEngine.render("img/"+LanguageSet+"/Weather.ppm", debugStatus)
-
-
-    if GPIO.input(leftb) == False:
-        print('[INTERFACE] : Button-Press --> LEFT')
+while True:
+    if screenOff == False:
         if MenuItem1 == 1:
-            MenuItem4 = 1
-            MenuItem3 = 0
-            MenuItem2 = 0
-            MenuItem1 = 0            
-        elif MenuItem2 == 1:
-            MenuItem1 = 1
-            MenuItem3 = 0
-            MenuItem4 = 0
-            MenuItem2 = 0            
-        elif MenuItem3 == 1:
-            MenuItem2 = 1
-            MenuItem1 = 0
-            MenuItem4 = 0
-            MenuItem3 = 0            
-        elif MenuItem4 == 1:
-            MenuItem3 = 1
-            MenuItem2 = 0
-            MenuItem1 = 0
-            MenuItem4 = 0
-        time.sleep(ButtonPressDelay)
+            VisionEngine.render("img/"+LanguageSet+"/Acoustivisor.ppm", debugStatus)
 
-    elif GPIO.input(rightb) == False:
-        print('[INTERFACE] : Button-Press --> RIGHT')
-        if MenuItem1 == 1:
-            MenuItem2 = 1
-            MenuItem3 = 0
-            MenuItem4 = 0
-            MenuItem1 = 0
         elif MenuItem2 == 1:
-            MenuItem3 = 1
-            MenuItem1 = 0
-            MenuItem4 = 0
-            MenuItem2 = 0
-        elif MenuItem3 == 1:
-            MenuItem4 = 1
-            MenuItem1 = 0
-            MenuItem2 = 0
-            MenuItem3 = 0
-        elif MenuItem4 == 1:
-            MenuItem1 = 1
-            MenuItem2 = 0
-            MenuItem3 = 0
-            MenuItem4 = 0
-        time.sleep(ButtonPressDelay)
+            VisionEngine.render("img/"+LanguageSet+"/Settings.ppm", debugStatus)
 
-    elif GPIO.input(homeb) == False:
-        print('[INTERFACE] : Button-Press --> HOME')
-        if MenuItem1 == 1:
-            print(Base.WARNING, "[INTERFACE] : Starting AcoustiVisor Demo App.", Base.END)
-            VisionEngine.appStart(LanguageSet, debugStatus)
-            time.sleep(0.5)  
-            AcoustiVisor()
-        elif MenuItem2 == 1:
-            print(Base.WARNING, "[INTERFACE] : Starting the Settings App.", Base.END)
-            VisionEngine.appStart(LanguageSet, debugStatus)
-            time.sleep(0.5)
-            APPSettings()
         elif MenuItem3 == 1:
-            print(Base.WARNING, "[INTERFACE] : Starting the Power options interface.", Base.END)
-            VisionEngine.appStart(LanguageSet, debugStatus)
-            time.sleep(0.5)
-            APPPower()
+            VisionEngine.render("img/"+LanguageSet+"/Power.ppm", debugStatus)
+
         elif MenuItem4 == 1:
-            print(Base.WARNING, "[INTERFACE] : Starting Weather App.", Base.END)
-            VisionEngine.appStart(LanguageSet, debugStatus)
-            time.sleep(0.5)
-            APPWeather()
-        time.sleep(ButtonPressDelay)
+            VisionEngine.render("img/"+LanguageSet+"/Weather.ppm", debugStatus)
+
+        if GPIO.input(screenb) == False:
+            screenOff = True
+
+        if GPIO.input(leftb) == False:
+            print('[INTERFACE] : Button-Press --> LEFT')
+            if MenuItem1 == 1:
+                MenuItem4 = 1
+                MenuItem3 = 0
+                MenuItem2 = 0
+                MenuItem1 = 0            
+            elif MenuItem2 == 1:
+                MenuItem1 = 1
+                MenuItem3 = 0
+                MenuItem4 = 0
+                MenuItem2 = 0            
+            elif MenuItem3 == 1:
+                MenuItem2 = 1
+                MenuItem1 = 0
+                MenuItem4 = 0
+                MenuItem3 = 0            
+            elif MenuItem4 == 1:
+                MenuItem3 = 1
+                MenuItem2 = 0
+                MenuItem1 = 0
+                MenuItem4 = 0
+            time.sleep(ButtonPressDelay)
+
+        elif GPIO.input(rightb) == False:
+            print('[INTERFACE] : Button-Press --> RIGHT')
+            if MenuItem1 == 1:
+                MenuItem2 = 1
+                MenuItem3 = 0
+                MenuItem4 = 0
+                MenuItem1 = 0
+            elif MenuItem2 == 1:
+                MenuItem3 = 1
+                MenuItem1 = 0
+                MenuItem4 = 0
+                MenuItem2 = 0
+            elif MenuItem3 == 1:
+                MenuItem4 = 1
+                MenuItem1 = 0
+                MenuItem2 = 0
+                MenuItem3 = 0
+            elif MenuItem4 == 1:
+                MenuItem1 = 1
+                MenuItem2 = 0
+                MenuItem3 = 0
+                MenuItem4 = 0
+            time.sleep(ButtonPressDelay)
+
+        elif GPIO.input(homeb) == False:
+            print('[INTERFACE] : Button-Press --> HOME')
+            if MenuItem1 == 1:
+                print(Base.WARNING, "[INTERFACE] : Starting AcoustiVisor Demo App.", Base.END)
+                VisionEngine.appStart(LanguageSet, debugStatus)
+                time.sleep(0.5)  
+                AcoustiVisor()
+            elif MenuItem2 == 1:
+                print(Base.WARNING, "[INTERFACE] : Starting the Settings App.", Base.END)
+                VisionEngine.appStart(LanguageSet, debugStatus)
+                time.sleep(0.5)
+                APPSettings()
+            elif MenuItem3 == 1:
+                print(Base.WARNING, "[INTERFACE] : Starting the Power options interface.", Base.END)
+                VisionEngine.appStart(LanguageSet, debugStatus)
+                time.sleep(0.5)
+                APPPower()
+            elif MenuItem4 == 1:
+                print(Base.WARNING, "[INTERFACE] : Starting Weather App.", Base.END)
+                VisionEngine.appStart(LanguageSet, debugStatus)
+                time.sleep(0.5)
+                APPWeather()
+            time.sleep(ButtonPressDelay)
+
+    if screenOff == True:
+        VisionEngine.sspnd()  
+        while screenOff == True:
+            if GPIO.input(screenb) == False:
+                screenOff = False
+                print("[VISIONENGINE] : Exited suspended state.")
+                time.sleep(ButtonPressDelay) 

@@ -79,6 +79,11 @@ def dispimg(img):
     disp.image(image)
     disp.display()
 
+def sspnd():
+    clr()
+    time.sleep(0.3)
+    print("[VISIONENGINE] : Display suspended. Press suspend button again to exit suspended state.")
+
 def disptext(s1, s2, s3, s4, off1, off2, off3, off4, debugStatus, UTFDecode): 
     # s1,s2,s3,s4 are the strings to be printed. 
     # #off1,off2,off3,off4 are the vertical offset distances between the strings. 
