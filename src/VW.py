@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '2103201910'
+currversion = '0904201910'
 
 #####################################################################################
 #                                                                                   #
@@ -78,8 +78,11 @@ if cfgfile.read(1) == '0':
         print(ANSI.Color(120), "\nDONE.", ANSI.END)
         # Installing VisorWare dependencies.
         print('\n\nInstalling VisorWare dependencies...\n')
-        os.system('sudo apt-get --yes --force-yes install python-imaging python-smbus git')
-        os.system('sudo apt-get --yes --force-yes install bluetooth blueman bluez python-bluetooth')
+        os.system('sudo apt-get --yes --force-yes install python-dev python-imaging python-smbus git')
+        os.system('sudo apt-get --yes --force-yes install bluetooth libbluetooth-dev bluez python-bluetooth python-bluez')
+        os.system('sudo dpkg -i conf/deb/libusb-dev_0.1.12-30_armhf.deb')
+        os.system('sudo dpkg -i conf/deb/libopenobex1_1.5-2.1_armhf.deb')
+        os.system('sudo dpkg -i conf/deb/libopenobex1-dev_1.5-2.1_armhf.deb')
         os.system('sudo sh conf/dispdriver.sh')
         print(ANSI.Color(120), "\nDONE.", ANSI.END)
         # Installing screenfetch.
@@ -141,6 +144,7 @@ MenuItem5 = 0  # BLANK AND UNUSED.
 MenuItem6 = 0  # BLANK AND UNUSED
 
 debugStatus = False
+screenOff = False
 ButtonPressDelay = 0.2 # Latency of registering button presses.
 MenuItem1 = 1
 #####################################################################
@@ -176,17 +180,18 @@ GPIO.setmode(GPIO.BCM)
 leftb = 17
 homeb = 27
 rightb = 22
+screenb = 4
 GPIO.setup(leftb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(homeb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(screenb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #
 ##################################################
 
 os.system('clear')
-print("VisorWare  Copyright (C) 2018  Liam Z. Charles")
-print("This program comes with ABSOLUTELY NO WARRANTY.")
-print("This is free software, and you are welcome to redistribute it")
-print("under certain conditions\n\n")
+print("VisorWare | Copyright (C) 2019  Liam Z. Charles")
+print("Unauthorized modification, redistribution of this software")
+print("is NOT permitted.\n\n")
 print ("                     -----------------------------------")
 print (ANSI.Color(120),"                         L I A M  Z.  C H A R L E S", ANSI.END)                          
 print ("                     -----------------------------------") 
@@ -199,7 +204,7 @@ print(Base.OKGREEN,'   \___/   |__/____  >____/|__|    \__/\  /  (____  /__|    
 print(Base.OKGREEN,'                   \/                   \/        \/            \/  ', Base.END)
 
 print (Base.OKGREEN,"\nVersion 1.0 | Build ",currversion , Base.END)
-print (Base.FAILRED,"This is a special demo version of VisorWare. Updates can break build, please proceed with caution.", Base.END)
+print (Base.FAILRED,"This is a development version of VisorWare.", Base.END)
 
 # APPLICATIONS: #####################################################
 def APPPower(): # Application function that allows options for power control.
@@ -426,7 +431,7 @@ def AcoustiVisor(): # Core Application function for the Speech-to-ASL Demo app.
 
 print("[INTERFACE] : Main Menu is live.")
 
-while True:
+while screenOff == False:
     if MenuItem1 == 1:
         VisionEngine.render("img/"+LanguageSet+"/Acoustivisor.ppm", debugStatus)
 
