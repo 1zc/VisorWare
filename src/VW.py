@@ -396,7 +396,7 @@ def APPPower(): # Application function that allows options for power control.
 
 def APPSettings(): # Application function that controls settings.
     global LanguageSet   
-    LanguageSet = VWSet.SettingsInterface(TempLang, ButtonPressDelay, debugStatus)
+    LanguageSet = VWSet.SettingsInterface(LanguageSet, ButtonPressDelay, debugStatus)
     print("Saving language setting to registry.")
     langfile = open(lang, 'w')
     langfile.write(LanguageSet)
@@ -455,7 +455,7 @@ while True:
             VisionEngine.render("img/"+LanguageSet+"/Settings.ppm", debugStatus)
             
         elif MenuItem2 == 1:
-            ClockScrn()           
+            ClckScrn()           
 
         elif MenuItem3 == 1:
             VisionEngine.render("img/"+LanguageSet+"/Power.ppm", debugStatus)
