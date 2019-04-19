@@ -29,6 +29,7 @@ def posn(angle, arm_length):
     return (dx, dy)
 
 def clckscrn():
+    screenOff = False
     today_last_time = "Unknown"
     if screenOff == False:
         while (GPIO.input(leftb) == True) and (GPIO.input(rightb) == True):
