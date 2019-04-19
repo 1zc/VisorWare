@@ -14,11 +14,68 @@
 import RPi.GPIO as GPIO
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
+
+from luma.core.render import *
+from luma.core import cmdline, error
+
+import sys
+import logging
 import time
 
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)-15s - %(message)s'
+)
+logging.getLogger('PIL').setLevel(logging.ERROR)
+
+def display_settings(args):
+    """
+    Display a short summary of the settings.
+    :rtype: str
+    """
+    iface = ''
+    display_types = cmdline.get_display_types()
+    if args.display not in display_types['emulator']:
+        iface = 'Interface: {}\n'.format(args.interface)
+
+    lib_name = cmdline.get_library_for_display_type(args.display)
+    if lib_name is not None:
+        lib_version = cmdline.get_library_version(lib_name)
+    else:
+        lib_name = lib_version = 'unknown'
+
+    import luma.core
+    version = 'luma.{} {} (luma.core {})'.format(
+        lib_name, lib_version, luma.core.__version__)
+
+    return 'Version: {}\nDisplay: {}\n{}Dimensions: {} x {}\n{}'.format(
+        version, args.display, iface, args.width, args.height, '-' * 60)
+
+def get_device(actual_args=None):
+    # Create device from command-line arguments and return it.
+    if actual_args is None:
+        actual_args = sys.argv[1:]
+    parser = cmdline.create_parser(description='luma.examples arguments')
+    args = parser.parse_args(actual_args)
+
+    if args.config:
+        # Load config from file
+        config = cmdline.load_config(args.config)
+        args = parser.parse_args(config + actual_args)
+
+    print(display_settings(args))
+
+    # Create device
+    try:
+        device = cmdline.create_device(args)
+    except error.Error as e:
+        parser.error(e)
+
+    return device
 
 #######################################
 # i2C Display Initialization. DO NOT ALTER!
@@ -85,23 +142,28 @@ def sspnd():
     time.sleep(0.3)
     print("[VISIONENGINE] : Display suspended. Press suspend button again to exit suspended state.")
 
-def disptext(s1, s2, s3, s4, off1, off2, off3, off4, debugStatus, UTFDecode): 
+def disptext(s1, s2, s3, s4, y1, y2, y3, y4, debugStatus, UTFDecode): 
     # s1,s2,s3,s4 are the strings to be printed. 
-    # #off1,off2,off3,off4 are the vertical offset distances between the strings. 
+    # y1,y2,y3,y4 are the vertical offset distances between the strings. 
+    # x1,x2,x3,x4 are the horizontal offset distances from the left-end of display. 
     # UTFDecode ('8' for UTF-8) decides the mode of string decode.
+    x1 = 0
+    x2 = 0
+    x3 = 0
+    x4 = 0
     image = Image.new('1',  (disp.width, disp.height))
     draw = ImageDraw.Draw(image)
     draw.rectangle((0, 0, disp.width, disp.height), outline=0, fill=0)
     if UTFDecode == '8':
-        draw.text((x, top+off1), s1.decode('utf-8'),  font=font, fill=255)
-        draw.text((x, top+off2), s2.decode('utf-8'),  font=font, fill=255)
-        draw.text((x, top+off3), s3.decode('utf-8'),  font=font, fill=255)
-        draw.text((x, top+off4), s4.decode('utf-8'),  font=font, fill=255)
+        draw.text((x+x1, top+y1), s1.decode('utf-8'),  font=font, fill=255)
+        draw.text((x+x2, top+y2), s2.decode('utf-8'),  font=font, fill=255)
+        draw.text((x+x3, top+y3), s3.decode('utf-8'),  font=font, fill=255)
+        draw.text((x+x4, top+y4), s4.decode('utf-8'),  font=font, fill=255)
     else:
-        draw.text((x, top+off1), s1,  font=font, fill=255)
-        draw.text((x, top+off2), s2,  font=font, fill=255)
-        draw.text((x, top+off3), s3,  font=font, fill=255)
-        draw.text((x, top+off4), s4,  font=font, fill=255)
+        draw.text((x+x1, top+y1), s1,  font=font, fill=255)
+        draw.text((x+x2, top+y2), s2,  font=font, fill=255)
+        draw.text((x+x3, top+y3), s3,  font=font, fill=255)
+        draw.text((x+x4, top+y4), s4,  font=font, fill=255)
 
     if debugStatus == True:
         disp.image(image)

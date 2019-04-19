@@ -10,7 +10,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '1004201910'
+currversion = '1904201910'
 
 #####################################################################################
 #                                                                                   #
@@ -78,7 +78,9 @@ if cfgfile.read(1) == '0':
         print(ANSI.Color(120), "\nDONE.", ANSI.END)
         # Installing VisorWare dependencies.
         print('\n\nInstalling VisorWare dependencies...\n')
-        os.system('sudo apt-get --yes --force-yes install python-dev python-imaging python-smbus git')
+        os.system('sudo apt-get --yes --force-yes install python3-dev python-imaging python-smbus git')
+        os.system('sudo apt-get --yes --force-yes install libfreetype6-dev libjpeg-dev build-essential')
+        os.system('sudo pip3 install luma.oled')
         os.system('sudo apt-get --yes --force-yes install bluetooth libbluetooth-dev bluez python-bluetooth python-bluez')
         os.system('sudo dpkg -i conf/deb/libusb-dev_0.1.12-30_armhf.deb')
         os.system('sudo dpkg -i conf/deb/libopenobex1_1.5-2.1_armhf.deb')
@@ -140,7 +142,7 @@ MenuItem1 = 0  # AcoustiVisor
 MenuItem2 = 0  # Settings.
 MenuItem3 = 0  # Power.
 MenuItem4 = 0  # Weather App.
-MenuItem5 = 0  # BLANK AND UNUSED.
+MenuItem5 = 0  # Clock Screen.
 MenuItem6 = 0  # BLANK AND UNUSED
 
 debugStatus = True
@@ -172,6 +174,7 @@ time.sleep(3)
 # APPLICATION IMPORTS:
 import vwapps.common.VWSet as VWSet
 import vwapps.pkgs.VWWeather as VWWeather
+import vwapps.pkgs.VWClck as VWClck
 ###################################
 
 ##################################################
@@ -392,8 +395,7 @@ def APPPower(): # Application function that allows options for power control.
     time.sleep(0.5)
 
 def APPSettings(): # Application function that controls settings.
-    global LanguageSet
-    TempLang = LanguageSet    
+    global LanguageSet   
     LanguageSet = VWSet.SettingsInterface(TempLang, ButtonPressDelay, debugStatus)
     print("Saving language setting to registry.")
     langfile = open(lang, 'w')
@@ -416,8 +418,11 @@ def APPWeather(): # By Nanda Gopal.
     VisionEngine.appExit(LanguageSet, debugStatus)
     time.sleep(0.5)
 
+def ClckScrn():
+    VWClck.clckscrn()
+
 def AcoustiVisor(): # Core Application function for the Speech-to-ASL Demo app.
-    #if VisionEngine.connCheck() == True:
+    #if VWUtils.connCheck() == True:
         #while GPIO.input(homeb) == True:
             #print('[VOICE-ENGINE] : Listening!')
             #VisionEngine.render("img/"+LanguageSet+"/VEListening.ppm", debugStatus)
@@ -458,13 +463,17 @@ while True:
         elif MenuItem4 == 1:
             VisionEngine.render("img/"+LanguageSet+"/Weather.ppm", debugStatus)
 
+        elif MenuItem5 == 1:
+            ClockScrn()
+
         if GPIO.input(screenb) == False:
             screenOff = True
 
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
             if MenuItem1 == 1:
-                MenuItem4 = 1
+                MenuItem5 = 1
+                MenuItem4 = 0
                 MenuItem3 = 0
                 MenuItem2 = 0
                 MenuItem1 = 0            
@@ -483,6 +492,12 @@ while True:
                 MenuItem2 = 0
                 MenuItem1 = 0
                 MenuItem4 = 0
+            elif MenuItem5 == 1:
+                MenuItem4 = 1
+                MenuItem3 = 0
+                MenuItem2 = 0
+                MenuItem1 = 0
+                MenuItem5 = 0
             time.sleep(ButtonPressDelay)
 
         elif GPIO.input(rightb) == False:
@@ -503,7 +518,14 @@ while True:
                 MenuItem2 = 0
                 MenuItem3 = 0
             elif MenuItem4 == 1:
+                MenuItem5 = 1
+                MenuItem1 = 0
+                MenuItem2 = 0
+                MenuItem3 = 0
+                MenuItem4 = 0
+            elif MenuItem5 == 1:
                 MenuItem1 = 1
+                MenuItem5 = 0
                 MenuItem2 = 0
                 MenuItem3 = 0
                 MenuItem4 = 0

@@ -39,9 +39,11 @@ GPIO.setmode(GPIO.BCM)
 leftb = 17
 homeb = 27
 rightb = 22
+screenb = 4
 GPIO.setup(leftb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(homeb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(rightb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(screenb, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #
 ##################################################
 
