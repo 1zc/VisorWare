@@ -147,7 +147,6 @@ MenuItem6 = 0  # BLANK AND UNUSED
 
 debugStatus = True
 screenOff = False
-ButtonPressDelay = 0.2 # Latency of registering button presses.
 MenuItem1 = 1
 #####################################################################
 
@@ -180,6 +179,7 @@ import vwapps.pkgs.VWClck as VWClck
 ##################################################
 # Button input board initialization. DO NOT ALTER!
 GPIO.setmode(GPIO.BCM)
+ButtonPressDelay = 0.2 # Latency of registering button presses.
 leftb = 17
 homeb = 27
 rightb = 22
@@ -452,10 +452,10 @@ print("[INTERFACE] : Main Menu is live.")
 while True:
     if screenOff == False:
         if MenuItem1 == 1:
-            VisionEngine.render("img/"+LanguageSet+"/Acoustivisor.ppm", debugStatus)
-
-        elif MenuItem2 == 1:
             VisionEngine.render("img/"+LanguageSet+"/Settings.ppm", debugStatus)
+            
+        elif MenuItem2 == 1:
+            ClockScrn()           
 
         elif MenuItem3 == 1:
             VisionEngine.render("img/"+LanguageSet+"/Power.ppm", debugStatus)
@@ -464,7 +464,7 @@ while True:
             VisionEngine.render("img/"+LanguageSet+"/Weather.ppm", debugStatus)
 
         elif MenuItem5 == 1:
-            ClockScrn()
+            VisionEngine.render("img/"+LanguageSet+"/Acoustivisor.ppm", debugStatus)
 
         if GPIO.input(screenb) == False:
             screenOff = True
@@ -534,20 +534,23 @@ while True:
         elif GPIO.input(homeb) == False:
             print('[INTERFACE] : Button-Press --> HOME')
             if MenuItem1 == 1:
-                print(Base.WARNING, "[INTERFACE] : Starting AcoustiVisor Demo App.", Base.END)
-                VisionEngine.appStart(LanguageSet, debugStatus)
-                time.sleep(0.5)  
-                AcoustiVisor()
-            elif MenuItem2 == 1:
                 print(Base.WARNING, "[INTERFACE] : Starting the Settings App.", Base.END)
                 VisionEngine.appStart(LanguageSet, debugStatus)
                 time.sleep(0.5)
                 APPSettings()
+                
+            elif MenuItem5 == 1:
+                print(Base.WARNING, "[INTERFACE] : Starting AcoustiVisor Demo App.", Base.END)
+                VisionEngine.appStart(LanguageSet, debugStatus)
+                time.sleep(0.5)  
+                AcoustiVisor()
+
             elif MenuItem3 == 1:
                 print(Base.WARNING, "[INTERFACE] : Starting the Power options interface.", Base.END)
                 VisionEngine.appStart(LanguageSet, debugStatus)
                 time.sleep(0.5)
                 APPPower()
+
             elif MenuItem4 == 1:
                 print(Base.WARNING, "[INTERFACE] : Starting Weather App.", Base.END)
                 VisionEngine.appStart(LanguageSet, debugStatus)

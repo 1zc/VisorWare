@@ -27,10 +27,10 @@ from PIL import ImageFont
 from PIL import ImageDraw
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.CRITICAL,
     format='%(asctime)-15s - %(message)s'
 )
-logging.getLogger('PIL').setLevel(logging.ERROR)
+logging.getLogger('PIL').setLevel(logging.CRITICAL)
 
 def display_settings(args):
     """
