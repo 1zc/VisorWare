@@ -1,8 +1,10 @@
 import math
 import time
 import datetime
-from PIL import ImageFont
+from PIL import ImageFont, ImageDraw
+import Adafruit_SSD1306
 from luma.core.render import canvas
+import VisionEngine
 from VisionEngine import *
 
 font = ImageFont.truetype("fonts/roboto.ttf", 12)
@@ -28,53 +30,61 @@ def posn(angle, arm_length):
     dy = int(math.sin(math.radians(angle)) * arm_length)
     return (dx, dy)
 
-def clckscrn():
+def clckscrn(debugStatus):
     screenOff = False
     today_last_time = "Unknown"
-    if screenOff == False:
-        while (GPIO.input(leftb) == True) and (GPIO.input(rightb) == True):
-            if GPIO.input(screenb) == False:
-                screenOff = True
+    while (GPIO.input(leftb) == True) and (GPIO.input(rightb) == True) and (screenOff == False):
+        if GPIO.input(screenb) == False:
+            screenOff = True
+        now = datetime.datetime.now()
+        today_date = now.strftime("%d %b %y")
+        today_time = now.strftime("%H:%M:%S")
+        if today_time != today_last_time:
+            today_last_time = today_time
+            image = Image.new('1',  (disp.width, disp.height))
+            draw = ImageDraw.Draw(image)
             now = datetime.datetime.now()
             today_date = now.strftime("%d %b %y")
-            today_time = now.strftime("%H:%M:%S")
-            if today_time != today_last_time:
-                today_last_time = today_time
-                with canvas(device) as draw:
-                    now = datetime.datetime.now()
-                    today_date = now.strftime("%d %b %y")
 
-                    margin = 4
+            margin = 4
 
-                    cx = 30
-                    cy = min(device.height, 64) / 2
+            cx = 30
+            cy = min(device.height, 64) / 2
 
-                    left = cx - cy
-                    right = cx + cy
+            left = cx - cy
+            right = cx + cy
 
-                    hrs_angle = 270 + (30 * (now.hour + (now.minute / 60.0)))
-                    hrs = posn(hrs_angle, cy - margin - 7)
+            hrs_angle = 270 + (30 * (now.hour + (now.minute / 60.0)))
+            hrs = posn(hrs_angle, cy - margin - 7)
+            hrs_angle = 270 + (30 * (now.hour + (now.minute / 60.0)))
+            hrs = posn(hrs_angle, cy - margin - 7)
 
-                    min_angle = 270 + (6 * now.minute)
-                    mins = posn(min_angle, cy - margin - 2)
+            min_angle = 270 + (6 * now.minute)
+            mins = posn(min_angle, cy - margin - 2)
 
-                    sec_angle = 270 + (6 * now.second)
-                    secs = posn(sec_angle, cy - margin - 2)
+            sec_angle = 270 + (6 * now.second)
+            secs = posn(sec_angle, cy - margin - 2)
 
-                    draw.ellipse((left + margin, margin, right - margin, min(device.height, 64) - margin), outline="white")
-                    draw.line((cx, cy, cx + hrs[0], cy + hrs[1]), fill="white")
-                    draw.line((cx, cy, cx + mins[0], cy + mins[1]), fill="white")
-                    draw.line((cx, cy, cx + secs[0], cy + secs[1]), fill="red")
-                    draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill="white", outline="white")
-                    draw.text((2 * (cx + margin), cy - 8), today_date, font=font, fill="yellow")
-                    draw.text((2 * (cx + margin), cy + 8), today_time, font=font, fill="yellow")
+            draw.ellipse((left + margin, margin, right - margin, min(device.height, 64) - margin), outline="white")
+            draw.line((cx, cy, cx + hrs[0], cy + hrs[1]), fill="white")
+            draw.line((cx, cy, cx + mins[0], cy + mins[1]), fill="white")
+            draw.line((cx, cy, cx + secs[0], cy + secs[1]), fill="red")
+            draw.ellipse((cx - 2, cy - 2, cx + 2, cy + 2), fill="white", outline="white")
+            draw.text((2 * (cx + margin), cy - 8), today_date, font=font, fill="yellow")
+            draw.text((2 * (cx + margin), cy + 8), today_time, font=font, fill="yellow")
 
-            time.sleep(0.1)
+            if debugStatus == False:
+                image = image.transpose(Image.FLIP_LEFT_RIGHT)
+
+            disp.image(image)
+            disp.display()
+
+    time.sleep(0.1)
 
     if screenOff == True:
-        VisionEngine.sspnd()  
+        VisionEngine.sspnd()
         while screenOff == True:
             if GPIO.input(screenb) == False:
                 screenOff = False
                 print("[VISIONENGINE] : Exited suspended state.")
-                time.sleep(ButtonPressDelay) 
+                time.sleep(ButtonPressDelay)

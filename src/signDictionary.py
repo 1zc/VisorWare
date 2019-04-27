@@ -36,7 +36,8 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-import VWUtils
+import VisionEngine
+from VisionEngine import *
 
 
 #######################################
@@ -63,173 +64,173 @@ AlphaDelay = 0.5
 
 # Special Chars ################################
 def blankSpace():
-    VWUtils.dispclear()
+    VisionEngine.clr()
     time.sleep(0.3)
 
 # Alphabets ####################################
 def letterA():
-    VWUtils.dispimg("dictionary/A.ppm")
+    VisionEngine.render("dictionary/A.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterB():
-    VWUtils.dispimg("dictionary/B.ppm")
+    VisionEngine.render("dictionary/B.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterC():
-    VWUtils.dispimg("dictionary/C.ppm")
+    VisionEngine.render("dictionary/C.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterD():
-    VWUtils.dispimg("dictionary/D.ppm")
+    VisionEngine.render("dictionary/D.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterE():
-    VWUtils.dispimg("dictionary/E.ppm")
+    VisionEngine.render("dictionary/E.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterF():
-    VWUtils.dispimg("dictionary/F.ppm")
+    VisionEngine.render("dictionary/F.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterG():
-    VWUtils.dispimg("dictionary/G.ppm")
+    VisionEngine.render("dictionary/G.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterH():
-    VWUtils.dispimg("dictionary/H.ppm")
+    VisionEngine.render("dictionary/H.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterI():
-    VWUtils.dispimg("dictionary/I.ppm")
+    VisionEngine.render("dictionary/I.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterJ():
-    VWUtils.dispimg("dictionary/J.ppm")
+    VisionEngine.render("dictionary/J.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterK():
-    VWUtils.dispimg("dictionary/K.ppm")
+    VisionEngine.render("dictionary/K.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterL():
-    VWUtils.dispimg("dictionary/L.ppm")
+    VisionEngine.render("dictionary/L.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterM():
-    VWUtils.dispimg("dictionary/M.ppm")
+    VisionEngine.render("dictionary/M.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterN():
-    VWUtils.dispimg("dictionary/N.ppm")
+    VisionEngine.render("dictionary/N.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterO():
-    VWUtils.dispimg("dictionary/O.ppm")
+    VisionEngine.render("dictionary/O.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterP():
-    VWUtils.dispimg("dictionary/P.ppm")
+    VisionEngine.render("dictionary/P.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterQ():
-    VWUtils.dispimg("dictionary/Q.ppm")
+    VisionEngine.render("dictionary/Q.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterR():
-    VWUtils.dispimg("dictionary/R.ppm")
+    VisionEngine.render("dictionary/R.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterS():
-    VWUtils.dispimg("dictionary/S.ppm")
+    VisionEngine.render("dictionary/S.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterT():
-    VWUtils.dispimg("dictionary/T.ppm")
+    VisionEngine.render("dictionary/T.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterU():
-    VWUtils.dispimg("dictionary/U.ppm")
+    VisionEngine.render("dictionary/U.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterV():
-    VWUtils.dispimg("dictionary/V.ppm")
+    VisionEngine.render("dictionary/V.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterW():
-    VWUtils.dispimg("dictionary/W.ppm")
+    VisionEngine.render("dictionary/W.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterX():
-    VWUtils.dispimg("dictionary/X.ppm")
+    VisionEngine.render("dictionary/X.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterY():
-    VWUtils.dispimg("dictionary/Y.ppm")
+    VisionEngine.render("dictionary/Y.ppm", False)
     time.sleep(AlphaDelay)
 
 def letterZ():
-    VWUtils.dispimg("dictionary/Z.ppm")
+    VisionEngine.render("dictionary/Z.ppm", False)
     time.sleep(AlphaDelay)
 ################################################
 
 def hello():
-    VWUtils.dispimg("dictionary/Hello1.ppm")
+    VisionEngine.render("dictionary/Hello1.ppm", False)
     time.sleep(0.05)
-    VWUtils.dispimg("dictionary/Hello2.ppm")
+    VisionEngine.render("dictionary/Hello2.ppm", False)
     time.sleep(0.05)
-    VWUtils.dispimg("dictionary/Hello3.ppm")
+    VisionEngine.render("dictionary/Hello3.ppm", False)
     time.sleep(0.05)
-    VWUtils.dispimg("dictionary/Hello4.ppm")
+    VisionEngine.render("dictionary/Hello4.ppm", False)
     time.sleep(0.05)
-    VWUtils.dispimg("dictionary/Hello5.ppm")
+    VisionEngine.render("dictionary/Hello5.ppm", False)
     time.sleep(0.05)
-    VWUtils.dispimg("dictionary/Hello6.ppm")
+    VisionEngine.render("dictionary/Hello6.ppm", False)
     time.sleep(0.05)
-    VWUtils.dispimg("dictionary/Hello7.ppm")
+    VisionEngine.render("dictionary/Hello7.ppm", False)
     time.sleep(EndDelay)
     disp.clear()
     disp.display()
 
 def yes():
-    VWUtils.dispimg("dictionary/Yes1.ppm")
+    VisionEngine.render("dictionary/Yes1.ppm", False)
     time.sleep(0.3)
-    VWUtils.dispimg("dictionary/Yes2.ppm")
+    VisionEngine.render("dictionary/Yes2.ppm", False)
     time.sleep(EndDelay)
     disp.clear()
     disp.display()
 
 def how():
-    VWUtils.dispimg("dictionary/How1.ppm")
+    VisionEngine.render("dictionary/How1.ppm", False)
     time.sleep(0.3)
-    VWUtils.dispimg("dictionary/How1.ppm")
+    VisionEngine.render("dictionary/How1.ppm", False)
     time.sleep(EndDelay)
     disp.clear()
     disp.display()
 
 def you():
-    VWUtils.dispimg("dictionary/You1.ppm")
+    VisionEngine.render("dictionary/You1.ppm", False)
     time.sleep(0.05)
-    VWUtils.dispimg("dictionary/You2.ppm")
+    VisionEngine.render("dictionary/You2.ppm", False)
     time.sleep(0.05)
-    VWUtils.dispimg("dictionary/You3.ppm")
+    VisionEngine.render("dictionary/You3.ppm", False)
     time.sleep(0.05)
-    VWUtils.dispimg("dictionary/You4.ppm")
+    VisionEngine.render("dictionary/You4.ppm", False)
     time.sleep(EndDelay)
     disp.clear()
     disp.display()
 
 def no():
-    VWUtils.dispimg("dictionary/No1.ppm")
+    VisionEngine.render("dictionary/No1.ppm", False)
     time.sleep(0.3)
-    VWUtils.dispimg("dictionary/No1.ppm")
+    VisionEngine.render("dictionary/No1.ppm", False)
     time.sleep(EndDelay)
     disp.clear()
     disp.display()
 
 def friend():
-    VWUtils.dispimg("dictionary/Friend1.ppm")
+    VisionEngine.render("dictionary/Friend1.ppm", False)
     time.sleep(0.3)
-    VWUtils.dispimg("dictionary/Friend1.ppm")
+    VisionEngine.render("dictionary/Friend1.ppm", False)
     time.sleep(EndDelay)
     disp.clear()
     disp.display()

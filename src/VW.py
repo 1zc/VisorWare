@@ -419,7 +419,7 @@ def APPWeather(): # By Nanda Gopal.
     time.sleep(0.5)
 
 def ClckScrn():
-    VWClck.clckscrn()
+    VWClck.clckscrn(debugStatus)
 
 def AcoustiVisor(): # Core Application function for the Speech-to-ASL Demo app.
     #if VWUtils.connCheck() == True:

@@ -237,7 +237,7 @@ def SettingsInterface(LanguageSet, ButtonPressDelay, debugStatus):
                     cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
                     Disk = subprocess.check_output(cmd, shell = True )
 
-                    VisionEngine.disptext(IP,CPU,MemUsage,Disk,0,15,27,39,debugStatus,'8')
+                    VisionEngine.disptext(IP,CPU,MemUsage,Disk,0,0,0,0,0,15,27,39,debugStatus,'8')
                     time.sleep(.03)
                 print(Base.WARNING, '[SETTINGS] : Exiting system stats.', Base.END)
                 VisionEngine.appExit(setLang, debugStatus)

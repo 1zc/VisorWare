@@ -142,15 +142,11 @@ def sspnd():
     time.sleep(0.3)
     print("[VISIONENGINE] : Display suspended. Press suspend button again to exit suspended state.")
 
-def disptext(s1, s2, s3, s4, y1, y2, y3, y4, debugStatus, UTFDecode): 
+def disptext(s1, s2, s3, s4, x1, x2, x3, x4, y1, y2, y3, y4, debugStatus, UTFDecode): 
     # s1,s2,s3,s4 are the strings to be printed. 
     # y1,y2,y3,y4 are the vertical offset distances between the strings. 
     # x1,x2,x3,x4 are the horizontal offset distances from the left-end of display. 
     # UTFDecode ('8' for UTF-8) decides the mode of string decode.
-    x1 = 0
-    x2 = 0
-    x3 = 0
-    x4 = 0
     image = Image.new('1',  (disp.width, disp.height))
     draw = ImageDraw.Draw(image)
     draw.rectangle((0, 0, disp.width, disp.height), outline=0, fill=0)

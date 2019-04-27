@@ -64,4 +64,4 @@ def weather(debugStatus):
         FinalTemp = "Temperature: " + (str(current_temp))
         FinalHumid = "Humidity: " + (str(current_humidity))
 
-        VisionEngine.disptext(FinalTemp, FinalHumid, " ", " ", 0, 12,24,36, debugStatus, '0')
+        VisionEngine.disptext(FinalTemp, FinalHumid, " ", " ",0,0,0,0, 0, 12,24,36, debugStatus, '0')

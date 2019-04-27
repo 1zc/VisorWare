@@ -36,7 +36,7 @@ os.system('cd /home/pi && sudo rm VisorWare -r -f')
 print('Done.')
 
 print('Getting new VisorWare...')
-os.system('cd /home/pi && git clone https://github.com/LiamZC/VisorWare')
+os.system('cd /home/pi && git clone https://github.com/1zc/VisorWare')
 print('Done.')
 
 print('Upgrading...')
