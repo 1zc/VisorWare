@@ -84,6 +84,7 @@ DC = 23
 SPI_PORT = 0
 SPI_DEVICE = 0
 disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
+#disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
 disp.begin()
 width = disp.width
 height = disp.height
