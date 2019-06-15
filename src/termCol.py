@@ -1,5 +1,4 @@
 # Terminal-Formatting module for formatted and colored terminal debug output.
-# Packaged with VisorWare, a project by Liam Z. Charles.
 
 class Base:
     # Foreground:
