@@ -5,12 +5,14 @@
 #                         L I A M  Z.  C H A R L E S                          #
 #                     -----------------------------------                     #
 #                                                                             #
+#                                                                             #
+#                              github.com/1zc                                 #
 ###############################################################################
 
 
-# $$$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.0 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
+# $$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.00 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '1205201910'
+currversion = '2006201910'
 
 #####################################################################################
 #                                                                                   #
@@ -58,6 +60,7 @@ cfgp = 'cfg/cfg.txt'
 cfgfile = open(cfgp, 'r+')
 
 if cfgfile.read(1) == '0':
+    cfgfile.close()
     os.system("clear")
     print(Base.FAILRED,'____   ____.__                    __      __                        ', Base.END)
     print(Base.FAILRED,'\   \ /   /|__| _________________/  \    /  \_____ _______   ____   ', Base.END)
@@ -69,7 +72,7 @@ if cfgfile.read(1) == '0':
     print("First time VisorWare is being launched.")
     print(Base.WARNING,"Running first-time setup. THIS WILL TAKE A VERY LONG TIME!", Base.END)
     print("")
-    print(Base.FAILRED,"Setup will start in 20 seconds. Please do not abort/interrupt the setup process. If you would like to cancel, please do it in these 15 seconds by hitting CTRL+C.", Base.END)
+    print(Base.FAILRED,"Setup will start in 20 seconds. Please do not abort/interrupt the setup process. If you would like to cancel, please do it in these 20 seconds by using CTRL+C.", Base.END)
     print(Base.BOLD, "A WORKING INTERNET CONNECTION IS REQUIRED!", Base.END)
     time.sleep(20)
     if VWUtils.connCheck() == True:
@@ -90,7 +93,7 @@ if cfgfile.read(1) == '0':
         print('\n\nInstalling VisorWare dependencies...\n')
         os.system('sudo apt-get --yes --force-yes install python3-dev python-imaging python-smbus git')
         os.system('sudo apt-get --yes --force-yes install libfreetype6-dev libjpeg-dev build-essential')
-        os.system('sudo pip3 install luma.oled')
+        os.system('sudo apt-get --yes --force-yes install git')
         os.system('sudo apt-get --yes --force-yes install bluetooth libbluetooth-dev bluez python-bluetooth python-bluez')
         os.system('sudo dpkg -i conf/deb/libusb-dev_0.1.12-30_armhf.deb')
         os.system('sudo dpkg -i conf/deb/libopenobex1_1.5-2.1_armhf.deb')
@@ -105,7 +108,7 @@ if cfgfile.read(1) == '0':
         # Configuring important interfaces.
         print('\n\nConfiguring Audio and Boot configs...')
         os.system('sudo rm /boot/config.txt -f && sudo cp conf/config.txt /boot/config.txt')
-        os.system('sudo rm /home/pi/.asoundrc -f && sudo cp conf/.asoundrc /home/pi/')
+        # os.system('sudo rm /home/pi/.asoundrc -f && sudo cp conf/.asoundrc /home/pi/')
         print(ANSI.Color(120), "\nDONE.", ANSI.END)
         # Installing VW Update service files.
         print('\n\nConfiguring VWUD configs...')
@@ -124,9 +127,7 @@ if cfgfile.read(1) == '0':
         os.system('sudo systemctl disable apt-daily.service')
         os.system('sudo systemctl disable apt-daily-upgrade.service')
         print(ANSI.Color(120), "\nDONE.", ANSI.END)
-
-
-        cfgfile.close()
+        
         cfgfile = open(cfgp, 'w')
         cfgfile.write('1')
         cfgfile.close()
@@ -138,9 +139,9 @@ if cfgfile.read(1) == '0':
         exit()
 
     else:
+        cfgfile.close()
         print(Base.FAILRED, '\nFIRST TIME SETUP FAILED. NO ACTIVE INTERNET CONNECTION DETECTED.', Base.END)
         print(Base.WARNING, 'Please set up your internet connection before running this program.', Base.END)
-        cfgfile.close()
         exit()
 
 else:
@@ -180,7 +181,7 @@ time.sleep(3)
 ###################################
 
 ###################################
-# APPLICATION IMPORTS:
+# CORE APPLICATION IMPORTS:
 import vwapps.common.VWSet as VWSet
 import vwapps.pkgs.VWWeather as VWWeather
 import vwapps.pkgs.VWClck as VWClck
