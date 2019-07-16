@@ -1,11 +1,15 @@
-# VisorWare
-VisorWare is a Linux-based system software designed to run on wearable devices with a glasses/spectacles form-factor. Being compatible with small OLED and TFT displays, VisorWare is capable of providing a comfortable user experience with its simple user-interface and **planned**functional application installation/management systems.
+# [VisorWare](https://github.com/1zc/VisorWare)
+VisorWare is a Linux-based system software designed to run on wearable devices with a glasses/spectacles form-factor. Being compatible with small OLED and TFT displays, VisorWare is capable of providing a comfortable user experience with its simple user-interface and **planned** functional application installation/management systems.
 
 ### Pre-requisites / device setup
 To use and develop VisorWare, we will need to setup a proper base environment with the required hardware. You will need:
-• A Raspberry Pi with the latest Raspbian installed on a minimum 4GB SD card. All Pi models work.
-• A small, monochrome OLED display. (Currently only supports 'SSD1306 128x64' OLED displays. More displays will be added)
-• Four buttons, wired up to 'GPIO4', 'GPIO17', 'GPIO27', and 'GPIO22'. These buttons will be used to navigate through menus and interact with software. (GPIO17 serves as the left button, GPIO27 middle and GPIO22 right | the button at GPIO4 is not necessary.)
+
+â€¢ A Raspberry Pi with the latest Raspbian installed on a minimum 4GB SD card. All Pi models work.
+
+â€¢ A small, monochrome OLED display. (Currently only supports 'SSD1306 128x64' OLED displays. More displays will be added)
+
+â€¢ Four buttons, wired up to 'GPIO4', 'GPIO17', 'GPIO27', and 'GPIO22'. These buttons will be used to navigate through menus and interact with software. (GPIO17 serves as the left button, GPIO27 middle and GPIO22 right | the button at GPIO4 is not necessary.)
+
 
 Refer to the [docs/devsetup.md](https://github.com/1zc/VisorWare/tree/master/docs/devsetup.md) file in the documentation directory of this GitHub repository for detailed information regarding setting up your device requirements.
 
@@ -45,4 +49,4 @@ The dedicated apps currently available with VisorWare (such as the Weather app a
 
 # Questions/Issues
 
-> Thank you for checking out VisorWare! I'm currently working on this alone, so I apologize if development and documentation is not always fast/detailed. I will be adding information on how contributions can be done in the near future, after documentation on individual core components of the software have been fully released. If you'd like to ask me questions or point out issues, you can use the [issues section](https://github.com/1zc/VisorWare/issues) of the GitHub repository or contact me on twitter @LiamZCharles!
+> Thank you for checking out VisorWare! I'm currently working on this alone, so I apologize if development and documentation is not always fast/detailed. I will be adding information on how contributions can be done in the near future, after documentation on individual core components of the software have been fully released. If you'd like to ask me questions or point out issues, you can use the [issues section](https://github.com/1zc/VisorWare/issues) of the GitHub repository or contact me on twitter @LiamZCharles or on reddit /u/Infranix!

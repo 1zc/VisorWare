@@ -98,6 +98,7 @@ if cfgfile.read(1) == '0':
         os.system('sudo dpkg -i conf/deb/libusb-dev_0.1.12-30_armhf.deb')
         os.system('sudo dpkg -i conf/deb/libopenobex1_1.5-2.1_armhf.deb')
         os.system('sudo dpkg -i conf/deb/libopenobex1-dev_1.5-2.1_armhf.deb')
+        os.system('wget https://raw.githubusercontent.com/1zc/SOLED/master/SOLED/SOLED.py')
         os.system('sudo sh conf/dispdriver.sh')
         print(ANSI.Color(120), "\nDONE.", ANSI.END)
         # Installing screenfetch.
