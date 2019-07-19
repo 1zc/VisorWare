@@ -466,7 +466,8 @@ while True:
             VisionEngine.render("img/"+LanguageSet+"/Settings.ppm", debugStatus)
             
         elif MenuItem2 == 1:
-            #ClckScrn()           
+            #ClckScrn()  
+            print("yeet")         
 
         elif MenuItem3 == 1:
             VisionEngine.render("img/"+LanguageSet+"/Power.ppm", debugStatus)
