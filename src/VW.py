@@ -184,7 +184,7 @@ time.sleep(3)
 # CORE APPLICATION IMPORTS:
 import vwapps.common.VWSet as VWSet
 import vwapps.pkgs.VWWeather as VWWeather
-import vwapps.pkgs.VWClck as VWClck
+#import vwapps.pkgs.VWClck as VWClck
 ###################################
 
 ##################################################
@@ -466,7 +466,7 @@ while True:
             VisionEngine.render("img/"+LanguageSet+"/Settings.ppm", debugStatus)
             
         elif MenuItem2 == 1:
-            ClckScrn()           
+            #ClckScrn()           
 
         elif MenuItem3 == 1:
             VisionEngine.render("img/"+LanguageSet+"/Power.ppm", debugStatus)
