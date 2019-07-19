@@ -15,7 +15,7 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-currversion = '2006201910'
+currversion = '1907201910'
 
 #######################################
 # Display Initialization. DO NOT ALTER!

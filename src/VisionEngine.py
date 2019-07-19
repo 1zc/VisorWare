@@ -23,11 +23,8 @@
 
 import RPi.GPIO as GPIO
 import Adafruit_GPIO.SPI as SPI
-#import SOLED
+import SOLED
 import Adafruit_SSD1306
-
-from luma.core.render import *
-from luma.core import cmdline, error
 
 import sys
 import logging
@@ -43,59 +40,15 @@ logging.basicConfig(
 )
 logging.getLogger('PIL').setLevel(logging.CRITICAL)
 
-def display_settings(args):
-    """
-    Display a short summary of the settings.
-    :rtype: str
-    """
-    iface = ''
-    display_types = cmdline.get_display_types()
-    if args.display not in display_types['emulator']:
-        iface = 'Interface: {}\n'.format(args.interface)
-
-    lib_name = cmdline.get_library_for_display_type(args.display)
-    if lib_name is not None:
-        lib_version = cmdline.get_library_version(lib_name)
-    else:
-        lib_name = lib_version = 'unknown'
-
-    import luma.core
-    version = 'luma.{} {} (luma.core {})'.format(
-        lib_name, lib_version, luma.core.__version__)
-
-    return 'Version: {}\nDisplay: {}\n{}Dimensions: {} x {}\n{}'.format(
-        version, args.display, iface, args.width, args.height, '-' * 60)
-
-def get_device(actual_args=None):
-    # Create device from command-line arguments and return it.
-    if actual_args is None:
-        actual_args = sys.argv[1:]
-    parser = cmdline.create_parser(description='luma.examples arguments')
-    args = parser.parse_args(actual_args)
-
-    if args.config:
-        # Load config from file
-        config = cmdline.load_config(args.config)
-        args = parser.parse_args(config + actual_args)
-
-    print(display_settings(args))
-
-    # Create device
-    try:
-        device = cmdline.create_device(args)
-    except error.Error as e:
-        parser.error(e)
-
-    return device
-
 #######################################
-# i2C Display Initialization. DO NOT ALTER!
+# Display Initialization. DO NOT ALTER!
 RST = 24
 DC = 23
 SPI_PORT = 0
 SPI_DEVICE = 0
 disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
-#disp = SOLED.R128x64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
+#disp = SOLED.R128x64(rst=RST)
+#disp = SOLED.R96x48(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000)) ### FOR SPI
 disp.begin()
 width = disp.width
 height = disp.height
@@ -146,6 +99,7 @@ def appStart(LanguageSet, debugStatus):
 
 def dispimg(img):
     image = Image.open(img).convert('1')
+    image = image.resize((width, height))
     disp.image(image)
     disp.display()
 
