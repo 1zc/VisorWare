@@ -26,7 +26,9 @@ The first thing we need to do is to clone VisorWare from the GitHub repository. 
 #### Step Two: Entering the VisorWare src directory.
 Now that we've cloned the repository, lets enter our newly-created local directory.
 > cd VisorWare
+
 We need to go deeper to access the main source file, 'VW.py', which is located in the src directory.
+
 > cd src
 
 
@@ -35,6 +37,7 @@ When we start 'VW.py' with 'sudo' rights, the terminal will be cleared and first
 
 You can start the setup by entering:
 > sudo python3 VW.py
+
 **MAKE SURE ITS RUN WITH 'sudo python3' AND NOT WITH 'python'!**
 
 Now, find a good game to play or a nice video on YouTube to watch. Maybe even get yourself a cup of coffee. This process can take a long time!
