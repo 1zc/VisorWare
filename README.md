@@ -1,7 +1,7 @@
 # [VisorWare](https://github.com/1zc/VisorWare)
 VisorWare is a Linux-based system software designed to run on wearable devices with a glasses/spectacles form-factor. Being compatible with small OLED and TFT displays, VisorWare is capable of providing a comfortable user experience with its simple user-interface and **planned** functional application installation/management systems.
 
-### Pre-requisites / device setup
+## Pre-requisites / device setup
 To use and develop VisorWare, we will need to setup a proper base environment with the required hardware. You will need:
 
 • A Raspberry Pi with the latest Raspbian installed on a minimum 4GB SD card. All Pi models work.
@@ -11,10 +11,10 @@ To use and develop VisorWare, we will need to setup a proper base environment wi
 • Four buttons, wired up to 'GPIO4', 'GPIO17', 'GPIO27', and 'GPIO22'. These buttons will be used to navigate through menus and interact with software. (GPIO17 serves as the left button, GPIO27 middle and GPIO22 right | the button at GPIO4 is not necessary.)
 
 
-Refer to the [docs/devsetup.md](https://github.com/1zc/VisorWare/tree/master/docs/devsetup.md) file in the documentation directory of this GitHub repository for detailed information regarding setting up your device requirements.
+Refer to the [docs/devsetup.md](https://github.com/1zc/VisorWare/tree/master/docs/devsetup.md) file in the documentation directory of this GitHub repository for detailed information regarding setting up your hardware.
 
 
-### Installation
+## Installation
 Let's get down to installing VisorWare. To make things easier, VisorWare has its own simple first-time setup and configuration. You will need your Pi to be connected to a working internet connection. **The first-time setup removes a lot of pre-installed software from the standard Raspbian image, so it's best to install VisorWare on a clean image to prevent any loss of data**
 
 
@@ -42,9 +42,9 @@ You can start the setup by entering:
 
 Now, find a good game to play or a nice video on YouTube to watch. Maybe even get yourself a cup of coffee. This process can take a long time!
 
-### Usage
+## Usage
 
-If setup has completed without any fatal errors and VisorWare is running on your OLED display, we've completed installation!
+If setup has completed without any fatal errors and VisorWare is running on your OLED display, we're done and can now move on to using our newly installed software!
 
 VisorWare is meant to be as simple as possible to use. Use the three main buttons (the ones we wired up to GPIO17,27,22 earlier) to navigate the menus and open applications/sub-menus. You can shut-down or reboot the device through the Power settings on the main menu, and check out core system-stats and even do a software update from the Settings app!
 

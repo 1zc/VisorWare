@@ -46,8 +46,8 @@ RST = 24
 DC = 23
 SPI_PORT = 0
 SPI_DEVICE = 0
-disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
-#disp = SOLED.R128x64(rst=RST)
+#disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
+disp = SOLED.R128x64(rst=RST)
 #disp = SOLED.R96x48(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000)) ### FOR SPI
 disp.begin()
 width = disp.width
@@ -73,6 +73,7 @@ disp.display()
 
 def renderFlip(imagePath):
     image = Image.open(imagePath).convert('1')
+    image = image.resize((width, height))
     image = image.transpose(Image.FLIP_LEFT_RIGHT)
     disp.image(image)
     disp.display()
@@ -82,6 +83,7 @@ def render(imagePath, debugStatus):
     if debugStatus == True:
         renderFlip(imagePath)        
     else:
+        image = image.resize((width, height))
         disp.image(image)
         disp.display()
 

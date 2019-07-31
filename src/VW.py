@@ -12,7 +12,7 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$ || VisorWare v1.00 || $$$$$$$$$$$$$$$$$$$$$$$$$$$ #
 
-currversion = '1907201910'
+currversion = '3107201910'
 
 #####################################################################################
 #                                                                                   #
@@ -452,7 +452,8 @@ def AcoustiVisor(): # Core Application function for the Speech-to-ASL Demo app.
     
     errorCode = 'LOCK999'
     errorHandle.errCode(LanguageSet, errorCode, debugStatus)
-    print("[ACOUSTIVISOR] : Quitting AcoustiVisor and returning to the main menu.")
+    print("MESSAGE FROM DEV: This app was used to present VisorWare at several large events and exhibitions, and is locked for the time being. Thanks for checking out VisorWare!")
+    print("[ACOUSTIVISOR] : Quitting App and returning to the main menu.")
     VisionEngine.appExit(LanguageSet, debugStatus)
     time.sleep(0.5)
 
@@ -466,17 +467,16 @@ while True:
             VisionEngine.render("img/"+LanguageSet+"/Settings.ppm", debugStatus)
             
         elif MenuItem2 == 1:
-            #ClckScrn()  
-            print("yeet")         
+            VisionEngine.render("img/"+LanguageSet+"/Power.ppm", debugStatus)        
 
         elif MenuItem3 == 1:
-            VisionEngine.render("img/"+LanguageSet+"/Power.ppm", debugStatus)
-
-        elif MenuItem4 == 1:
             VisionEngine.render("img/"+LanguageSet+"/Weather.ppm", debugStatus)
 
-        elif MenuItem5 == 1:
+        elif MenuItem4 == 1:
             VisionEngine.render("img/"+LanguageSet+"/Acoustivisor.ppm", debugStatus)
+
+        elif MenuItem5 == 1:
+            print('How did you get here lmao')
 
         if GPIO.input(screenb) == False:
             screenOff = True
@@ -484,8 +484,7 @@ while True:
         if GPIO.input(leftb) == False:
             print('[INTERFACE] : Button-Press --> LEFT')
             if MenuItem1 == 1:
-                MenuItem5 = 1
-                MenuItem4 = 0
+                MenuItem4 = 1
                 MenuItem3 = 0
                 MenuItem2 = 0
                 MenuItem1 = 0            
@@ -504,12 +503,6 @@ while True:
                 MenuItem2 = 0
                 MenuItem1 = 0
                 MenuItem4 = 0
-            elif MenuItem5 == 1:
-                MenuItem4 = 1
-                MenuItem3 = 0
-                MenuItem2 = 0
-                MenuItem1 = 0
-                MenuItem5 = 0
             time.sleep(ButtonPressDelay)
 
         elif GPIO.input(rightb) == False:
@@ -530,14 +523,7 @@ while True:
                 MenuItem2 = 0
                 MenuItem3 = 0
             elif MenuItem4 == 1:
-                MenuItem5 = 1
-                MenuItem1 = 0
-                MenuItem2 = 0
-                MenuItem3 = 0
-                MenuItem4 = 0
-            elif MenuItem5 == 1:
                 MenuItem1 = 1
-                MenuItem5 = 0
                 MenuItem2 = 0
                 MenuItem3 = 0
                 MenuItem4 = 0
@@ -551,19 +537,19 @@ while True:
                 time.sleep(0.5)
                 APPSettings()
                 
-            elif MenuItem5 == 1:
+            elif MenuItem4 == 1:
                 print(Base.WARNING, "[INTERFACE] : Starting AcoustiVisor Demo App.", Base.END)
                 VisionEngine.appStart(LanguageSet, debugStatus)
                 time.sleep(0.5)  
                 AcoustiVisor()
 
-            elif MenuItem3 == 1:
+            elif MenuItem2 == 1:
                 print(Base.WARNING, "[INTERFACE] : Starting the Power options interface.", Base.END)
                 VisionEngine.appStart(LanguageSet, debugStatus)
                 time.sleep(0.5)
                 APPPower()
 
-            elif MenuItem4 == 1:
+            elif MenuItem3 == 1:
                 print(Base.WARNING, "[INTERFACE] : Starting Weather App.", Base.END)
                 VisionEngine.appStart(LanguageSet, debugStatus)
                 time.sleep(0.5)
