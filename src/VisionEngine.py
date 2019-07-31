@@ -73,7 +73,7 @@ disp.display()
 
 def renderFlip(imagePath):
     image = Image.open(imagePath).convert('1')
-    image = image.resize((width, height))
+    #image = image.resize((width, height))
     image = image.transpose(Image.FLIP_LEFT_RIGHT)
     disp.image(image)
     disp.display()
@@ -83,7 +83,7 @@ def render(imagePath, debugStatus):
     if debugStatus == True:
         renderFlip(imagePath)        
     else:
-        image = image.resize((width, height))
+        #image = image.resize((width, height))
         disp.image(image)
         disp.display()
 
