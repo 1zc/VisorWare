@@ -1,6 +1,8 @@
 # [VisorWare Documentation](https://github.com/1zc/VisorWare/tree/master/docs)
 ### display.md || Displays, compatibility and interfacing
 
+##### **This document is marked incomplete and may be missing information.**
+
 We're now going to take a detailed look at connecting OLED display modules to the Pi, and how VisorWare interacts and works with these displays.
 
 ## OLED Display Basics
